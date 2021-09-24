@@ -387,6 +387,7 @@ function updateForm(id) {
             if (response.msg == 'success') {
                 var account = response.account
                 $("#currentRole").val(account.role)
+                $("#roleUpdate").val(account.role)
                 $("#currentAvatar").attr("src", account.avatar)
                 $("#roleUpdate").change();
                 $("#PersonID").val(id)
