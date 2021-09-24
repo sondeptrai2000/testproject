@@ -10,6 +10,7 @@ body {
     margin-top: 1%;
     z-index: 1;
     padding: 2%;
+    overflow: hidden;
 }
 
 button,
