@@ -40,6 +40,8 @@ body {
     float: right;
 }
 
+
+/* 
 .rightSide,
 .leftSide,
 .body {
@@ -55,4 +57,4 @@ body {
 .body::-webkit-scrollbar {
     width: 0 !important;
     display: none;
-}
+} */
