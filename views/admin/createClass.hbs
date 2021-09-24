@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/admin/layOut.css">
+    <link rel="stylesheet" href="/css/admin/menu.css">
+    <link rel="stylesheet" href="/css/admin/createClass.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+</head>
+
+<body>
+    <div class="studentListOut" style="display:none">
+        <div class="studentListContent"></div>
+    </div>
+
+    <div class="studentTableAddOut" style="display: none;">
+        <div id="studentTableAdd">
+        </div>
+    </div>
+
+    <div class="attendedListOut" style="display: none;">
+        <div id="attendedList"></div>
+    </div>
+    <div class="updateClassOut" style="display: none;">
+        <div id="updateClass">
+            <form id='submitUpdateClass'>
+                <input type="hidden" id='updateClassID'>
+                <div style=" text-align: left;">
+                    Class name: <input type="text" id="classNameUpdate" required />
+                    Description: <input type="text" id="descriptionUpdate" required />
+                    Current teacher name:<input type="text" id="currentTeacherName" readonly required />
+                    Current teacher email:<input type="text" id="currentTeacherEmail" readonly required />
+                    Change Teacher:<input type="text"
+                        placeholder="Input new teacher phone or email to change teacher of this class"
+                        id="updateTeacher" />
+                    Note: The schedual of new teacher have to available for this class! Please check schedual of new
+                    teacher
+                    before submit.<br>
+                </div>
+                <button>Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="updateScheduleFormOut" style="display: none;">
+        <div class="updateSchedualContent">
+            <form id='SubmitupdateScheduleForm'>
+                <div class='tr'>
+                    <div class='td' style="width:5%;">Type</div>
+                    <div class='td' style="width:30%;">Date</div>
+                    <div class='td' style="width:10%;">Day of week</div>
+                    <div class='td' style="width:30%;">Room</div>
+                    <div class='td' style="width:25%;">Time</div>
+                </div>
+                <div class='tr' id="oldSchudule"></div>
+                <div class='tr'>
+                    <input name="updateScheduleID" type="hidden">
+                    <input name="updateScheduleClassID" type="hidden">
+                    <div class='td'>New</div>
+                    <div class='td'><input type="date" name="dateScheduleUpdate" required />
+                    </div>
+                    <div class="td" id="dayOfWeekUpdate"></div>
+                    <div class='td'>
+                        Available room: <select id="roomUpdate"> </select>
+                    </div>
+                    <div class='td'>
+                        <select class="cahocUpdate" id="cahocUpdate">
+                            <option value="7:30 to 9:30">7:30 to 9:30</option>
+                            <option value="9:45 to 11:45">9:45 to 11:45</option>
+                            <option value="13:30 to 15:30">13:30 to 15:30</option>
+                            <option value="15:45 to 17:45">15:45 to 17:45</option>
+                            <option value="18:15 to 20:15">18:15 to 20:15</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" class='button' style="margin-top:10px;font-size:18px;" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <div class="createClassOut" style="display: none;">
+        <div id='createClass' style="text-align:left !important;">
+            <div id="routeTuyBien" border="solid" style="overflow:auto;"></div>
+            <form id='myform'>
+                <div>
+                    <p>Chọn lộ trình học:</p>
+                    <select id="routeTypeS" class="routeName" onchange="routeType()"></select>
+                    Level: <select id="levelS" class="stage" onchange="level()"></select>
+                    Subject: <select id="subject" class="subject"></select>
+                    Class name: <input type="text" class="className" required />
+                    Description: <input type="text" class="description" required />
+                    Available time to study:
+                    <div id='availbleTime' style='width:100%;padding:0;margin-top:10px;'>
+                        <ul>Morning<input type='checkbox' class='checkTtime' value='Morning'></ul>
+                        <ul>Afternoon<input type='checkbox' class='checkTtime' value='Afternoon'></ul>
+                        <ul>Night<input type='checkbox' class='checkTtime' value='Night'></ul>
+                    </div>
+                    <h3>Student list</h3>
+                    Tìm kiếm: <input id='filterStudent' type='text' placeholder="Enter information of student">
+                    <div id="studentTable" border='solid'></div>
+                    <h3>Teacher: </h3>
+                    <div id="teacherID">
+                        <img src="" onclick="$('#span2').toggle(500)">
+                        <figcaption></figcaption>
+                        <input type='hidden' value="">
+                    </div>
+                    <div id="span2" style="display:none;height: 400px;overflow: scroll;border:solid"></div>
+                    Start date: <input type="date" class="startDate" id="startDate" required />
+                    End date: <input type="date" class="endDate" id="endDate" required />
+                    Number of slot per week: <input type="number" id="Schedule" onchange="tuan()" min=0 max=7
+                        required />
+                    <div id="datlich"></div>
+                    <input type="submit" class='button' name="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="actionOut" style="display:none">
+        <div class="action"></div>
+    </div>
+    <header> {{> adminHeader }}</header>
+    <div class="body">
+        <div class="tr" id="option">
+            <div class='td'>
+                <button onclick="$('.createClassOut').toggle(500)">Create class</button>
+            </div>
+            <div class='td'>
+                Filter by Status:
+                <select id="typeClass" onchange="countClass()">
+                    <option value="Processing">Processing</option>
+                    <option value="Finished">finished</option>
+                </select>
+            </div>
+            <div class='td'>
+                <input id='search' type='text' placeholder='Nhập tên lớp'>
+                <button onclick="searchClass()">Search</button>
+            </div>
+            <div class='td' id="number"></div>
+            <div class='td' id="soTrang"></div>
+        </div>
+        <div class="tableClass"></div>
+    </div>
+
+</body>
+<!-- checkdate -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.29.0/date_fns.min.js"></script>
+<script src="/jquery/jquery.js"></script>
+<script src="/js/admin/createClass.js"></script>
+
+</html>

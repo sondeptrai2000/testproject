@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8" />
+
+      <link rel="stylesheet" href="/css/admin/menu.css">
+      <link rel="stylesheet" href="/css/admin/layOut.css">
+
+      <link rel="stylesheet" href="/css/admin/createAccount.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+</head>
+
+<body>
+      <div class="createAccountOut" style="display: none;">
+            <div id="createAccount">
+                  <form id='myform'>
+                        <div style="text-align: center;">
+                              <h2>ACCOUNT INFORMATION</h2>
+                              <img id='output' style="height:300px; width:auto;text-align: center;" />
+                              <figcaption>Upload Img</figcaption>
+                              <input type='file' id="myFile" accept='image/*' style="width: 100%;" required />
+                        </div>
+                        <div style="text-align: left;">
+                              Full name:<input type="text" id="username" required />
+                              Gender:
+                              <select class="Role" id="gender">
+                                    <option value="male">male</option>
+                                    <option value="female">female</option>
+                                    <option value="other">other</option>
+                              </select>
+
+                              Email:<input type="email" id="email" required />
+                              Password:<input type="password" id="password" required />
+                              Birthday:<input type="date" id="birthday" required />
+                              Phone:<input type="text" id="phone" required />
+                              Address:<input type="text" id="address" required />
+                              Role:
+                              <select class="Role" id="role">
+                                    <option value="teacher">Teacher</option>
+                                    <option value="student">Student</option>
+                              </select>
+                        </div>
+                        <div class="typeRole" style="text-align: left;display:none;">
+
+                        </div>
+                        <input type="submit" class='button' name="submit" value="Submit">
+                        <button class='button' onclick="reset()">Reset information</button>
+                  </form>
+            </div>
+      </div>
+
+      <div class="updateFormOut" style="display: none;">
+            <div id="updateForm">
+                  <form id='myformUpdate'>
+                        <div style="text-align: center;">
+                              <h2 style="text-align: center;"> UPDATE ACCOUNT INFORMATION</h2>
+                              <img id='currentAvatar' style="height:300px; width:auto;text-align:center;">
+                              <figcaption>Post new image if you wanna change</figcaption>
+                              <input type="hidden" id="oldAvatar">
+                              <input type='file' id='myFileUpdate' style="width:100%;">
+                        </div>
+                        <div style="text-align: left;">
+                              <input type='hidden' id='PersonID'>
+
+                              Name<input type='text' id='usernameUpdate' required />
+                              Email<input type="email" id="emailUpdate" required />
+                              Password<input type='password' id='passwordUpdate'
+                                    placeholder="update new passwork if you want to" />
+                              Gender
+                              <select id='genderUpdate'>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                              </select>
+                              Birthday<input type='date' id='birthdayUpdate' required />
+                              Phone<input type='text' id='phoneUpdate' required />
+                              Address<input type='text' id='addressUpdate' required />
+                              <input type='hidden' id='currentRole'>
+                              Role
+                              <select class='Role' id='roleUpdate'>
+                                    <option value="student">Student</option>
+                                    <option value="teacher">Teacher</option>
+                              </select>
+                        </div>
+                        <div class='typeRoleUpdate' style="text-align: left;">
+                              Chọn lộ trình học
+                              <select id='routeTypeSUpdate' onchange="routeType('update')"></select>
+                              Level
+                              <select id='levelSUpdate'></select>
+                              Aim
+                              <select id='AimUpdate'></select>
+                              Guardian name:<input type='text' name='guardianNameUpdate' required />
+                              Guardian phone: <input type='number' name='guardianPhoneUpdate' required />
+                              Guardian email:<input type='text' name='guardianEmailUpdate' required />
+                        </div>
+                        <input type="submit" class='button' name="submit" value="Submit">
+                  </form>
+            </div>
+      </div>
+      <div class="SchedualOut" style="display: none;">
+            <div id="Schedual">
+                  <h2>Weekly Schedual</h2>
+                   <input type="hidden" id='viewID'>
+                  <input type="hidden" id='viewRole'>
+                  <label>Chose week: </label><select id='chonTuan'
+                        onchange='viewSchedual($("#viewID").val(),$("#viewRole").val())'></select>
+                  <div class="tr" id='ngay'></div>
+                  <div class="tr" id='thu'>
+                        <div class="td">Day of week</div>
+                        <div class="td">Monday</div>
+                        <div class="td">Tuesday</div>
+                        <div class="td">Wednesday</div>
+                        <div class="td">Thursday</div>
+                        <div class="td">Friday</div>
+                        <div class="td">Saturday</div>
+                        <div class="td">Sunday</div>
+                  </div>
+                  <div class="tr" id="time1"></div>
+                  <div class="tr" id="time2"></div>
+                  <div class="tr" id="time3"></div>
+                  <div class="tr" id="time4"></div>
+                  <div class="tr" id="time5"></div>
+
+            </div>
+      </div>
+      <header> {{> adminHeader }}</header>
+
+      <div class="body">
+            <div class='leftSide'>
+                  <div class='tr' id="option">
+                        <div class='td'>
+                              <button onclick='$(".createAccountOut").slideToggle();'>Create account</button>
+                        </div>
+                        <div class='td'>
+                              Filter:
+                              <select id="accountFilter" onchange="countAccount()">
+                                    <option value="teacher">teacher</option>
+                                    <option value="student">student</option>
+                              </select>
+                        </div>
+                        <div class='td'>
+                              <input id='search' type='text' placeholder='Email or phone number'>
+                              <button onclick="search('')">Search</button>
+                        </div>
+                        <div class='td' id="number"></div>
+                        <div class='td' id="soTrang"> </div>
+                  </div>
+                  <div class="tableAccount"></div>
+            </div>
+            <div class='rightSide'>
+
+            </div>
+
+      </div>
+
+      </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script src="/jquery/jquery.js"></script>
+
+<script src="/js/admin/createAccount.js"></script>
+
+
+</html>

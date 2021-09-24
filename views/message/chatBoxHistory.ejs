@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="/jquery/jquery.js"></script>
+    <link rel="stylesheet" href="/css/messenger/chatBox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <title>Chat box</title>
+</head>
+
+<body>
+    <header>
+        <%- include('../header/'+role +'Header.hbs'); %>
+    </header>
+    <div class="chatForm">
+        <div class="chatHistory">
+            <div class="chatOption">
+                <h2>Chat</h2>
+                <input type='text' id='addChat' placeholder='Find or add conversation by phone or email'><button onclick='addChat() '>Search</button>
+            </div>
+            <div class="history">
+                <% data1.forEach(function(data1) { %>
+                    <!-- có 2 TH: người gửi ở person1 or người gửi ở person2 trong bảng dữ liệu -->
+                    <!-- xác định người gửi người nhận để cho tên tiều đề tin nhắn luôn là người nhận-->
+                    <%if (data1.person1._id !=  formData.senderID) { %>
+                        <!-- check xem người gửi đã xem tin nhắn hay chưa -->
+                        <%if (data1.read.toString().includes(formData.senderID) == true) { %>
+                            <div class='<%=data1._id %>' onclick="chatBox('<%=data1.person1._id %>','<%=data1._id %>')">
+                                <% } %>
+                                    <%if (data1.read.toString().includes(formData.senderID) == false) { %>
+                                        <div class='<%=data1._id %>' style="font-weight:bold" onclick="chatBox('<%=data1.person1._id %>','<%=data1._id %>')">
+                                            <% } %>
+                                                <img src='<%=data1.person1.avatar %>'>
+                                                <p id="<%=data1._id %>">
+                                                    <%= data1.person1.username %><br>
+                                                        <%= data1.message[0].ownermessenger %>:
+                                                            <%= data1.message[0].messContent.slice(0, 9).toLowerCase(); %>...<br>
+                                                                <label><%= data1.message[0].time.toString().split("GMT")[0]; %></label>
+                                                </p>
+                                        </div>
+                                        <% } %>
+                                            <!-- xác định người gửi người nhận để cho tên tiều đề tin nhắn luôn là người nhận-->
+                                            <%if (data1.person2._id != formData.senderID) { %>
+                                                <!-- check xem người gửi đã xem tin nhắn hay chưa -->
+                                                <%if (data1.read.toString().includes(formData.senderID)) { %>
+                                                    <div class='<%=data1._id %>' onclick="chatBox('<%=data1.person2._id %>','<%=data1._id %>')">
+                                                        <% } %>
+                                                            <%if (data1.read.toString().includes(formData.senderID)  == false) { %>
+                                                                <div class='<%=data1._id %>' style="font-weight:bold" onclick="chatBox('<%=data1.person2._id %>','<%=data1._id %>')">
+                                                                    <% } %>
+                                                                        <img src='<%=data1.person2.avatar %>'>
+                                                                        <p id="<%=data1._id %>">
+                                                                            <%= data1.person2.username %><br>
+                                                                                <%= data1.message[0].ownermessenger %>:
+                                                                                    <%= data1.message[0].messContent.slice(0, 9).toLowerCase(); %>...<br>
+                                                                                        <label><%= data1.message[0].time.toString().split("GMT")[0]; %></label>
+
+                                                                        </p>
+                                                                </div>
+                                                                <% } %>
+                                                                    <% }); %>
+                                                    </div>
+                            </div>
+                            <div class='chat'>
+                                <div class='chatTitle'></div>
+                                <div class="chatBox">
+                                    <div id='messContent'></div>
+                                </div>
+                                <div class="sendMess">
+                                    <form id="messengerSubmit">
+                                        <input id="mess" name='mess' type="text" required/>
+                                        <input type="submit" class='button' name="submit" value="Send">
+                                    </form>
+                                </div>
+                            </div>
+            </div>
+
+            <div class="chatInformation" style="display: none;">
+                <input id="allID" type="text" value="<%=listID %>" />
+                <input id="receiverID" type="text" value="<%=formData.receiverID %>" />
+                <input id="receiverName" type="text" value="<%=formData.receiverName %>" />
+                <input id="senderID" type="text" value="<%=formData.senderID %>" />
+                <input id="senderName" type="text" value="<%=formData.senderName %>" />
+                <input id="_idRoom" type="text" value="<%=data1[0]._id %>" />
+                <img id="receiverAva" style='max-width:150px;max-height:200px'>
+                <img id="senderAva" style='max-width:150px;max-height:200px'>
+            </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/messenger/chatBoxHistory.js"></script>
+
+</html>
