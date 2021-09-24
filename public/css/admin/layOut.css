@@ -41,7 +41,8 @@ body {
 }
 
 .rightSide,
-.leftSide {
+.leftSide,
+.body {
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
@@ -49,7 +50,9 @@ body {
     text-align: center;
 }
 
-.rightSide::-webkit-scrollbar {
+.leftSide::-webkit-scrollbar,
+.rightSide::-webkit-scrollbar,
+.body::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }
