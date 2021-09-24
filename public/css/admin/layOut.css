@@ -40,11 +40,8 @@ body {
     float: right;
 }
 
-
-/* 
 .rightSide,
-.leftSide,
-.body {
+.leftSide {
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
@@ -52,9 +49,8 @@ body {
     text-align: center;
 }
 
-.leftSide::-webkit-scrollbar,
 .rightSide::-webkit-scrollbar,
-.body::-webkit-scrollbar {
+.leftSide::-webkit-scrollbar {
     width: 0 !important;
     display: none;
-} */
+}

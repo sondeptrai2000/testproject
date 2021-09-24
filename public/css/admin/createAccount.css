@@ -93,6 +93,7 @@
     /* Fallback color */
     background-color: rgba(209, 189, 189, 0.4);
     /* Black w/ opacity */
+    display: none;
 }
 
 #createAccount,
@@ -111,6 +112,13 @@
     text-align: center;
 }
 
+#createAccount::-webkit-scrollbar,
+#Schedual::-webkit-scrollbar,
+#updateForm::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+
 #Schedual {
     width: 70%;
     margin-left: 15%;
@@ -120,13 +128,6 @@
     width: auto;
     margin-bottom: 10px;
     font-size: 18px;
-}
-
-#createAccount::-webkit-scrollbar,
-#Schedual::-webkit-scrollbar,
-#updateForm::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
 }
 
 .typeRole,
