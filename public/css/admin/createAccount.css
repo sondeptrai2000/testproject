@@ -50,6 +50,8 @@
     border: none;
     padding: 0;
     margin: 0;
+    overflow: auto;
+    width: max-content;
 }
 
 #option .td {
@@ -91,7 +93,7 @@
 .SchedualOut {
     width: 100%;
     height: 100%;
-    margin: 0;
+    margin: -2%;
     padding: 0;
     z-index: 10;
     position: fixed;
@@ -110,9 +112,8 @@
     background-color: whitesmoke;
     height: 80%;
     width: 50%;
-    margin: 0;
+    margin: 50px 25%;
     padding: 10px;
-    margin-left: 25%;
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;

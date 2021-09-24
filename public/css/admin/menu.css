@@ -41,11 +41,6 @@ header li:nth-child(1) {
     float: left;
 }
 
-header li:nth-child(3) {
-    box-sizing: border-box;
-    width: auto !important;
-}
-
 header li:nth-child(2) {
     box-sizing: border-box;
     width: 5% !important;

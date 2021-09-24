@@ -107,14 +107,14 @@ function getAccount() {
     var page = $("#soTrang select").val()
     $(".tableInforType").html("");
     var tableInfor = "<div class='tr'>\
-        <div class='td'style='width:5%;'>Avatar</div>\
-        <div class='td'style='width:5%;'>Username</div>\
-        <div class='td'style='width:5%;'>Gender</div>\
-        <div class='td'style='width:20%;'>Email</div>\
-        <div class='td'style='width:10%;'>Phone</div>\
-        <div class='td'style='width:10%;'>Address</div>\
-        <div class='td'style='width:10%;'>Birthday</div>\
-        <div class='td'style='width:10%;'>Action</div></div>"
+        <div class='td'>Avatar</div>\
+        <div class='td'>Username</div>\
+        <div class='td'>Gender</div>\
+        <div class='td''>Email</div>\
+        <div class='td'>Phone</div>\
+        <div class='td'>Address</div>\
+        <div class='td'>Birthday</div>\
+        <div class='td'>Action</div></div>"
 
     $(".tableAccount").html(tableInfor);
     $.ajax({
