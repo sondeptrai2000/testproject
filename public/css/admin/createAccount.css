@@ -20,12 +20,6 @@
     max-width: 250px;
 }
 
-.rightSide::-webkit-scrollbar,
-.leftSide::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
-}
-
 #option input,
 #option select,
 #option button {
