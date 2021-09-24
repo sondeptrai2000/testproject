@@ -16,7 +16,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     margin-top: 10px;
-    height: 600px;
+    height: 530px;
     padding: 0;
 }
 
@@ -69,7 +69,7 @@ body {
 }
 
 #Schedual h2 {
-    font-size: 40px;
+    font-size: 35px;
     margin: 20px 0;
     margin-bottom: 10px;
 }
@@ -88,10 +88,9 @@ body {
 
 .td {
     display: table-cell;
-    padding: 10px;
+    padding: 7px;
     width: 300px;
     border: #000000 solid 1px;
-    margin: 5px;
     vertical-align: middle;
     text-align: center;
 }
@@ -106,9 +105,10 @@ body {
 /* chỉnh updateProfileOut cập nhật tài khoản */
 
 .updateProfileOut {
-    margin: 0;
+    margin: -2%;
     padding: 0;
     width: 100%;
+    height: 100%;
     z-index: 10;
     position: fixed;
     /* Stay in place */
@@ -121,10 +121,9 @@ body {
 
 .updateProfile {
     width: 40%;
-    height: auto;
     border-radius: 30px;
     background-color: whitesmoke;
-    height: 600px;
+    height: 80%;
     margin-left: 30%;
     overflow: auto;
     overflow: -moz-scrollbars-none;

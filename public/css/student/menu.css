@@ -27,7 +27,7 @@ header li {
     padding: 0;
     margin: 0;
     height: 100%;
-    width: 12.5%;
+    width: 18.75%;
     float: right;
     cursor: pointer;
     text-align: center;
@@ -39,11 +39,6 @@ header li:nth-child(1) {
     box-sizing: border-box;
     width: 20%;
     float: left;
-}
-
-header li:nth-child(3) {
-    box-sizing: border-box;
-    width: auto !important;
 }
 
 header li:nth-child(2) {

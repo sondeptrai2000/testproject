@@ -15,9 +15,6 @@ body {
 
 /* Thuộc tính menu chung của admin */
 
-
-/* Thuộc tính menu chung của admin */
-
 header {
     box-sizing: border-box;
     height: 60px;
@@ -59,28 +56,9 @@ header li:nth-child(1) {
     float: left;
 }
 
-header li:nth-child(3) {
-    box-sizing: border-box;
-    width: auto !important;
-}
-
 header li:nth-child(2) {
     box-sizing: border-box;
     width: 5% !important;
-}
-
-
-/* số tin nhắn chưa đọc */
-
-.messages {
-    display: inline-block;
-    background: red;
-    text-align: center;
-    color: #FFF;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    line-height: 26px;
 }
 
 
