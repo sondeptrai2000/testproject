@@ -12,7 +12,7 @@ body {
 
 .body {
     box-sizing: border-box;
-    height: 600px;
+    height: 550px;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -22,11 +22,12 @@ body {
 }
 
 .leftSide {
+    box-sizing: border-box;
+    height: 550px;
     padding: 20px;
     margin: 0;
     width: 70%;
     float: left;
-    height: 594px;
     border-right: solid 3px black;
 }
 
@@ -34,7 +35,7 @@ body {
     padding: 10px;
     margin: 0;
     width: 30%;
-    height: 554px;
+    height: 550px;
     float: right;
 }
 

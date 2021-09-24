@@ -106,20 +106,16 @@ function getAccount() {
     var role = $("#accountFilter").val()
     var page = $("#soTrang select").val()
     $(".tableInforType").html("");
-    if (role === 'teacher') {
-        var tableInfor = "<div class='tr'>\
-        <div class='td'style='width:5%;'>avatar</div>\
-        <div class='td'style='width:5%;'>username</div>\
-        <div class='td'style='width:5%;'>sex</div>\
-        <div class='td'style='width:20%;'>email</div>\
-        <div class='td'style='display:none;'>role</div>\
-        <div class='td'style='width:10%;'>phone</div>\
-        <div class='td'style='width:10%;'>address</div>\
-        <div class='td'style='width:10%;'>birthday</div>\
+    var tableInfor = "<div class='tr'>\
+        <div class='td'style='width:5%;'>Avatar</div>\
+        <div class='td'style='width:5%;'>Username</div>\
+        <div class='td'style='width:5%;'>Gender</div>\
+        <div class='td'style='width:20%;'>Email</div>\
+        <div class='td'style='width:10%;'>Phone</div>\
+        <div class='td'style='width:10%;'>Address</div>\
+        <div class='td'style='width:10%;'>Birthday</div>\
         <div class='td'style='width:10%;'>Action</div></div>"
-    } else {
-        var tableInfor = "<div class='tr'><div class='td' style='width:5%;'>avatar</div><div class='td'style='width:5%;'>username</div><div class='td'style='width:5%;'>sex</div><div class='td'>email</div><div class='td' style='display:none;'>role</div><div class='td'style='width:5%;'>phone</div><div class='td' style='display:none;'>address</div><div class='td' style='display:none;'>birthday</div><div class='td'style='width:5%;'>routeName</div><div class='td'style='width:5%;'>stage</div><div class='td'style='width:5%;'>Aim</div><div class='td'style='width:5%;'>Action</div></div >"
-    }
+
     $(".tableAccount").html(tableInfor);
     $.ajax({
         url: '/admin/getAccount',
@@ -129,8 +125,7 @@ function getAccount() {
         success: function(response) {
             if (response.msg == 'success') {
                 $.each(response.data, function(index, data) {
-                    if (role == 'teacher') $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'></div><div class='td'>" + data.username + "</div><div class='td'>" + data.sex + "</div><div class='td'>" + data.email + "</div><div class='td' style='display:none;'>" + data.role + "</div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><button onclick=updateForm('" + data._id + "')>Update</button><button onclick=viewSchedual('" + data._id + "','" + data.role + "')>Schedual</button></div></div >");
-                    if (role == 'student') $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'></div><div class='td'>" + data.username + "</div><div class='td'>" + data.sex + "</div><div class='td'>" + data.email + "</div><div class='td' style='display:none;'>" + data.role + "</div><div class='td'>" + data.phone + "</div><div class='td' style='display:none;'>" + data.address + "</div><div class='td' style='display:none;'>" + data.birthday + "</div><div class='td'>" + data.routeName + "</div><div class='td'>" + data.stage + "</div><div class='td'>" + data.aim + "</div><div class='td' style='display:none;'>" + data.relationship.username + "</div><div class='td' style='display:none;'>" + data.relationship.email + "</div><div class='td' style='display:none;'>" + data.relationship.phone + "</div><div class='td'><button onclick=updateForm('" + data._id + "')>Update</button><button onclick=viewSchedual('" + data._id + "','" + data.role + "')>Schedual</button></div></div >");
+                    $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'></div><div class='td'>" + data.username + "</div><div class='td'>" + data.sex + "</div><div class='td'>" + data.email + "</div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><button onclick=updateForm('" + data._id + "')>Update</button><button onclick=viewSchedual('" + data._id + "','" + data.role + "')>Schedual</button></div></div >");
                 });
                 //hiển thị thông tin chi tiết trang form bên phải
                 search(response.data[0].email)
