@@ -245,10 +245,7 @@ function attendedList(id) {
 }
 //đưa ra list học sinh để điểm danh
 function takeAttend(idattend, idClass) {
-    var formData = {
-        idattend: idattend,
-        idClass: idClass,
-    }
+    var formData = { idattend: idattend, idClass: idClass }
     $.ajax({
         url: '/teacher/attendedListStudent',
         method: 'get',
@@ -256,12 +253,14 @@ function takeAttend(idattend, idClass) {
         data: formData,
         success: function(response) {
             if (response.msg == 'success') {
+                console.log(response.data)
                 $("#takeAttendContent").html($("#takeAttendContent .tr:first-child"))
                 $.each(response.data[0].schedule, function(index, data) {
                     $.each(data.attend, function(index, attend) {
                         $("#loladate").val(data.date.split("T00:00:00.000Z")[0])
                         $("#loladate1").val(data._id)
                         $("#loladate3").val(idClass)
+                        $("#loladate5").val(data.date)
                         $("#scheduleStatus").val(data.status)
                         $("#scheduleTime").val(data.time)
                         $("#scheduleRoom").val(data.room)
@@ -282,38 +281,47 @@ function takeAttend(idattend, idClass) {
 }
 //tiến hành cập nhật danh sachs điểm danh
 function submitTakeAttend() {
-    var studentID = []
-    $(".attendStudentID").each(function() { studentID.push($(this).val()) })
-    var attended = []
-    $(".attendStudentStatus").each(function() { attended.push($(this).val()) })
-    var attend = []
-    for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i] }) }
-    //Note: room,day,time là số buổi học và giờ học được gán từ lúc lấy danh sách lịch học
-    var formData = {
-        attend: attend,
-        idClass: $("#loladate3").val(),
-        schedule: $("#loladate1").val(),
-        lastDate: $("#loladate4").val(),
-        room: room,
-        day: day,
-        time: time,
-        scheduleStatus: $("#scheduleStatus").val(),
-        scheduleTime: $("#scheduleTime").val(),
-        scheduleRoom: $("#scheduleRoom").val(),
-        scheduleDay: $("#scheduleDay").val(),
-    }
-    $.ajax({
-        url: '/teacher/doTakeAttended',
-        method: 'post',
-        dataType: 'json',
-        data: formData,
-        success: function(response) {
-            if (response.msg == 'success') alert('success');
-        },
-        error: function(response) {
-            alert('server error');
+    var dateAttend = $("#loladate5").val().replace("T00:00:00.000Z", "")
+    var date1 = new Date();
+    var date2 = new Date(dateAttend);
+    var diff = new Date(date1.getTime() - date2.getTime());
+    //lấy các khoảng thời gian lệch giữa ngày giờ để check xem có đủ condition điểm danh không
+    var spaceDay = diff.getUTCDate() - 1;
+    var spaceMonth = diff.getUTCMonth();
+    var spaceYear = diff.getUTCFullYear() - 1970;
+    //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
+    if (spaceDay > 4 || spaceDay < 0) return console.log("Out of date to take attend of this date! Only 4 day after this date.");
+    //nếu trong vòng 4 ngày sẽ được điểm danh
+    if ((spaceDay <= 4 && spaceDay >= 0) && spaceMonth == 0 && spaceYear == 0) {
+        var studentID = [];
+        $(".attendStudentID").each(function() { studentID.push($(this).val()) })
+        var attended = [];
+        $(".attendStudentStatus").each(function() { attended.push($(this).val()) })
+        var attend = [];
+        for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i] }) }
+        //Note: room,day,time là số buổi học và giờ học được gán từ lúc lấy danh sách lịch học
+        var formData = {
+            attend: attend,
+            idClass: $("#loladate3").val(),
+            schedule: $("#loladate1").val(),
+            lastDate: $("#loladate4").val(),
+            room: room,
+            day: day,
+            time: time,
+            scheduleStatus: $("#scheduleStatus").val(),
+            scheduleTime: $("#scheduleTime").val(),
+            scheduleRoom: $("#scheduleRoom").val(),
+            scheduleDay: $("#scheduleDay").val(),
         }
-    });
+        $.ajax({
+            url: '/teacher/doTakeAttended',
+            method: 'post',
+            dataType: 'json',
+            data: formData,
+            success: function(response) { if (response.msg == 'success') alert('success'); },
+            error: function(response) { alert('server error'); }
+        });
+    }
 }
 
 //lọc phân loại tìm kiếm (lớp đang dạy hay đã dạy và khoảng thời gian)
