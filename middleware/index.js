@@ -1,5 +1,3 @@
-// let { checkEmail} = require('../service/auth')
-// let accountmodel = require('../models/account');
 let AccountModel = require('../models/account');
 var jwt = require('jsonwebtoken');
 

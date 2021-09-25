@@ -67,7 +67,7 @@ body {
 }
 
 #Schedual h2 {
-    font-size: 40px;
+    font-size: 30px;
     margin: 20px 0;
     margin-bottom: 10px;
 }
@@ -92,7 +92,7 @@ body {
 
 .td {
     display: table-cell;
-    padding: 10px;
+    padding: 7px;
     width: 300px;
     border: #000000 solid 1px;
     margin: 5px;
@@ -163,12 +163,14 @@ body {
     margin-bottom: 10px;
 }
 
-#studentProfile {
+#studentProfile,
+#Schedual {
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
 }
 
+#Schedual::-webkit-scrollbar,
 #studentProfile::-webkit-scrollbar {
     width: 0 !important;
     display: none;

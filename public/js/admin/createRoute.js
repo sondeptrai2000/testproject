@@ -1,8 +1,8 @@
 $(document).ready(function() {
     getAllRoute()
     unReadMess();
-
 });
+
 $(window).on('click', function(e) {
     if ($(e.target).is('.createRouteOut')) $('.createRouteOut').fadeOut(1500);
     if ($(e.target).is('.updateRouteOut')) $('.updateRouteOut').fadeOut(1500);
@@ -15,7 +15,6 @@ $('header li').hover(function() {
     $(this).find("div").hide(500)
 });
 
-
 //lấy số tin nhắn chưa đọc
 function unReadMess() {
     $.ajax({
@@ -24,26 +23,19 @@ function unReadMess() {
         dataType: 'json',
         data: {},
         success: function(response) {
-            if (response.msg == 'success') {
-                $("#UnreadMessages").html(response.unReadMess)
-            }
+            if (response.msg == 'success') $("#UnreadMessages").html(response.unReadMess)
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
+
 //lọc tìm kiếm
 function filterRoute() {
     var filter = $("#searchRoute").val().toUpperCase()
-    console.log(filter)
     $(".tableRoute .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
             $(this).show()
-            console.log($(this).text())
-        } else {
-            $(this).hide()
-        }
+        } else { $(this).hide() }
         if (filter == "") $(this).show()
     })
 }
@@ -66,12 +58,9 @@ function getAllRoute() {
                 viewSchedule(data[0]._id)
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
-
 
 function addStage(type) {
     if (type == "create") {
@@ -92,8 +81,8 @@ function addClass(test, type) {
         test.append(add)
     }
 }
-//xem các lịch trình giảng dạy của 1 lộ trình học
 
+//xem các lịch trình giảng dạy của 1 lộ trình học
 function viewSchedule(id) {
     $(".viewRouteOut").fadeIn(500)
     var _id = id
@@ -119,15 +108,8 @@ function viewSchedule(id) {
                 })
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
-}
-//Note: làm fillter theo .tr
-function search() {
-    var name = "/" + $("#searchRoute").val() + "/i"
-
 }
 
 $("#doCreateRoute").submit(function(event) {
@@ -135,9 +117,7 @@ $("#doCreateRoute").submit(function(event) {
     var schedule = []
     $("input[name='stageTest']").each(function(index, e) {
         var routeabcd = []
-        $(this).parent().find('input[name="classIn"]').each(function(index, e) {
-            routeabcd.push($(e).val())
-        })
+        $(this).parent().find('input[name="classIn"]').each(function(index, e) { routeabcd.push($(e).val()) })
         schedule.push({ stage: $(this).val(), routeabcd: routeabcd })
     })
     var formData = {
@@ -158,24 +138,16 @@ $("#doCreateRoute").submit(function(event) {
             }
             if (response.msg == 'Account already exists') alert('Account already exists');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 })
 
 $("#doUpdateRoute").submit(async function(event) {
     event.preventDefault();
     var schedule = []
-    var stageMoney = [];
-    $("input[name='stageMoneyUpdate']").each(function(index, e) {
-        stageMoney.push($(this).val())
-    });
     $("input[name='stageTestUpdate']").each(function(index, e) {
         var routeabcd = []
-        $(this).parent().find('input[name="classInUpdate"]').each(function(index, e) {
-            routeabcd.push($(e).val())
-        })
+        $(this).parent().find('input[name="classInUpdate"]').each(function(index, e) { routeabcd.push($(e).val()) })
         schedule.push({ stage: $(this).val(), price: stageMoney[index], routeabcd: routeabcd })
     })
     var formData = {
@@ -190,13 +162,9 @@ $("#doUpdateRoute").submit(async function(event) {
         dataType: 'json',
         data: formData,
         success: function(response) {
-            if (response.msg == 'success') {
-                alert('Sign Up success');
-            }
+            if (response.msg == 'success') alert('Sign Up success');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 })
 
@@ -223,9 +191,7 @@ async function updateRoute(id) {
                 })
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
 
@@ -241,14 +207,9 @@ function deleteRoute(id) {
                     alert('success');
                     getAllRoute();
                 }
-                if (response.msg == 'error') {
-                    alert('error');
-                }
+                if (response.msg == 'error') alert('error');
             },
-            error: function(response) {
-                alert('server error');
-            }
+            error: function(response) { alert('server error'); }
         })
     }
-
 }

@@ -1,9 +1,8 @@
 $(document).ready(function() {
     getClass();
     unReadMess();
-
-
 });
+
 //hiệu ứng menu
 $('header li').hover(function() {
     $(this).find("div").slideDown()
@@ -11,11 +10,10 @@ $('header li').hover(function() {
     $(this).find("div").hide(500)
 });
 
-
 $(window).on('click', function(e) {
-    if ($(e.target).is('.studentListOut')) $('.studentListOut').slideUp(1500);
-    if ($(e.target).is('.teacherIn4Out')) $('.teacherIn4Out').slideUp(1500);
-    if ($(e.target).is('.myAttendOut')) $('.myAttendOut').slideUp(1500);
+    if ($(e.target).is('.studentListOut')) $('.studentListOut').slideUp(500);
+    if ($(e.target).is('.teacherIn4Out')) $('.teacherIn4Out').slideUp(500);
+    if ($(e.target).is('.myAttendOut')) $('.myAttendOut').slideUp(500);
 });
 
 //lấy số tin nhắn chưa đọc
@@ -27,26 +25,22 @@ function unReadMess() {
         data: {},
         success: function(response) {
             if (response.msg == 'success') {
+                $("#welcome").html("Welcome " + response.username);
                 $("#UnreadMessages").html(response.unReadMess)
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error') }
     })
 };
+
 //tìm kiếm lớp học
 $("#myInput").keyup(function() {
-    var filter = $("#myInput").val().toUpperCase()
-    console.log(filter)
+    var filter = $("#myInput").val().toUpperCase();
     $("#tableClass .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
-            $(this).show()
-            console.log($(this).text())
-        } else {
-            $(this).hide()
-        }
-        if (filter == "") $(this).show()
+            $(this).show();
+        } else { $(this).hide() };
+        if (filter == "") $(this).show();
     })
 });
 
@@ -80,13 +74,8 @@ function getClass() {
                     }, 5000)
                 }
             }
-            if (response.msg == 'abc') {
-                alert("học sinh đã chuyển sang giai đoạn cao hơn")
-            }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
 
@@ -116,11 +105,10 @@ function myAttended(classID) {
                 $(".myAttendOut").fadeIn(500)
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
+
 //xem 1 số thông tin của giáo viên
 function viewTeacherProfile(id) {
     var _id = id
@@ -138,9 +126,6 @@ function viewTeacherProfile(id) {
                 $(".teacherIn4Out").fadeIn(500);
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
-
 }

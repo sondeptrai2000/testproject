@@ -4,14 +4,13 @@ $(document).ready(function() {
     unReadMess();
 });
 
-
-
 //hiệu ứng menu
 $('header li').hover(function() {
     $(this).find("div").slideDown()
 }, function() {
     $(this).find("div").hide(500)
 });
+
 // thoát khỏi modal box
 $(window).on('click', function(e) {
     if ($(e.target).is('.updateClassOut')) {
@@ -49,11 +48,10 @@ function countClass() {
                 getAllClass();
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
+
 //lấy danh sách lớp
 function getAllClass() {
     $.ajax({
@@ -69,11 +67,10 @@ function getAllClass() {
                 });
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
+
 //hiển thị bảng lựa chọn chỉnh sửa thông tin lớp học
 function actionClass(id) {
     $(".actionOut").toggle(500)
@@ -89,6 +86,7 @@ function actionClass(id) {
     $("#currentTeacherName").val(allIn4[1].split("Email")[0].replace("Name: ", ""))
     $("#currentTeacherEmail").val(allIn4[1].split("Email:")[1])
 }
+
 //tìm kiếm class
 function searchClass() {
     if ($("#search").val() == "") alert("Input class name")
@@ -106,16 +104,16 @@ function searchClass() {
             }
             if (response.msg == 'notFound') alert("Can't found class")
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
+
 //cập nhật thông tin lớp học: giáo viên, tên, miêu tả
 function changeInfor(id) {
     $(".actionOut").toggle(500)
     $(".updateClassOut").fadeIn(500);
 }
+
 //xóa 1 lớp học
 function deleteClass(id) {
     if (confirm("Are you sure you want to delete this?")) {
@@ -146,16 +144,11 @@ function unReadMess() {
         dataType: 'json',
         data: {},
         success: function(response) {
-            if (response.msg == 'success') {
-                $("#UnreadMessages").html(response.unReadMess)
-            }
+            if (response.msg == 'success') $("#UnreadMessages").html(response.unReadMess)
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
-
 
 //lấy thông tin của giáo viên và các khóa học đẻe chọn giaos viên và lộ trình của lớp
 function createClassForm() {
@@ -176,11 +169,8 @@ function createClassForm() {
             }
             if (response.msg == 'error') alert("error")
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
-
 }
 
 //thực hiện cập nhật thông tin lớp và lưu vào đb
@@ -213,24 +203,17 @@ $("#submitUpdateClass").submit(async function(event) {
             if (response.msg == 'Teacher not found') alert("Teacher not found")
             if (response.msg == 'error') alert("error")
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
-
 });
 
 //lọc tìm kiếm student 
 $("#filterStudent").keyup(function() {
     var filter = $("#filterStudent").val().toUpperCase()
-    console.log(filter)
     $("#studentTable .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
             $(this).show()
-            console.log($(this).text())
-        } else {
-            $(this).hide()
-        }
+        } else { $(this).hide() }
         if (filter == "") $(this).show()
     })
 });
@@ -324,22 +307,17 @@ $("#myform").submit(async function(event) {
     }
 })
 
-
 //chọn thời gian học
 $('.checkTtime').on('change', function() {
     $('.checkTtime').not(this).prop('checked', false);
     getStudent();
 });
 
-
-
 //chọn giáo viên ở bảng chọn r hiển thị lại ở mục giáo viên chỉ định (tạo lớp form)
 function selectedTeacher(email, id) {
     $("#teacherID").html('<img src="' + $(".avatar" + id).val() + '" style="height: 200px;width: 200px;" onclick=$("#span2").toggle(500)><figcaption>' + email + '</figcaption><input type="hidden" value="' + id + '">')
     $("#span2").fadeOut(500)
 }
-
-
 
 //lấy danh sách các học sinh trong lớp
 function sendData(id) {
@@ -363,9 +341,7 @@ function sendData(id) {
             }
             if (response.msg == 'error') alert("error")
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
 
@@ -387,9 +363,7 @@ function upDateSchedule(id) {
                 $(".attendedListOut").fadeIn(500)
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
 //hiển thị form update lịch cho giáo viên
@@ -425,12 +399,9 @@ $("#cahocUpdate").change(async function() {
             }
             if (response.msg == 'error') {}
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 });
-
 
 //thực hiện cập nhật, chuyển đổ lịch giảng dạy cho giáo viên
 $("#SubmitupdateScheduleForm").submit(async function(event) {
@@ -462,12 +433,9 @@ $("#SubmitupdateScheduleForm").submit(async function(event) {
             if (response.msg == 'success') alert("success")
             if (response.msg == 'error') alert("error")
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 })
-
 
 //hiển thị các học sinh có mức độ tương ứng với lớp đã chọn để xem xét thêm vào lớp
 function addStudent(classID) {
@@ -502,12 +470,9 @@ function addStudent(classID) {
                 $('.studentTableAddOut').show();
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
-
 
 //thêm học sinh vaof 1 lớp
 function doAddToClass(classID) {
@@ -541,12 +506,9 @@ function doAddToClass(classID) {
             }
             if (response.msg == 'error') alert('add error ');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
-
 
 //xóa học sinh khỏi 1 lớp
 function removeStudent(classID, subject) {
@@ -557,7 +519,6 @@ function removeStudent(classID, subject) {
         if ($(this).is(":checked")) {
             studentlistcl.push($(this).attr('value'));
             studentlistAttend.push({ 'studentID': $(this).attr('value') });
-
         }
     });
     $.ajax({
@@ -576,13 +537,9 @@ function removeStudent(classID, subject) {
                 $(".studentListOut").hide();
                 sendData(classID);
             }
-            if (response.msg == 'error') {
-                alert('remove error ');
-            }
+            if (response.msg == 'error') alert('remove error ');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
 
@@ -593,6 +550,7 @@ var getDaysArray = function(start, end) {
     }
     return arr;
 };
+
 //thêm form điền thông tin cho các tuần
 function tuan() {
     $("#datlich").html("")
@@ -600,6 +558,7 @@ function tuan() {
         $("#datlich").append('<h4>Day ' + (i + 1) + ':</h4><input type="number" placeholder="Enter day of week" class ="buoihocthu" name="Schedule' + i + '" min=2 max=8 onchange=getTime("' + i + '") required/>Time: <select class= "cahoc" id="cahoc' + i + '" onchange="getThu(' + i + ')"></select>Room:<select class="Room" id="Room' + i + '"></select>')
     }
 }
+
 //lấy các ca làm của giáo viên trong ngày đã chọn (tránh trường hợp 1 giáo viên dạy chung 1 ca làm và ở 2 phòng khác nhau )
 function getTime(i) {
     $('#cahoc' + i).html('<option value="7:30 to 9:30">7:30 to 9:30</option><option value="9:45 to 11:45">9:45 to 11:45</option><option value="13:30 to 15:30">13:30 to 15:30</option><option value="15:45 to 17:45">15:45 to 17:45</option><option value="18:15 to 20:15">18:15 to 20:15</option>')
@@ -619,13 +578,12 @@ function getTime(i) {
                     });
                 });
             }
-            if (response.msg == 'error') {}
+            if (response.msg == 'error') alert('  error ');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
+
 //chọn các phòng trống để dạy
 function getThu(i) {
     var dayOfWeek = $("input[name='Schedule" + i + "']").val()
@@ -646,14 +604,11 @@ function getThu(i) {
                     });
                 });
             }
-            if (response.msg == 'error') {}
+            if (response.msg == 'error') alert('  error ');
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
-
 
 //lấy thông tin của lộ trình học
 function routeType() {
@@ -689,11 +644,10 @@ function routeType() {
                 level();
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
+
 //lấy thông tin các môn học của 1 mốc giai đoạn đã chọn của lộ trình đã chọn
 function level() {
     var routeName = $('#routeTypeS').val();
@@ -718,9 +672,7 @@ function level() {
                 });
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
 
@@ -762,8 +714,6 @@ function getStudent() {
                 getAllClass();
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }

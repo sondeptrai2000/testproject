@@ -3,7 +3,6 @@ $(document).ready(function() {
     // bỏ đuỏi GMT 
     $(".rightSide .tr .td:nth-child(7)").each(function() { $(this).text($(this).text().replace("07:00:00 GMT+0700 (GMT+07:00)", "")) })
     $(".rightSide .tr .td:nth-child(8)").each(function() { $(this).text($(this).text().replace("07:00:00 GMT+0700 (GMT+07:00)", "")) })
-
 });
 
 $(window).on('click', function(e) {
@@ -38,11 +37,10 @@ function myAttended(classID) {
                 $(".myAttendOut").fadeIn(500)
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
+
 //xem 1 số thông tin của giáo viên
 function viewTeacherProfile(id) {
     var _id = id
@@ -60,12 +58,11 @@ function viewTeacherProfile(id) {
                 $(".teacherIn4Out").fadeIn(500);
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 
 }
+
 //lấy thông tin của lộ trình học
 function routeType() {
     var routeName = $('#routeTypeS').text();
@@ -92,13 +89,9 @@ function routeType() {
                 });
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     })
 }
-
-
 
 //lấy danh sáhc học sinh trong lớp
 function sendData(id) {
@@ -119,10 +112,6 @@ function sendData(id) {
                 $(".studentListOut").fadeIn(2000);
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
-
-
 }

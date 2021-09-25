@@ -1,20 +1,28 @@
 <ul>
   <li style="float:left;font-family:cursive;">Sown English</li>
-  <li onclick="location.href='/';">
-    <div style="background-color:lightpink;display:none;height:10px"></div>
-    <i class="fas fa-sign-out-alt fa-lg"></i>
+  <li>
+    <a href='/'>
+      <div style="background-color:lightpink;display:none;height:10px"></div>
+      <i class="fas fa-sign-out-alt fa-lg"></i>
+    </a>
   </li>
   <li id="welcome">Welcome {{studentName}}</li>
-  <li onclick="location.href='/student/allClass/0'">
-    <div style="background-color:lightpink;display:none;height:10px"></div>
-    Class
+  <li>
+    <a href="/messenger/chatForm">
+      <div style="background-color:lightpink;display:none;height:10px"></div>
+      Messenger <label id="UnreadMessages" runat="server" class="messages"></label>
+    </a>
   </li>
-  <li onclick="location.href='/messenger/chatForm';">
-    <div style="background-color:lightpink;display:none;height:10px"></div>
-    Messenger <label id="UnreadMessages" runat="server" class="messages"></label>
+    <li>
+    <a href="/student/allClass/0">
+      <div style="background-color:lightpink;display:none;height:10px"></div>
+      Class
+    </a>
   </li>
-  <li onclick="location.href='/account/homeStudent';">
-    <div style="background-color:lightpink;display:none;height:10px"></div>
-    Trang chủ Student
+  <li>
+    <a href="/account/homeStudent">
+      <div style="background-color:lightpink;display:none;height:10px"></div>
+      Trang chủ Student
+    </a>
   </li>
 </ul>
