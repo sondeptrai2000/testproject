@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
-        <link rel="stylesheet" href="/css/admin/layOut.css">
+        <meta charset="UTF-8" />
         <link rel="stylesheet" href="/css/admin/menu.css">
+        <link rel="stylesheet" href="/css/admin/layOut.css">
         <link rel="stylesheet" href="/css/admin/assignRoomAndTime.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
@@ -24,24 +25,17 @@
                         <div class="td">Saturday</div>
                         <div class="td">Sunday</div>
                 </div>
-                <div class="tr" id="time1">
+                <div class="tr" id="time1"></div>
+                <div class="tr" id="time2"> </div>
+                <div class="tr" id="time3"> </div>
+                <div class="tr" id="time4"> </div>
+                <div class="tr" id="time5"> </div>
+                <div>
+                        <h1>Add room</h1>
+                        <span>Room Name: <input type="text" name="roomName"></span>
+                        <button onclick="addRoom()">addRoom</button>
                 </div>
-                <div class="tr" id="time2">
-                </div>
-                <div class="tr" id="time3">
-                </div>
-                <div class="tr" id="time4">
-                </div>
-                <div class="tr" id="time5">
-                </div>
-        </div>
-        <div>
-                <h1>Add room</h1>
-                <span>Room Name: <input type="text" name="roomName"></span>
-                <button onclick="addRoom()">addRoom</button>
-        </div>
-        <div id="listRoom">
-
+                <div id="listRoom"></div>
         </div>
 </body>
 <script src="/jquery/jquery.js"></script>

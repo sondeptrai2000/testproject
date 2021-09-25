@@ -1,8 +1,8 @@
 $(document).ready(function() {
     routeType();
     // bỏ đuỏi GMT 
-    $(".rightSide .tr .td:nth-child(7)").each(function() { $(this).text($(this).text().replace("07:00:00 GMT+0700 (GMT+07:00)", "")) })
-    $(".rightSide .tr .td:nth-child(8)").each(function() { $(this).text($(this).text().replace("07:00:00 GMT+0700 (GMT+07:00)", "")) })
+    $(".rightSide .tr .td:nth-child(7)").each(function() { $(this).text($(this).text().split("07:00:00 GMT+0700 (GMT+07:00)")[0]) })
+    $(".rightSide .tr .td:nth-child(8)").each(function() { $(this).text($(this).text().split("07:00:00 GMT+0700 (GMT+07:00)")[0]) })
 });
 
 $(window).on('click', function(e) {
