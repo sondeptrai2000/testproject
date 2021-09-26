@@ -1,8 +1,9 @@
 $(document).ready(function() {
+    //lấy lộ trình học và so sánh vs tiến độ cá nhân
     routeType();
-    // bỏ đuỏi GMT 
-    $(".rightSide .tr .td:nth-child(7)").each(function() { $(this).text($(this).text().split("07:00:00 GMT+0700 (GMT+07:00)")[0]) })
-    $(".rightSide .tr .td:nth-child(8)").each(function() { $(this).text($(this).text().split("07:00:00 GMT+0700 (GMT+07:00)")[0]) })
+    //lấy điểm của các môn học trong các tiến độ
+    getClass();
+
 });
 
 $(window).on('click', function(e) {
@@ -10,6 +11,33 @@ $(window).on('click', function(e) {
     if ($(e.target).is('.teacherIn4Out')) $('.teacherIn4Out').slideUp(1500);
     if ($(e.target).is('.myAttendOut')) $('.myAttendOut').slideUp(1500);
 });
+
+//lấy danh sách lớp
+function getClass() {
+    $.ajax({
+        url: '/admin/getClass',
+        method: 'get',
+        dataType: 'json',
+        data: { studentId: $("#studentID").val() },
+        success: function(response) {
+            if (response.msg == 'success') {
+                var data = response.data
+                console.log(data)
+                $(".rightSide").html(" <div class='tr'><div class='td'>Class name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Teacher</div><div class='td'>Grade</div><div class='td'>Comment</div><div class='td'>Start date</div><div class='td'>End date</div class='td'><div class='td'>Student List</div></div>")
+                data.classID.forEach((e) => {
+                    $(".rightSide").append("<div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td' onclick=viewTeacherProfile('" + e.teacherID._id + "')>" + e.teacherID.username + "</div></div>")
+                    var classID = e._id
+                    e.studentID.forEach((e) => {
+                        if (e.ID == $("#studentID").val()) $("#" + classID).append("<div class='td'>" + e.grade + "</div><div class='td'>" + e.feedBackContent + "</div>")
+                    })
+                    $("#" + classID).append("<div class='td'>" + e.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + e.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><button onclick=sendData('" + e._id + "')><i class='fas fa-users'></i></button><button onclick=myAttended('" + e._id + "')><i class='fas fa-calendar-alt'></i></button></div>")
+                })
+            }
+        },
+        error: function(response) { alert('server error'); }
+    });
+}
+
 
 //xem danh sách điểm danh của học sinh
 function myAttended(classID) {
@@ -33,7 +61,7 @@ function myAttended(classID) {
                     })
                 })
                 var totalSchedual = data[0].schedule.length
-                $(".myAttendContent").append("<h1>Học sinh đã nghỉ " + (data[0].studentID[studentIndex].absentRate / totalSchedual * 100) + "% </h1>")
+                $(".myAttendContent").append("<h1>Absent rate:  " + (data[0].studentID[studentIndex].absentRate / totalSchedual * 100) + "% </h1>")
                 $(".myAttendOut").fadeIn(500)
             }
         },
@@ -53,7 +81,7 @@ function viewTeacherProfile(id) {
         success: function(response) {
             if (response.msg == 'success') {
                 $.each(response.data, function(index, data) {
-                    $(".teacherIn4").html("<div class='tr'><img style ='max-width:150px;max-height:200px' src='" + data.avatar + "'><label>" + data.username + "</label></div><div class='tr'>" + data.email + "</div><div class='tr'><form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + data._id + "'><input type='hidden' name='studentName' value='" + data.username + "'><button>Chat</button></form></div>");
+                    $(".teacherIn4").html("<div style='text-align:center;'><img style ='max-width:150px;max-height:200px' src='" + data.avatar + "'><p>" + data.username + "</p><p>" + data.email + "</p><p><form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + data._id + "'><input type='hidden' name='studentName' value='" + data.username + "'><button>Chat</button></form></p></div>");
                 });
                 $(".teacherIn4Out").fadeIn(500);
             }
@@ -65,7 +93,7 @@ function viewTeacherProfile(id) {
 
 //lấy thông tin của lộ trình học
 function routeType() {
-    var routeName = $('#routeTypeS').text();
+    var routeName = $('#routeTypeS').text().replace("Route: ", "");
     $.ajax({
         url: '/admin/getStage',
         method: 'get',
@@ -82,7 +110,7 @@ function routeType() {
                         if (routeSchedual.stage == $("#start").text().replace("Start stage: ", "") || routeSchedual.stage == $("#end").text().replace("Aim stage: ", "")) $("#routeTuyBien .tr:nth-child(1) .td:nth-child(" + (indexBIG + 1) + ")").css("background-color", "peru")
                         if (routeSchedual.stage == $("#current").text().replace("Current stage: ", "")) $("#routeTuyBien .tr:nth-child(1) .td:nth-child(" + (indexBIG + 1) + ")").html('Stage ' + (indexBIG + 1) + ': ' + routeSchedual.stage + '</div>' + '<i class="fas fa-map-marker-alt"></i>')
                         $.each(routeSchedual.routeabcd, function(index, routeabcd) {
-                            $("#routeTuyBien .tr:nth-child(2) .td:nth-child(" + (indexBIG + 1) + ")").append("<li>" + routeabcd + "</li>");
+                            $("#routeTuyBien .tr:nth-child(2) .td:nth-child(" + (indexBIG + 1) + ")").append("<li onclick=highLight(this)>" + routeabcd + "</li>");
                         });
                     });
 
@@ -92,6 +120,21 @@ function routeType() {
         error: function(response) { alert('server error'); }
     })
 }
+//đánh dấu
+function highLight(add) {
+    var filter = $(add).text().toUpperCase()
+    $(".rightSide .tr:not(:first-child)").each(function() {
+        if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
+            $(this).css("text-decoration-line", 'underline')
+            $(this).css("font-size", '20px')
+            console.log(filter)
+        } else {
+            $(this).css("text-decoration-line", 'none')
+            $(this).css("font-size", '18px')
+        }
+    })
+}
+
 
 //lấy danh sáhc học sinh trong lớp
 function sendData(id) {

@@ -61,7 +61,7 @@ function getAllClass() {
         data: { status: $("#typeClass").val(), page: $("#soTrang select").val() },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".tableClass").html("<div class='tr'><div class='td'>Class name</div><div class='td'>teacher</div><div class='td'>routeName</div><div class='td'>stage</div><div class='td'>subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Action</div></div>")
+                $(".tableClass").html("<div class='tr'><div class='td'>Class name</div><div class='td'>Teacher</div><div class='td'>Route Name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Action</div></div>")
                 $.each(response.classInfor, function(index, data) {
                     $(".tableClass").append("<div class='tr' id='" + data._id + "'><div class='td'>" + data.className + "</div><div class='td'>Name: " + data.teacherID.username + "<br>Email:" + data.teacherID.email + "</div><div class='td'>" + data.routeName + "</div><div class='td'>" + data.stage + "</div><div class='td'>" + data.subject + "</div><div class='td' style='display:none;'>" + data.timeToStudy + "</div><div class='td'>" + data.description + "</div><div class='td'>" + data.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + data.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><i class='far fa-edit' onclick=actionClass('" + data._id + "')></i><div style='display:none;' class='action" + data._id + "'><div class='td'><button onclick=changeInfor('" + data._id + "')><i class='fas fa-chalkboard-teacher'></i><br>Update class</button></div><div class='td'><button onclick=sendData('" + data._id + "')><i class='fas fa-users'></i><br>Student list</button></div><div class='td'><button onclick=upDateSchedule('" + data._id + "')><i class='far fa-calendar-alt'></i><br>Schedule </button></div><div class='td'><button onclick=deleteClass('" + data._id + "')><i class='far fa-trash-alt'></i><br>Delete</button></div></div></div></div>")
                 });
@@ -89,7 +89,7 @@ function actionClass(id) {
 
 //tìm kiếm class
 function searchClass() {
-    if ($("#search").val() == "") alert("Input class name")
+    if ($("#search").val() == "") return alert("Input class name")
     $.ajax({
         url: '/admin/searchClass',
         method: 'get',
@@ -330,11 +330,12 @@ function sendData(id) {
         data: { abc: _id },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".studentListContent").html("<button onclick=addStudent('" + id + "')>Them học sinh vào lớp</button><button onclick=removeStudent('" + id + "')>Xóa học sinh trong lớp</button>")
-                $(".studentListContent").append('<div class="tr" id="firstTrlistStudent"><div class="td" style="width:20%;">avatar</div><div class="td"style="width:20%;">username</div><div class="td" style="width:15%;">Aim</div><div class="td" style="width:35%;">email</div><div class="td"style="width:10%;">Select</div></div>')
+                $(".studentListContent").html("<button onclick=addStudent('" + id + "')>Add student</button><button onclick=removeStudent('" + id + "')>Remove student</button>")
+                $(".studentListContent").append("<br>Search: <input id='searchStudent' onkeyup='filterStudent()' type='text'placeholder='Enter student name'>")
+                $(".studentListContent").append('<div class="tr" id="firstTrlistStudent"><div class="td" style="width:20%;">Avatar</div><div class="td" style="width:15%;">Aim</div><div class="td" style="width:35%;">Email</div><div class="td"style="width:10%;">Select</div></div>')
                 $.each(response.data, function(index, data) {
                     $.each(data.studentID, function(index, studentID) {
-                        $(".studentListContent").append("<div class='tr'><div class='td'><img src='" + studentID.ID.avatar + "'></div><div class='td'>" + studentID.ID.username + "</div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'><input type='checkbox' class='removeFormClass' value='" + studentID.ID._id + "' /></div></div>");
+                        $(".studentListContent").append("<div class='tr'><div class='td'><img src='" + studentID.ID.avatar + "'><figcaption>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'><input type='checkbox' class='removeFormClass' value='" + studentID.ID._id + "' /></div></div>");
                     });
                 });
                 $(".studentListOut").fadeIn(500);
@@ -344,6 +345,29 @@ function sendData(id) {
         error: function(response) { alert('server error'); }
     });
 }
+//lọc tìm kiếm trong danh sách học sinh
+function filterStudent() {
+    var filter = $("#searchStudent").val().toUpperCase()
+    $(".studentListContent .tr:not(:first-child)").each(function() {
+        if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
+            $(this).show()
+        } else { $(this).hide() }
+        if (filter == "") $(this).show()
+    })
+}
+
+//lọc tìm kiếm trong danh sách học sinh
+function filterStudentAdd() {
+    var filter = $("#searchStudentAdd").val().toUpperCase()
+    $("#studentTableAdd .tr:not(:first-child)").each(function() {
+        if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
+            $(this).show()
+        } else { $(this).hide() }
+        if (filter == "") $(this).show()
+    })
+}
+
+
 
 //hiển thị danh sách lịch giảng dạy để admin chọn vào thay đổi lịch làm việc 1 ngày nào đó trong list
 function upDateSchedule(id) {
@@ -454,7 +478,8 @@ function addStudent(classID) {
         data: { condition },
         success: function(response) {
             if (response.msg == 'success') {
-                $('#studentTableAdd').html("<div class='tr'><div class='td'>avatar</div><div class='td'>username</div><div class='td'>email</div><div class='td'>routeName</div><div class='td'>stage</div><div class='td'>Chose</div></div>");
+                $("#studentTableAdd").html("<br>Search: <input id='searchStudentAdd' onkeyup='filterStudentAdd()' type='text'placeholder='Enter student name'>")
+                $('#studentTableAdd').append("<div class='tr'><div class='td'>Avatar</div><div class='td'>Email</div><div class='td'>Chose</div></div>");
                 $.each(response.data, function(index, student) {
                     var check = false
                     $.each(student.progess, function(index, progess) {
@@ -464,7 +489,7 @@ function addStudent(classID) {
                             });
                         }
                     });
-                    if (check == false) $("#studentTableAdd").append("<div class='tr'><div class='td'><img style ='max-width:100px;max-height:100px' src='" + student.avatar + "'></div><div class='td'>" + student.username + "</div><div class='td'>" + student.email + "</div><div class='td'>" + student.routeName + "</div><div class='td'>" + student.stage + "</div><div class='td'><input type='checkbox' name='hobby1' value='" + student._id + "' /></div></div>");
+                    if (check == false) $("#studentTableAdd").append("<div class='tr'><div class='td'><img style ='max-width:100px;max-height:100px' src='" + student.avatar + "'><figcaption>" + student.username + "</figcaption></div><div class='td'>" + student.email + "</div><div class='td'><input type='checkbox' name='hobby1' value='" + student._id + "' /></div></div>");
                 });
                 $("#studentTableAdd").append("<button onclick= doAddToClass('" + classID + "')>Add to Class</button>");
                 $('.studentTableAddOut').show();

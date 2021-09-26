@@ -9,7 +9,7 @@ var chatSchema = new mongoose.Schema({
         ownermessengerID: String,
         ownermessenger: String,
         messContent: String,
-        time: { type: Date, default: Date.now }
+        time: { type: String }
     }],
     updateTime: { type: Date, default: Date.now }
 }, { collection: 'chats' });

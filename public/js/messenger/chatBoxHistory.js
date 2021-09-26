@@ -106,8 +106,8 @@
                   $('#receiverName').val(receiverName)
                   $('.chatTitle').html("Conversation between " + senderName + " and " + receiverName)
                   $.each(response.data.message, function(index, message) {
-                      if (message.ownermessengerID === $('#senderID').val()) $('#messContent').append("<div class='sender' onclick=$(this).find('label').toggle();><p>" + message.messContent + "</p>" + "<img src='" + senderAva + "'><br><label style='display:none;'>" + message.time.toString() + "</label></div>")
-                      if (message.ownermessengerID === $('#receiverID').val()) $('#messContent').append("<div class='receiver' onclick=$(this).find('label').toggle();><img src='" + receiverAva + "'>" + "<p>" + message.messContent + "</p><br><label style='display:none;'>" + message.time.toString() + "</label></div>")
+                      if (message.ownermessengerID === $('#senderID').val()) $('#messContent').append("<div class='sender' onclick=$(this).find('label').toggle();><p>" + message.messContent + "</p>" + "<img src='" + senderAva + "'><br><label style='display:none;'>" + message.time.replace(" GMT+0700 (GMT+07:00)", "") + "</label></div>")
+                      if (message.ownermessengerID === $('#receiverID').val()) $('#messContent').append("<div class='receiver' onclick=$(this).find('label').toggle();><img src='" + receiverAva + "'>" + "<p>" + message.messContent + "</p><br><label style='display:none;'>" + message.time.replace(" GMT+0700 (GMT+07:00)", "") + "</label></div>")
                       if (message.ownermessengerID !== $('#senderID').val() && message.ownermessengerID !== $('#receiverID').val()) $('#messContent').append("<div style='width: 100%;padding: 0;margin: 0;text-align: center;'><p>" + message.ownermessenger + ": " + message.messContent + "</p></div>")
                   });
                   $('#messContent').scrollTop($('#messContent')[0].scrollHeight);
@@ -140,14 +140,20 @@
   // add message to our page
   function addMessageToHTML(message) {
       if (message._idRoom == $("#_idRoom").val()) {
-          // create a new div element
+          var now = new Date()
+          var timeSend = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes()
+              // create a new div element
           var div = document.createElement("div");
+          //thêm sự kiện cho thẻ div(show time)
+          div.addEventListener('click', function(event) {
+              $(this).find('label').toggle();
+          });
           if (message.senderID == $("#senderID").val()) {
               div.setAttribute("class", "sender");
-              div.innerHTML = "<p> " + message.mess + "</p> " + "<img src='" + $('#senderAva').attr('src') + "'>";
+              div.innerHTML = "<p> " + message.mess + "</p> " + "<img src='" + $('#senderAva').attr('src') + "'><br><label style='display:none;'>" + timeSend.replace(" GMT+0700 (GMT+07:00)", "") + "</label>";
           } else {
               div.setAttribute("class", "receiver");
-              div.innerHTML = "<img src='" + $('#receiverAva').attr('src') + "'>" + "<p> " + message.mess + " </p>";
+              div.innerHTML = "<img src='" + $('#receiverAva').attr('src') + "'>" + "<p> " + message.mess + " </p><br><label style='display:none;'>" + timeSend.replace(" GMT+0700 (GMT+07:00)", "") + "</label>";
           }
           // add to list of messages
           $("#messContent").append(div);
@@ -203,8 +209,6 @@
                   alert('Conversation created. It is moved to the top of chat history')
               }
           },
-          error: function(response) {
-              alert('server error');
-          }
+          error: function(response) { alert('server error'); }
       });
   }

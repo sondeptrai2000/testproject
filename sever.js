@@ -62,13 +62,15 @@ io.on("connection", function(socket) {
 
     socket.on("user-chat", async function(data) {
         try {
+            var now = new Date()
+            var timeSend = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes()
             await chatModel.findOneAndUpdate({ _id: data._idRoom }, {
                 $push: { message: { ownermessengerID: data.senderID, ownermessenger: data.senderName, messContent: data.mess, time: new Date } },
                 read: [data.senderID],
-                updateTime: new Date,
+                updateTime: timeSend
             })
             socket.Phong = data._idRoom
-            io.sockets.in(socket.Phong).emit("server-chat", data)
+            io.sockets.in(socket.Phong).emit("server-chat", data, timeSend)
         } catch (e) {
             console.log(e)
         }

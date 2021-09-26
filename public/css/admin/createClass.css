@@ -126,6 +126,16 @@
         height: 100px;
         width: 100px;
     }
+    
+    #searchStudent {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+    
+    #searchStudentAdd {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
     /* bảng học sinh ở trong tạo class */
     
     #studentTable {
@@ -251,8 +261,8 @@
         font-size: 18px;
         padding: 2%;
         height: 100%;
-        width: 70%;
-        margin-left: 10%;
+        width: 60%;
+        margin-left: 20%;
         background-color: whitesmoke;
         overflow: scroll;
     }

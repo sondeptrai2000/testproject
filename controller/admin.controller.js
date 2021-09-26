@@ -262,13 +262,25 @@ class adminController {
     //trang xem thông tin cụ thể thông tin quá trình học của học sinh 
     async studentClass(req, res) {
         try {
-            var data = await AccountModel.findOne({ _id: req.params.id }).populate({ path: 'classID', populate: { path: 'teacherID', select: 'username' } }).lean()
+            var data = await AccountModel.findOne({ _id: req.params.id }).lean()
             return res.render('admin/studentClassDetail', { data: [data] })
         } catch (e) {
             console.log(e)
             return res.json({ msg: 'error' });
         }
     };
+
+    //trang xem thông tin cụ thể thông tin quá trình học của học sinh 
+    async getClass(req, res) {
+        try {
+            var data = await AccountModel.findOne({ _id: req.query.studentId }).populate({ path: 'classID', populate: { path: 'teacherID', select: 'username' } }).lean()
+            return res.json({ msg: 'success', data });
+        } catch (e) {
+            console.log(e)
+            return res.json({ msg: 'error' });
+        }
+    };
+
 
     //tìm kiếm thông tin account và hiển thị ra form bên phải
     async search(req, res) {
