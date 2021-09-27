@@ -122,7 +122,7 @@ function getAccount() {
         success: function(response) {
             if (response.msg == 'success') {
                 $.each(response.data, function(index, data) {
-                    $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'><figcaption>" + data.username + "</figcaption></div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><button onclick=updateForm('" + data._id + "')>Update</button><button onclick=viewSchedual('" + data._id + "','" + data.role + "')>Schedual</button></div></div >");
+                    $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'><figcaption>" + data.username + "</figcaption></div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><i  class='far fa-edit' onclick=updateForm('" + data._id + "')></i><i class='fas fa-calendar-alt' onclick=viewSchedual('" + data._id + "','" + data.role + "')></i><i class='far fa-trash-alt' onclick=deleteAccount('" + data._id + "','" + data.role + "')></i></div></div >");
                 });
                 //hiển thị thông tin chi tiết trang form bên phải
                 search(response.data[0].email)

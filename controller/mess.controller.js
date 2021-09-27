@@ -33,11 +33,16 @@ class messtController {
             var check = findChat(person1ListChat, person2ListChat);
             //chưa thì sẽ tạo mới cuộc trò chuyện
             if (check.check == false) {
-                var createConnection = { person1: sender._id, person2: receiver._id, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat", } }
+                var now = Date().toString().split("GMT")[0]
+                var createConnection = { person1: sender._id, person2: receiver._id, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat", time: now } }
                 var data = await chatModel.create(createConnection)
                 await AccountModel.updateMany({ _id: { $in: [sender._id, receiver._id] } }, { $push: { chat: data._id } })
                 next();
-            } else { next(); }
+            } else {
+                var now = new Date()
+                await chatModel.updateOne({ _id: check._id }, { updateTime: now });
+                next();
+            }
         } catch (e) {
             console.log(e)
             return res.json({ msg: 'user not found' })
@@ -55,21 +60,17 @@ class messtController {
             var listID = sender.chat;
             //lấy role để tùy biến cho header
             var role = sender.role;
-            if (listID.length == 0) {
-                return res.render("message/emptyChat.ejs", { role, senderName: sender.username, senderAvatar: sender.avatar, senderID: sender._id })
-            } else {
-                // lấy tin nhắn cuối cùng trong mảng message để hiển thị trong lịch sử chat
-                var data1 = await chatModel.find({ _id: { $in: listID } }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
-                //xác định người gửi trong đoạn chat đầu tiên để hiển thị
-                if (sender._id.toString() == data1[0].person1._id.toString()) {
-                    var formData = { senderID: data1[0].person1._id, senderName: data1[0].person1.username, receiverID: data1[0].person2._id, receiverName: data1[0].person2.username }
-                } else { var formData = { senderID: data1[0].person2._id, senderName: data1[0].person2.username, receiverID: data1[0].person1._id, receiverName: data1[0].person1.username } }
-                return res.render("message/chatBoxHistory.ejs", { data1, formData, listID, role })
-            }
+            if (listID.length == 0) return res.render("message/emptyChat.ejs", { role, senderName: sender.username, senderAvatar: sender.avatar, senderID: sender._id });
+            // lấy tin nhắn cuối cùng trong mảng message để hiển thị trong lịch sử chat
+            var data1 = await chatModel.find({ _id: { $in: listID } }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
+            //xác định người gửi trong đoạn chat đầu tiên để hiển thị
+            if (sender._id.toString() == data1[0].person1._id.toString()) {
+                var formData = { senderID: data1[0].person1._id, senderName: data1[0].person1.username, receiverID: data1[0].person2._id, receiverName: data1[0].person2.username }
+            } else { var formData = { senderID: data1[0].person2._id, senderName: data1[0].person2.username, receiverID: data1[0].person1._id, receiverName: data1[0].person1.username } }
+            return res.render("message/chatBoxHistory.ejs", { data1, formData, listID, role })
         } catch (e) {   
             console.log(e) 
             return res.json('error')
-
         }
     };
 
@@ -122,7 +123,8 @@ class messtController {
                 var check = findChat(person1ListChat, person2ListChat)
                     //nếu chưa sẽ tạo cuộc trò chuyện mới
                 if (check.check == false) {
-                    var createConnection = { person1: sender._id, person2: receiver._id, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat" } }
+                    var now = Date().toString().split("GMT")[0]
+                    var createConnection = { person1: sender._id, person2: receiver._id, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat", time: now } }
                     var data = await chatModel.create(createConnection);
                     //thêm id cuộc trò chuyện vào lịch sử trò chuyển ở thông tin người dùng
                     await AccountModel.updateMany({ _id: { $in: [receiver._id, sender._id] } }, { $push: { chat: data._id } })

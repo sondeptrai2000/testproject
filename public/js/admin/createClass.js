@@ -382,7 +382,7 @@ function upDateSchedule(id) {
             if (response.msg == 'success') {
                 $("#attendedList").html("<div class='tr'><div class='td' style='width:20%'>Date</div><div class='td'style='width:20%'>Day of week</div><div class='td'style='width:20%' >Room</div><div class='td'style='width:30%'>Time</div><div class='td'style='width:10%'>Action</div></div>")
                 $.each(response.data[0].schedule, function(index, data) {
-                    $("#attendedList").append('<div class="tr" id="infor' + data._id + '"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td">' + data.room + '</div><div class="td">' + data.time + '</div><div class="td"><button  onclick=updateScheduleForm("' + data._id + '","' + idClass + '")>Update</button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>    ')
+                    $("#attendedList").append('<div class="tr" id="infor' + data._id + '"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td">' + data.room + '</div><div class="td">' + data.time + '</div><div class="td"><i class="far fa-edit" onclick=updateScheduleForm("' + data._id + '","' + idClass + '")></i><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
                 });
                 $(".attendedListOut").fadeIn(500)
             }

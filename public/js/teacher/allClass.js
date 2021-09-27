@@ -108,16 +108,16 @@ function sendData(id) {
         data: { abc: _id },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".studentListContent").html('<div class="tr"><div class="td">avatar</div><div class="td">username</div><div class="td">Aim</div><div class="td">email</div><div class="td">grade</div><div class="td">feedBackContent</div><div class="td">Chat</div><div class="td">Grade</div></div>')
+                $(".studentListContent").html('<div class="tr"><div class="td">Student</div><div class="td">Aim</div><div class="td">Email</div><div class="td">Grade</div><div class="td">Comment</div><div class="td">Action</div></div>')
                 $.each(response.data, function(index, data) {
                     if (data.studentID.length == 0) {
                         alert('No student in class')
                     } else {
                         $.each(data.studentID, function(index, studentID) {
                             if (studentID.grade === "Has not been commented yet") {
-                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'></div><div class='td'>" + studentID.ID.username + "</div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =studentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.ID.email + "')> Grade </button>" + "</div><div class='td'><form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
+                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =studentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.ID.email + "')> Grade </button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
                             } else {
-                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'></div><div class='td'>" + studentID.ID.username + "</div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =updateStudentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.grade + "')> Edit grade</button>" + "</div><div class='td'><form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
+                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =updateStudentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.grade + "')> Edit grade</button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
                             }
                         });
                     }
@@ -170,9 +170,7 @@ function takeFeedBack() {
                 alert("take feedback success")
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
 }
 //tiến hành cập nhật thôn tin Grade
@@ -195,11 +193,8 @@ function updateFeekBack() {
                 alert("update feedback success")
             }
         },
-        error: function(response) {
-            alert('server error');
-        }
+        error: function(response) { alert('server error'); }
     });
-
 }
 
 
@@ -229,11 +224,8 @@ function attendedList(id) {
                         if (!day.includes(data.day)) day.push(data.day)
                         if (!time.includes(data.time)) time.push(data.time)
                     }
-                    if (data.status == 'success') {
-                        $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"><i style="color:green;" class="far fa-check-circle"></i></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
-                    } else {
-                        $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
-                    }
+                    if (data.status == 'success') $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"><i style="color:green;" class="far fa-check-circle"></i></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
+                    if (data.status != 'success') $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
                 });
                 $(".attendedListOut").fadeIn(500)
             }
@@ -265,7 +257,7 @@ function takeAttend(idattend, idClass) {
                         $("#scheduleTime").val(data.time)
                         $("#scheduleRoom").val(data.room)
                         $("#scheduleDay").val(data.day)
-                        $("#takeAttendContent").append('<div class="tr"><div class="td"><input class ="attendStudentID" type="hidden" value="' + attend.studentID._id + '"><img src="' + attend.studentID.avatar + '"><figcaption>' + attend.studentID.username + '</figcaption></div><div class="td"><select class ="attendStudentStatus" id="' + attend.studentID._id + '"><option value="attended">attended </option><option value="absent">absent</option><option value="None">none</option></select></div></div>')
+                        $("#takeAttendContent").append('<div class="tr"><div class="td"><input class ="attendStudentID" type="hidden" value="' + attend.studentID._id + '"><img src="' + attend.studentID.avatar + '"><figcaption>' + attend.studentID.username + '</figcaption></div><div class="td"><input type="text" class="attendCommentStudent" value="' + attend.comment + '"></div><div class="td"><select class ="attendStudentStatus" id="' + attend.studentID._id + '"><option value="attended">attended </option><option value="absent">absent</option><option value="None">none</option></select></div></div>')
                         $('#' + attend.studentID._id + ' option:selected').removeAttr('selected');
                         $('#' + attend.studentID._id + ' option[value="' + attend.attended + '"]').attr('selected', 'selected');
                     });
@@ -290,15 +282,17 @@ function submitTakeAttend() {
     var spaceMonth = diff.getUTCMonth();
     var spaceYear = diff.getUTCFullYear() - 1970;
     //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
-    if (spaceDay > 4 || spaceDay < 0) return console.log("Out of date to take attend of this date! Only 4 day after this date.");
+    if (spaceDay > 4 || spaceDay < 0) return alert("Out of date to take attend of this date! Only 4 day after this date.");
     //nếu trong vòng 4 ngày sẽ được điểm danh
     if ((spaceDay <= 4 && spaceDay >= 0) && spaceMonth == 0 && spaceYear == 0) {
         var studentID = [];
-        $(".attendStudentID").each(function() { studentID.push($(this).val()) })
+        var comment = [];
         var attended = [];
+        $(".attendStudentID").each(function() { studentID.push($(this).val()) })
+        $(".attendCommentStudent").each(function() { comment.push($(this).val()) })
         $(".attendStudentStatus").each(function() { attended.push($(this).val()) })
         var attend = [];
-        for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i] }) }
+        for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i], "comment": comment[i] }) }
         //Note: room,day,time là số buổi học và giờ học được gán từ lúc lấy danh sách lịch học
         var formData = {
             attend: attend,
@@ -318,7 +312,12 @@ function submitTakeAttend() {
             method: 'post',
             dataType: 'json',
             data: formData,
-            success: function(response) { if (response.msg == 'success') alert('success'); },
+            success: function(response) {
+                if (response.msg == 'success') {
+                    attendedList($("#loladate3").val())
+                    alert('success');
+                }
+            },
             error: function(response) { alert('server error'); }
         });
     }

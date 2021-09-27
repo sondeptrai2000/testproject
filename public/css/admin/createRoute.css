@@ -34,6 +34,11 @@
     font-size: 18px;
 }
 
+.tableRoute i {
+    font-size: 35px;
+    margin: 3px;
+}
+
 .tableRoute button {
     font-size: 18px;
     width: 40%;

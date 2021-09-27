@@ -164,6 +164,12 @@ select {
     width: 100px;
 }
 
+.studentListContent button {
+    height: auto;
+    width: 50%;
+    margin: 5px;
+}
+
 
 /* chỉnh takeAttendContent form điểm danh modal cấp 2 */
 

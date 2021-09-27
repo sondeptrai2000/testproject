@@ -52,7 +52,7 @@ function getAllRoute() {
                 $("#number").html("Total: " + data.length)
                 $(".tableRoute").html(" <div class='tr'><div class='td'>Route name</div><div class='td'>Description</div><div class='td'>Action</div></div>")
                 data.forEach(function(data) {
-                    var add = "<div class='tr' id='" + data._id + "' onclick=viewSchedule('" + data._id + "')><div class='td'>" + data.routeName + "</div><div class='td'>" + data.description + "</div><div class='td'><button onclick=updateRoute('" + data._id + "')>Update</button><button onclick=deleteRoute('" + data._id + "')>Remove</button></div></div>"
+                    var add = "<div class='tr' id='" + data._id + "' onclick=viewSchedule('" + data._id + "')><div class='td'>" + data.routeName + "</div><div class='td'>" + data.description + "</div><div class='td'><i class='far fa-edit' onclick=updateRoute('" + data._id + "')></i><i class='far fa-trash-alt' onclick=deleteRoute('" + data._id + "')></i></div></div>"
                     $(".tableRoute").append(add)
                 })
                 viewSchedule(data[0]._id)

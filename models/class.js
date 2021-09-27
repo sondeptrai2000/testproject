@@ -25,7 +25,8 @@ const classSchema = new Schema({
         status: String,
         attend: [{
             studentID: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
-            attended: { type: String, }
+            comment: { type: String, default: "" },
+            attended: { type: String }
         }]
     }],
     uploadDate: String,
