@@ -148,7 +148,7 @@ $("#doUpdateRoute").submit(async function(event) {
     $("input[name='stageTestUpdate']").each(function(index, e) {
         var routeabcd = []
         $(this).parent().find('input[name="classInUpdate"]').each(function(index, e) { routeabcd.push($(e).val()) })
-        schedule.push({ stage: $(this).val(), price: stageMoney[index], routeabcd: routeabcd })
+        schedule.push({ stage: $(this).val(), routeabcd: routeabcd })
     })
     var formData = {
         id: $("#routeIDUpdate").val(),
