@@ -6,6 +6,7 @@ adminRouter.get('/', adminController.createAccount)
 //Manage account page
 adminRouter.get('/createAccount', adminController.createAccount);
 
+adminRouter.post('/deleteAccount', adminController.deleteAccount);
 adminRouter.get('/getSchedule', adminController.getSchedule)
 adminRouter.get('/getAccount', adminController.getAccount);
 adminRouter.get('/countAccount', adminController.countAccount);

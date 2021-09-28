@@ -61,6 +61,20 @@ class adminController {
         // })
         // console.log("ok")
     }
+    async deleteAccount(req, res) {
+        try {
+            var Account = await AccountModel.findOne({ _id: req.body.id }, { relationship: 1 }).lean();
+            if (req.body.role == "teacher" && Account) await AccountModel.deleteOne({ _id: req.body.id });
+            if (req.body.role == "student" && Account) {
+                await AccountModel.deleteOne({ _id: Account.relationship });
+                await AccountModel.deleteOne({ _id: req.body.id });
+            }
+            return res.json({ msg: 'success' });
+        } catch (e) {
+            console.log(e)
+            return res.json({ msg: 'error' });
+        }
+    }
 
     async assignRoomAndTime(req, res) {
         try {
@@ -483,9 +497,7 @@ class adminController {
             //xóa classID vào bảng thông tin của các học sinh
             await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl } }, { $pull: { classID: req.body.classID } });
             //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
-            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stageClass.classID": req.body.classID }, {
-                $pull: { "progess.$.stageClass": { classID: req.body.classID } }
-            });
+            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stageClass.classID": req.body.classID }, { $pull: { "progess.$.stageClass": { classID: req.body.classID } } });
             //xóa học sinh vào danh sách học sinh trong bảng thông tin lớp
             await ClassModel.findOneAndUpdate({ _id: req.body.classID }, { $pull: { studentID: { ID: { $in: req.body.studentlistcl } } } });
             //xóa trong danh sáhc điểm danh
@@ -612,7 +624,7 @@ class adminController {
                 //thêm classID vào lộ trình của thông tin học sinh
                 await AccountModel.updateMany({ _id: { $in: studentID }, "progess.stage": req.body.stage }, { $push: { "progess.$.stageClass": { classID: data._id, name: req.body.subject, status: "studying" } } });
                 //cập nhật thông tin về danh sáhc học sinh, lịch học vòa lớp
-                await ClassModel.findOneAndUpdate({ _id: data._id }, { $push: { studentID: { $each: listStudent }, StudentIDoutdoor: { $each: listStudent }, schedule: { $each: req.body.schedual } } });
+                await ClassModel.findOneAndUpdate({ _id: data._id }, { $push: { studentID: { $each: listStudent }, schedule: { $each: req.body.schedual } } });
             }
             //cập nhật trạng thái cho phòng thành none (đã có lớp dạy)
             for (var i = 0; i < req.body.time.length; i++) {
@@ -629,7 +641,6 @@ class adminController {
     //tìm kiếm 1 lớp học
     async searchClass(req, res) {
         try {
-            console.log(req.query.className)
             var classInfor = await ClassModel.find({ className: req.query.className }).lean();
             if (!classInfor) return res.json({ msg: 'notFound' });
             if (classInfor) return res.json({ msg: 'success', classInfor });

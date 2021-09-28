@@ -133,6 +133,24 @@ function getAccount() {
         }
     });
 }
+
+function deleteAccount(id, role) {
+    if (confirm("Are you sure you want to delete this?")) {
+        $.ajax({
+            url: '/admin/deleteAccount',
+            method: 'post',
+            dataType: 'json',
+            data: { id: id, role: role },
+            success: function(response) {
+                if (response.msg == 'success') countAccount();
+            },
+            error: function(response) {
+                alert('server error');
+            }
+        });
+    }
+}
+
 //lấy các ngày trong khoảng thời gian học
 var getDaysArray = function(start, end) {
     for (var arr = [], dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
