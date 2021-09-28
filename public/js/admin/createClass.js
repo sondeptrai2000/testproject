@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    countClass()
     createClassForm();
+    countClass()
     unReadMess();
 });
 
@@ -54,11 +54,12 @@ function countClass() {
 
 //lấy danh sách lớp
 function getAllClass() {
+    console.log($("#typeRoute").val())
     $.ajax({
         url: '/admin/getAllClass',
         method: 'get',
         dataType: 'json',
-        data: { status: $("#typeClass").val(), page: $("#soTrang select").val() },
+        data: { route: $("#typeRoute").val(), status: $("#typeClass").val(), page: $("#soTrang select").val() },
         success: function(response) {
             if (response.msg == 'success') {
                 $(".tableClass").html("<div class='tr'><div class='td'>Class name</div><div class='td'>Teacher</div><div class='td'>Route Name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Action</div></div>")
@@ -150,7 +151,7 @@ function unReadMess() {
     })
 }
 
-//lấy thông tin của giáo viên và các khóa học đẻe chọn giaos viên và lộ trình của lớp
+//lấy thông tin của giáo viên và các khóa học đẻe chọn giaos viên và lộ trình của lớp và cho vào typeRoute ở thanh option
 function createClassForm() {
     $.ajax({
         url: '/admin/getTeacherAndClass',
@@ -158,9 +159,7 @@ function createClassForm() {
         dataType: 'json',
         success: function(response) {
             if (response.msg == 'success') {
-                $("#routeTypeS").html("")
                 $("#span2").html("")
-                $.each(response.targetxxx, function(index, data) { $("#routeTypeS").append('<option value="' + data.routeName + '">' + data.routeName + '</option>') });
                 $.each(response.teacher, function(index, data) { $("#span2").append('<img src="' + data.avatar + '" onclick="selectedTeacher("' + data.email + '","' + data._id + '")"><figcaption>' + data.email + '</figcaption><input type="hidden" value="' + data._id + '"><input type="hidden" class ="avatar' + data._id + '" value="' + data.avatar + '">') });
                 $("#teacherID img").attr("src", response.teacher[0].avatar)
                 $("#teacherID figcaption").text(response.teacher[0].email)

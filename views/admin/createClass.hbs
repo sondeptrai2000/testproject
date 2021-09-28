@@ -83,7 +83,11 @@
             <form id='myform'>
                 <div>
                     <p>Chose route name</p>
-                    <select id="routeTypeS" class="routeName" onchange="routeType()"></select>
+                    <select id="routeTypeS" class="routeName" onchange="routeType()">
+                        {{#each targetxxx}}
+                        <option value="{{routeName}}">{{routeName}}</option>
+                        {{/each}}
+                    </select>
                     Level: <select id="levelS" class="stage" onchange="level()"></select>
                     Subject: <select id="subject" class="subject"></select>
                     Class name: <input type="text" class="className" required />
@@ -122,6 +126,15 @@
         <div class="tr" id="option">
             <div class='td'>
                 <button onclick="$('.createClassOut').toggle(500)">Create class</button>
+            </div>
+            <div class='td'>
+                Route:
+                <select id="typeRoute" onchange="countClass()">
+                    {{#each targetxxx}}
+                    <option value="{{routeName}}">{{routeName}}</option>
+                    {{/each}}
+
+                </select>
             </div>
             <div class='td'>
                 Filter by Status:

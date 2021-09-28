@@ -231,7 +231,7 @@ class adminController {
         try {
             var classPerPage = 10
             var skip = classPerPage * parseInt(req.query.page)
-            var classInfor = await ClassModel.find({ classStatus: req.query.status }, { schedule: 0, studentID: 0, classStatus: 0 }).populate({ path: "teacherID", select: "username email phone" }).skip(skip).limit(classPerPage).lean();
+            var classInfor = await ClassModel.find({ routeName: req.query.route, classStatus: req.query.status }, { schedule: 0, studentID: 0, classStatus: 0 }).populate({ path: "teacherID", select: "username email phone" }).skip(skip).limit(classPerPage).lean();
             return res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)
@@ -582,7 +582,8 @@ class adminController {
 
     async createClass(req, res) {
         try {
-            return res.render('admin/createClass')
+            var targetxxx = await studyRouteModel.find({}, { routeName: 1 }).lean()
+            return res.render('admin/createClass', { targetxxx })
         } catch (e) {
             console.log(e)
             return res.json({ msg: 'error' });
@@ -592,9 +593,8 @@ class adminController {
     //mở form tạo class và lấy thông tin của giáo viên và các khóa học đẻe chọn giaos viên và lộ trình của lớp
     async getTeacherAndClass(req, res) {
         try {
-            var targetxxx = await studyRouteModel.find({}, { routeName: 1 }).lean()
             var teacher = await AccountModel.find({ role: 'teacher' }, { avatar: 1, email: 1 }).lean()
-            return res.json({ msg: 'success', teacher, targetxxx });
+            return res.json({ msg: 'success', teacher });
         } catch (e) {
             console.log(e)
             return res.json({ msg: 'error' });
