@@ -26,31 +26,17 @@
       </div>
     </div>
   </div>
-  <div class='body'>
-    <div class='leftSide'>
-      <p style="margin-bottom: 60px;font-family:Florence, cursive;font-size:35px;">Sown English</p>
+    <div class='loginForm'>
+      <p style="margin-bottom: 30px;font-family:Florence, cursive;font-size:35px;">Sown English</p>
       <p>Log in to your account</p>
       <hr style="  box-shadow: 0 10px 10px -10px #8c8c8c inset;">
       <p> Username</p>
       <input type="text" id="username" placeholder="Username">
       <p>Password</p>
       <input type="password" id="password" placeholder="Password">
-      <button onclick="logIn()">Log In</button>
       <a onclick="$('#forGotPassOut').fadeIn(1000);">Forgot password</a>
-    </div>
 
-
-    <div class='rightSide'>
-      <div class='rightSideContent'>
-        <h1>Welcome to Sown English Center</h1>
-        <p>The most beautiful thing about learning is that no one take that away form you.</p>
-        <p>Study not what the world is doing, but what you can do for it.</p>
-        <p>Learning is the eye of the mind.</p>
-        <a onclick="$('#consulting').fadeIn(1000);" style="cursor:pointer"><u>Khám Phá ngay</u></a>
-        <p>Contact us: 0123456789</p>
-
-      </div>
-    </div>
+      <button onclick="logIn()" style="margin:0">Log In</button>
   </div>
 </body>
 
@@ -73,17 +59,10 @@
       method: 'get',
       data: { email: $("#emailForgot").val() },
       success: function (response) {
-        if (response.msg == 'success') {
-          alert("code Sent")
-        }
-
-        if (response.msg == 'email not found') {
-          alert('email not found');
-        }
+        if (response.msg == 'success') alert("code Sent")
+        if (response.msg == 'email not found') alert('email not found');
       },
-      error: function (response) {
-        alert('server error');
-      }
+      error: function (response) { alert('server error'); }
     })
   }
 
@@ -91,46 +70,30 @@
     if ($("#newPassForgot").val() != $("#confirmPassForgot").val()) {
       alert('new password and confirm password is not matched!');
     } else {
-      var formData = {
-        email: $("#emailForgot").val(),
-        newPass: $("#newPassForgot").val(),
-        codeForgot: $("#codeForgot").val(),
-      }
+      var formData = { email: $("#emailForgot").val(), newPass: $("#newPassForgot").val(), codeForgot: $("#codeForgot").val(), }
       $.ajax({
         url: '/account/confirmPass',
         method: 'post',
         data: formData,
         success: function (response) {
-          if (response.msg == 'success')   alert("success")
+          if (response.msg == 'success') alert("success")
           if (response.msg == 'invalidCode') alert('Invalid Code! Try again.');
         },
-        error: function (response) {
-          alert('server error');
-        }
+        error: function (response) { alert('server error'); }
       })
     }
   }
 
   function logIn() {
-    console.log("vào")
-    var formData = {
-      username: $("#username").val(),
-      password: $("#password").val()
-    }
+    var formData = { username: $("#username").val(), password: $("#password").val() }
     $.ajax({
       url: '/account/dologin',
       method: 'post',
       data: formData,
       success: function (response) {
-        if (response.msg == 'success') {
-          window.location.href = '/account/' + response.data;
-        }
-        if (response.msg == 'invalid_Info') {
-          alert('Username or password is invalid');
-        }
-        if (response.msg == 'error') {
-          alert(' error');
-        }
+        if (response.msg == 'success') window.location.href = '/account/' + response.data;
+        if (response.msg == 'invalid_Info') alert('Username or password is invalid');
+        if (response.msg == 'error') alert(' error');
       },
       error: function (response) {
         alert('server error');
@@ -153,16 +116,11 @@
       dataType: 'json',
       data: formData,
       success: function (response) {
-        if (response.msg == 'success') {
-          alert(' success');
-        }
-        if (response.msg == 'error') {
-          alert(' error');
-        }
+        if (response.msg == 'success') alert(' success');
+        if (response.msg == 'error') alert(' error');
+
       },
-      error: function (response) {
-        alert('server error');
-      }
+      error: function (response) { alert('server error'); }
     })
   }
 </script>

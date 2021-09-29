@@ -4,76 +4,58 @@
 
 html,
 body {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-.body {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
     height: 100%;
     width: 100%;
-    display: flex;
+    background-image: url("/img/index10.jpg");
+    background-size: contain;
+    background-size: cover;
+    background-size: 100%;
+    overflow: hidden;
 }
 
-.leftSide {
-    padding: 2%;
-    margin: 0;
-    height: 100%;
+.loginForm {
+    z-index: 2;
+    padding: 20px;
+    background-color: white;
     width: 30%;
-    background-color: whitesmoke;
+    height: 57%;
     font-size: 25px;
-    text-align: center;
+    vertical-align: middle;
+    margin-left: 35%;
+    margin-top: 10%;
+    border-radius: 5px;
 }
 
-.leftSide p {
-    text-align: left;
-    padding: 0;
-    margin: 10px 0;
+.loginForm a {
+    font-size: 18px;
+    margin-bottom: 10px;
+    float: right;
 }
 
-.leftSide input {
-    margin: 10px 0;
+.loginForm input {
     width: 100%;
+    margin-bottom: 10px;
     font-size: 20px;
     border-radius: 5px;
-    height: 6%;
 }
 
-.leftSide button {
-    margin: 10px 0;
+.loginForm p {
     width: 100%;
-    font-size: 20px;
-    background-color: chartreuse;
-    height: 7%;
-    border-radius: 10px;
-}
-
-.leftSide a {
-    text-align: center;
-    margin: 10px 0;
-    width: 100%;
-    font-size: 20px;
-}
-
-.rightSide {
-    padding: 0;
     margin: 0;
-    width: 70%;
-    background-image: url("/img/index5.jpg");
-    background-repeat: repeat-y;
-    background-size: 100%;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
 
-.rightSideContent {
-    height: 50%;
+.loginForm button {
     width: 100%;
-    padding: 30px;
-    margin-top: 5%;
-    color: palegoldenrod;
+    margin-bottom: 10px;
     font-size: 20px;
+    border-radius: 5px;
+    background-color: gray;
+    padding: 5px;
 }
 
 #forGotPassOut {
