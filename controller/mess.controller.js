@@ -99,7 +99,6 @@ class messtController {
             //lấy trạng thái read của cuọc hồi thoại
             var Account = await AccountModel.findOne({ _id: decodeAccount }, { chat: 1, username: 1 }).lean();
             var username = Account.username;
-            console.log(username)
             var unReadMess = await chatModel.find({ _id: { $in: Account.chat }, read: { $nin: decodeAccount._id } }).lean().countDocuments()
             return res.json({ msg: 'success', unReadMess, username });
         } catch (e) {

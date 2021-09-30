@@ -152,7 +152,7 @@ function sendData(id) {
                         $(".studentList").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'></div><div class='td'>" + studentID.ID.username + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'><form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><input type='hidden' name='studentName' value='" + studentID.ID.username + "'><button>Chat</button></form></div></div>");
                     });
                 });
-                $(".studentListOut").fadeIn(2000);
+                $(".studentListOut").fadeIn(500);
             }
         },
         error: function(response) { alert('server error'); }

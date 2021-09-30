@@ -431,7 +431,7 @@ function updateForm(id) {
                         }
                     });
                 }
-                $(".updateFormOut").fadeIn(2000);
+                $(".updateFormOut").fadeIn(500);
             }
         },
         error: function(response) {

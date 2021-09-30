@@ -84,7 +84,6 @@ function addClass(test, type) {
 
 //xem các lịch trình giảng dạy của 1 lộ trình học
 function viewSchedule(id) {
-    $(".viewRouteOut").fadeIn(500)
     var _id = id
     $.ajax({
         url: '/admin/viewSchedule',
@@ -106,6 +105,7 @@ function viewSchedule(id) {
                         $(".viewRoute").append("<li>" + e + "</li>")
                     })
                 })
+                $(".viewRouteOut").fadeIn(500)
             }
         },
         error: function(response) { alert('server error'); }
@@ -170,7 +170,6 @@ $("#doUpdateRoute").submit(async function(event) {
 
 async function updateRoute(id) {
     $("#routeIDUpdate").val(id)
-    $(".updateRouteOut").fadeIn(500)
     var _id = id
     $.ajax({
         url: '/admin/viewSchedule',
@@ -189,6 +188,7 @@ async function updateRoute(id) {
                         $("#updateStage" + indexBIG).append("<div class='route'>Route: <input type='text' name='classInUpdate' value='" + e + "'><button onclick=$(this).parent().remove();><i class='fas fa-trash-alt'></i></button></div>")
                     })
                 })
+                $(".updateRouteOut").fadeIn(500)
             }
         },
         error: function(response) { alert('server error'); }

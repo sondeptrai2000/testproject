@@ -165,6 +165,8 @@ class adminController {
     //lấy các lich học của các lớp mà giao viên đang giảng dạy để tìm thời gian trống. Có thể dạy các lớp khác
     async getTime(req, res) {
         try {
+            console.log(req.query.teacherID)
+            console.log(req.query.dayOfWeek)
             var data = await ClassModel.find({ teacherID: req.query.teacherID, classStatus: "Processing" }, { schedule: { $elemMatch: { day: '0' + req.query.dayOfWeek } } }, { schedule: 1 })
             return res.json({ msg: 'success', data });
         } catch (e) {

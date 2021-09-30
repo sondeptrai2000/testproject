@@ -14,21 +14,21 @@ $('header li').hover(function() {
 // thoát khỏi modal box
 $(window).on('click', function(e) {
     if ($(e.target).is('.updateClassOut')) {
-        $('.actionOut').fadeIn(1000);
-        $('.updateClassOut').fadeOut(1000);
+        $('.actionOut').fadeIn(500);
+        $('.updateClassOut').fadeOut(500);
     }
     if ($(e.target).is('.studentListOut')) {
-        $('.actionOut').fadeIn(1000);
-        $('.studentListOut').fadeOut(1000);
+        $('.actionOut').fadeIn(500);
+        $('.studentListOut').fadeOut(500);
     }
-    if ($(e.target).is('.studentTableAddOut')) $('.studentTableAddOut').fadeOut(1000);
+    if ($(e.target).is('.studentTableAddOut')) $('.studentTableAddOut').fadeOut(500);
     if ($(e.target).is('.attendedListOut')) {
-        $('.actionOut').fadeIn(1000)
-        $('.attendedListOut').fadeOut(1000);
+        $('.actionOut').fadeIn(500)
+        $('.attendedListOut').fadeOut(500);
     };
-    if ($(e.target).is('.actionOut')) $('.actionOut').fadeOut(1000);
-    if ($(e.target).is('.updateScheduleFormOut')) $('.updateScheduleFormOut').fadeOut(1000);
-    if ($(e.target).is('.createClassOut')) $('.createClassOut').fadeOut(1000);
+    if ($(e.target).is('.actionOut')) $('.actionOut').fadeOut(500);
+    if ($(e.target).is('.updateScheduleFormOut')) $('.updateScheduleFormOut').fadeOut(500);
+    if ($(e.target).is('.createClassOut')) $('.createClassOut').fadeOut(500);
 });
 
 //đếm số lớp để hiển thị theo danh sachs trang
@@ -585,7 +585,11 @@ function tuan() {
 
 //lấy các ca làm của giáo viên trong ngày đã chọn (tránh trường hợp 1 giáo viên dạy chung 1 ca làm và ở 2 phòng khác nhau )
 function getTime(i) {
-    $('#cahoc' + i).html('<option value="7:30 to 9:30">7:30 to 9:30</option><option value="9:45 to 11:45">9:45 to 11:45</option><option value="13:30 to 15:30">13:30 to 15:30</option><option value="15:45 to 17:45">15:45 to 17:45</option><option value="18:15 to 20:15">18:15 to 20:15</option>')
+    var availbleTime
+    $("#availbleTime input").each(function() { if ($(this).is(':checked')) availbleTime = $(this).val() })
+    if (availbleTime == "Morning") $('#cahoc' + i).html('<option value="7:30 to 9:30">7:30 to 9:30</option><option value="9:45 to 11:45">9:45 to 11:45</option>')
+    if (availbleTime == "Afternoon") $('#cahoc' + i).html('<option value="13:30 to 15:30">13:30 to 15:30</option><option value="15:45 to 17:45">15:45 to 17:45</option>')
+    if (availbleTime == "Night") $('#cahoc' + i).html('<option value="18:15 to 20:15">18:15 to 20:15</option>')
     $.ajax({
         url: '/admin/getTime',
         method: 'get',
@@ -596,6 +600,7 @@ function getTime(i) {
         },
         success: function(response) {
             if (response.msg == 'success') {
+                console.log(response.data)
                 $.each(response.data, function(index, data) {
                     $.each(data.schedule, function(index, schedule) {
                         $('#cahoc' + i + ' option[value="' + schedule.time + '"]').remove()
