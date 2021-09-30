@@ -160,7 +160,7 @@ function createClassForm() {
         success: function(response) {
             if (response.msg == 'success') {
                 $("#span2").html("")
-                $.each(response.teacher, function(index, data) { $("#span2").append('<img src="' + data.avatar + '" onclick="selectedTeacher("' + data.email + '","' + data._id + '")"><figcaption>' + data.email + '</figcaption><input type="hidden" value="' + data._id + '"><input type="hidden" class ="avatar' + data._id + '" value="' + data.avatar + '">') });
+                $.each(response.teacher, function(index, data) { $("#span2").append('<img src="' + data.avatar + '" onclick=selectedTeacher("' + data.email + '","' + data._id + '")><figcaption>' + data.email + '</figcaption><input type="hidden" value="' + data._id + '"><input type="hidden" class ="avatar' + data._id + '" value="' + data.avatar + '">') });
                 $("#teacherID img").attr("src", response.teacher[0].avatar)
                 $("#teacherID figcaption").text(response.teacher[0].email)
                 $("#teacherID input").val(response.teacher[0]._id)
@@ -314,6 +314,7 @@ $('.checkTtime').on('change', function() {
 
 //chọn giáo viên ở bảng chọn r hiển thị lại ở mục giáo viên chỉ định (tạo lớp form)
 function selectedTeacher(email, id) {
+    console.log("vào")
     $("#teacherID").html('<img src="' + $(".avatar" + id).val() + '" style="height: 200px;width: 200px;" onclick=$("#span2").toggle(500)><figcaption>' + email + '</figcaption><input type="hidden" value="' + id + '">')
     $("#span2").fadeOut(500)
 }
