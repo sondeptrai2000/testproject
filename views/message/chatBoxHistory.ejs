@@ -22,7 +22,7 @@
                 <% data1.forEach(function(data1) { %>
                     <!-- có 2 TH: người gửi ở person1 or người gửi ở person2 trong bảng dữ liệu -->
                     <!-- xác định người gửi người nhận để cho tên tiều đề tin nhắn luôn là người nhận-->
-                    <%if (data1.person1._id !=  formData.senderID) { %>
+                    <%if (data1.person1._id.toString() !=  formData.senderID) { %>
                         <!-- check xem người gửi đã xem tin nhắn hay chưa -->
                         <%if (data1.read.toString().includes(formData.senderID) == true) { %>
                             <div class='<%=data1._id %>' onclick="chatBox('<%=data1.person1._id %>','<%=data1._id %>')">
@@ -40,7 +40,7 @@
                                         </div>
                                         <% } %>
                                             <!-- xác định người gửi người nhận để cho tên tiều đề tin nhắn luôn là người nhận-->
-                                            <%if (data1.person2._id != formData.senderID) { %>
+                                            <%if (data1.person2._id.toString() != formData.senderID) { %>
                                                 <!-- check xem người gửi đã xem tin nhắn hay chưa -->
                                                 <%if (data1.read.toString().includes(formData.senderID)) { %>
                                                     <div class='<%=data1._id %>' onclick="chatBox('<%=data1.person2._id %>','<%=data1._id %>')">

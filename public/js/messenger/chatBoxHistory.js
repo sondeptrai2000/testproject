@@ -79,6 +79,8 @@
 
   //lấy cuộc trò chuyện khi người dùng ấn vào 1 cuộc trò chuyện khác ở thanh lịch sử chat
   function chatBox(receiverID, _idRoom) {
+      $(".history div").css({ borderLeft: 'solid' });
+      $("." + _idRoom).css({ borderLeft: '6px solid blue' });
       $.ajax({
           url: '/messenger/getMessenger',
           method: 'get',
