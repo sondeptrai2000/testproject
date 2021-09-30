@@ -219,7 +219,7 @@ class adminController {
     async countClass(req, res) {
         try {
             var classPerPage = 10
-            var numberOfClass = await ClassModel.find({ classStatus: req.query.status }, { _id: 1 }).lean().countDocuments()
+            var numberOfClass = await ClassModel.find({ routeName: req.query.route, classStatus: req.query.status }, { _id: 1 }).lean().countDocuments()
             var soTrang = numberOfClass / classPerPage + 1
             return res.json({ msg: 'success', soTrang, numberOfClass });
         } catch (e) {    

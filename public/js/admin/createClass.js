@@ -37,7 +37,7 @@ function countClass() {
         url: '/admin/countClass',
         method: 'get',
         dataType: 'json',
-        data: { status: $("#typeClass").val() },
+        data: { route: $("#typeRoute").val(), status: $("#typeClass").val() },
         success: function(response) {
             if (response.msg == 'success') {
                 $("#soTrang").html("Page:<select onchange=getAllClass()></select>");
