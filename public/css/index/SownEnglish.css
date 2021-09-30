@@ -72,39 +72,25 @@ body {
 }
 
 #forGotPassContent {
+    background-color: white;
     padding: 15px;
-    border: lightblue 4px solid;
-    box-shadow: 10px 10px 10px 10px lightblue;
     width: 30%;
     height: auto;
     margin-left: 35%;
-    border-radius: 30px;
-}
-
-#forGotPassContent p {
-    padding-left: 5%;
-    display: inline-block;
-    /* background: rgba(139, 69, 110, 0.8); */
-    font-family: "Fantasy";
-    color: black;
-    font-weight: bold;
-    font-size: 30px;
-    height: 40px;
-    margin: 0;
-    background-color: white;
-    opacity: 0.8;
+    border-radius: 10px;
+    border: solid black;
 }
 
 #forGotPassContent input {
     opacity: 0.8;
     width: 100%;
     height: 50px;
-    border-radius: 30px;
-    margin-bottom: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     font-family: "Fantasy";
     color: rgb(0, 0, 0);
     font-weight: bold;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 #forGotPassContent input::placeholder {
@@ -124,22 +110,7 @@ body {
 #forGotPassContent button {
     width: auto;
     height: 50px;
-    border-radius: 30px;
+    border-radius: 10px;
     font-size: 20px;
-}
-
-#forGotPassContent {
-    background: repeat url("https://img.pikbest.com/png-images/qiantu/cartoon-character-kid-studying-hard_2722904.png!c1024wm0/compress/true/progressive/true/format/webp/fw/1024");
-    background-size: 100%;
-    padding: 10px;
-}
-
-#forGotPassContent {
-    padding: 15px;
-    border: lightblue 4px solid;
-    box-shadow: 10px 10px 10px 10px lightblue;
-    width: 30%;
-    height: auto;
-    margin-left: 35%;
-    border-radius: 30px;
+    margin-bottom: 10px;
 }
