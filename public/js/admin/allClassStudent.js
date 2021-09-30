@@ -50,13 +50,13 @@ function myAttended(classID) {
             if (response.msg == 'success') {
                 var data = response.data
                 var studentIndex
-                $(".myAttendContent").html("<div class='tr'><div class='td'>Date</div><div class='td'>Time</div><div class='td'>Status</div></div>")
+                $(".myAttendContent").html("<div class='tr'><div class='td'>Date</div><div class='td'>Note</div><div class='td'>Status</div></div>")
                 data[0].schedule.forEach((e, indexBIG) => {
-                    $(".myAttendContent").append("<div class='tr'><div class='td'>" + e.date.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + e.time + "</div></div>")
+                    $(".myAttendContent").append("<div class='tr'><div class='td' style='text-align:left;'>" + e.date.replace("T00:00:00.000Z", "") + "<br>At:" + e.time + "</div></div>")
                     e.attend.forEach((e, index) => {
                         if (e.studentID._id == $("#studentID").val()) {
                             studentIndex = index
-                            $(".myAttendContent .tr:nth-child(" + (indexBIG + 2) + ")").append("<div class='td'>" + e.attended + "</div>")
+                            $(".myAttendContent .tr:nth-child(" + (indexBIG + 2) + ")").append("<div class='td'>" + e.comment + "</div><div class='td'>" + e.attended + "</div>")
                         }
                     })
                 })
