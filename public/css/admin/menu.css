@@ -9,6 +9,8 @@ header {
     padding: 0;
     margin: 0;
     border: solid;
+    background-color: rgb(68, 66, 66);
+    color: white;
 }
 
 header ul {
@@ -55,7 +57,7 @@ header a {
     padding: 0;
     line-height: 100%;
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 #welcome {

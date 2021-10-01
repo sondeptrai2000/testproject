@@ -2,47 +2,17 @@
     box-sizing: border-box;
 }
 
-.tableAccount .tr:nth-child(1) {
-    background-color: gray;
-    color: white;
-    font-size: 20px;
-}
-
-.rightSide {
+.rightSideContent {
     font-size: 20px;
     padding: 10px;
     text-align: left;
 }
 
-.rightSide img {
+.rightSideContent img {
     padding: 0;
     margin: 0;
     max-height: 250px;
     max-width: 250px;
-}
-
-#option input,
-#option select,
-#option button {
-    font-size: 18px;
-}
-
-#option .tr {
-    height: 40px;
-    border: none;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
-    width: max-content;
-}
-
-#option .td {
-    width: fit-content;
-    padding: 0;
-    margin: 0;
-    border: none;
-    font-size: 20px;
-    padding-right: 20px;
 }
 
 .tr {
@@ -60,13 +30,24 @@
 }
 
 .tableAccount {
-    box-sizing: border-box;
     padding: 0;
     margin: 0;
     margin-top: 10px;
     width: 100%;
-    height: 440px;
+    height: 420px;
     font-size: 18px;
+}
+
+
+/* chỉnh màu , phông cho header */
+
+.tableAccount .tr:nth-child(1),
+#headerProgress,
+#ngay,
+#thu {
+    background-color: gray;
+    color: white;
+    font-size: 20px;
 }
 
 .tableAccount i {
@@ -74,7 +55,23 @@
     margin: 3px;
 }
 
+.tableAccount i:nth-child(1) {
+    color: rgb(5, 74, 148);
+}
+
+.tableAccount i:nth-child(2) {
+    color: slateblue;
+}
+
+.tableAccount i:nth-child(3) {
+    color: crimson;
+}
+
 .tableAccount button {
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
     font-size: 18px;
     width: 100%;
 }
@@ -90,7 +87,7 @@
 .SchedualOut {
     width: 100%;
     height: 100%;
-    margin: -2%;
+    margin: 0;
     padding: 0;
     z-index: 10;
     position: fixed;
@@ -112,6 +109,15 @@
     width: 50%;
     margin: 50px 25%;
     padding: 10px;
+}
+
+
+/* chỉnh ẩn thanh cuộn */
+
+#createAccount,
+#updateForm,
+#Schedual,
+.tableAccount {
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
@@ -121,7 +127,8 @@
 
 #createAccount::-webkit-scrollbar,
 #Schedual::-webkit-scrollbar,
-#updateForm::-webkit-scrollbar {
+#updateForm::-webkit-scrollbar,
+.tableAccount::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }
@@ -144,6 +151,11 @@
 }
 
 .button {
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
     font-size: 18px;
     width: auto !important;
 }

@@ -123,34 +123,36 @@
     </div>
     <header> {{> adminHeader }}</header>
     <div class="body">
-        <div class="tr" id="option">
-            <div class='td'>
-                <button onclick="$('.createClassOut').toggle(500)">Create class</button>
-            </div>
-            <div class='td'>
-                Route:
-                <select id="typeRoute" onchange="countClass()">
-                    {{#each targetxxx}}
-                    <option value="{{routeName}}">{{routeName}}</option>
-                    {{/each}}
+        <div class='bodyContent'>
+            <div class="tr" id="option">
+                <div class='td'>
+                    <button onclick="$('.createClassOut').toggle(500)">Create class</button>
+                </div>
+                <div class='td'>
+                    Route:
+                    <select id="typeRoute" onchange="countClass()">
+                        {{#each targetxxx}}
+                        <option value="{{routeName}}">{{routeName}}</option>
+                        {{/each}}
 
-                </select>
+                    </select>
+                </div>
+                <div class='td'>
+                    Filter by Status:
+                    <select id="typeClass" onchange="countClass()">
+                        <option value="Processing">Processing</option>
+                        <option value="Finished">finished</option>
+                    </select>
+                </div>
+                <div class='td'>
+                    <input id='search' type='text' placeholder='Enter class name'>
+                    <button onclick="searchClass()">Search</button>
+                </div>
+                <div class='td' id="number"></div>
+                <div class='td' id="soTrang"></div>
             </div>
-            <div class='td'>
-                Filter by Status:
-                <select id="typeClass" onchange="countClass()">
-                    <option value="Processing">Processing</option>
-                    <option value="Finished">finished</option>
-                </select>
-            </div>
-            <div class='td'>
-                <input id='search' type='text' placeholder='Enter class name'>
-                <button onclick="searchClass()">Search</button>
-            </div>
-            <div class='td' id="number"></div>
-            <div class='td' id="soTrang"></div>
+            <div class="tableClass"></div>
         </div>
-        <div class="tableClass"></div>
     </div>
 
 </body>

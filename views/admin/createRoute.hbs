@@ -16,7 +16,8 @@
                                         <h2>Create route</h2>
                                         Route name: <input type="text" id="routeName" required />
                                         Description:<input type="text" id="description" required />
-                                        <button class='button' type="button" onclick="addStage('create')">Add Stage</button>
+                                        <button class='button' type="button" onclick="addStage('create')">Add
+                                                Stage</button>
                                 </div>
                                 <div id="addStage" style="text-align: left;"></div>
                                 <input type="submit" id='createRouteBtn' class='button' name="submit" value="Submit">
@@ -43,20 +44,25 @@
 
         <div class="body">
                 <div class='leftSide'>
-                        <div class="tr" id="option">
-                                <div class='td'>
-                                        <button onclick='$(".createRouteOut").fadeIn(500);'>Create Route</button>
+                        <div class='leftSideContent'>
+
+                                <div class="tr" id="option">
+                                        <div class='td'>
+                                                <button onclick='$(".createRouteOut").fadeIn(500);'>Create
+                                                        Route</button>
+                                        </div>
+                                        <div class='td'>
+                                                Search: <input id='searchRoute' onkeyup="filterRoute()" type='text'
+                                                        placeholder="Enter name of route">
+                                        </div>
+                                        <div class='td' id="number"></div>
                                 </div>
-                                <div class='td'>
-                                        Search: <input id='searchRoute' onkeyup="filterRoute()" type='text'
-                                                placeholder="Enter name of route">
-                                </div>
-                                <div class='td' id="number"></div>
+                                <div class="tableRoute"></div>
                         </div>
-                        <div class="tableRoute"></div>
                 </div>
+
                 <div class='rightSide'>
-                        <div class="viewRoute" style="text-align: left !important;"></div>
+                        <div class="rightSideContent" style="text-align: left !important;"></div>
                 </div>
         </div>
         </div>

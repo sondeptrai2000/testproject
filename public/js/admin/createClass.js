@@ -479,7 +479,7 @@ function addStudent(classID) {
         success: function(response) {
             if (response.msg == 'success') {
                 $("#studentTableAdd").html("<br>Search: <input id='searchStudentAdd' onkeyup='filterStudentAdd()' type='text'placeholder='Enter student name'>")
-                $('#studentTableAdd').append("<div class='tr'><div class='td'>Avatar</div><div class='td'>Email</div><div class='td'>Chose</div></div>");
+                $('#studentTableAdd').append("<div class='tr' style='background-color: gray;color: white;font-size: 20px;'><div class='td'>Avatar</div><div class='td'>Email</div><div class='td'>Chose</div></div>");
                 $.each(response.data, function(index, student) {
                     var check = false
                     $.each(student.progess, function(index, progess) {
@@ -663,8 +663,8 @@ function routeType() {
                 //hiển thị thông tin 1 lộ trình học lên đầu form tạo lớp sau khi chọn 1 khóa học
                 $.each(response.data, function(index, targetxxx) {
                     $.each(targetxxx.routeSchedual, function(indexBIG, routeSchedual) {
-                        $("#routeTuyBien .tr:nth-child(1)").append("<div class='td' style='font-size:20px;'>Stage " + (indexBIG + 1) + ": " + routeSchedual.stage + "</div>");
-                        $("#routeTuyBien .tr:nth-child(2)").append("<div class='td'></div>");
+                        $("#routeTuyBien .tr:nth-child(1)").append("<div class='td' style='font-size:18px;'>Stage " + (indexBIG + 1) + ": " + routeSchedual.stage + "</div>");
+                        $("#routeTuyBien .tr:nth-child(2)").append("<div class='td' style='font-size:18px;'></div>");
                         $.each(routeSchedual.routeabcd, function(index, routeabcd) {
                             $("#routeTuyBien .tr:nth-child(2) .td:nth-child(" + (indexBIG + 1) + ")").append("<li>" + routeabcd + "</li>");
                         });

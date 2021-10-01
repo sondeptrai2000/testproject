@@ -97,12 +97,12 @@ function viewSchedule(id) {
                 $("#" + _id).css("text-decoration-line", 'underline')
                 $("#" + _id).css("font-size", '20px')
                 var data = response.data
-                $(".viewRoute").html("<h1>Route Name: " + data[0].routeName + "</h1>")
-                $(".viewRoute").append("<h2>Description: " + data[0].description + "</h2>")
+                $(".rightSideContent").html("<h1>Route Name: " + data[0].routeName + "</h1>")
+                $(".rightSideContent").append("<h2>Description: " + data[0].description + "</h2>")
                 data[0].routeSchedual.forEach(function(e, indexBIG) {
-                    $(".viewRoute").append("<h3> Stage " + (indexBIG + 1) + ": " + e.stage + "</h3>")
+                    $(".rightSideContent").append("<h3> Stage " + (indexBIG + 1) + ": " + e.stage + "</h3>")
                     e.routeabcd.forEach(function(e, index) {
-                        $(".viewRoute").append("<li>" + e + "</li>")
+                        $(".rightSideContent").append("<li>" + e + "</li>")
                     })
                 })
                 $(".viewRouteOut").fadeIn(500)

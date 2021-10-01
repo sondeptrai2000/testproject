@@ -8,35 +8,20 @@
     font-size: 20px;
 }
 
-.rightSide,
-.leftSide {
-    overflow: auto;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-}
-
-.rightSide::-webkit-scrollbar,
-.leftSide::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
-}
-
-.rightSide {
-    font-size: 20px;
-    text-align: left;
-}
-
-.rightSide h1 {
-    margin: 10px 0;
-}
-
 .rightSide input {
-    width: 100%;
-    margin-bottom: 10px;
     font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .rightSide button {
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
     font-size: 18px;
 }
 
@@ -84,4 +69,15 @@
     margin-bottom: 10px;
     padding: 0;
     width: 100%;
+}
+
+#listRoom {
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
+#listRoom::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
 }

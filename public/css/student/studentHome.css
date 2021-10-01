@@ -3,22 +3,24 @@
 }
 
 body {
+    box-sizing: border-box;
     width: 100%;
-    background-image: url("/images/background.jpg");
-    background-repeat: repeat-x;
-    padding: 2%;
+    height: 100%;
+    background-color: rgb(243, 238, 238);
     margin: 0;
-    margin-top: 1%;
     z-index: 1;
     overflow: hidden;
 }
 
 .content {
     box-sizing: border-box;
+    height: 530px;
+    width: 100%;
+    padding: 0;
     margin: 0;
     margin-top: 10px;
-    height: 530px;
-    padding: 0;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 
@@ -26,14 +28,20 @@ body {
 
 #studentProfile {
     font-size: 18px;
-    padding: 30px;
+    padding: 10px;
     width: 30%;
     height: 100%;
     float: left;
     text-align: center;
-    border: solid;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-right: solid 2px gray;
+}
+
+#studentProfileContent {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border: solid 1px gray;
 }
 
 #studentProfile img {
@@ -41,33 +49,39 @@ body {
     width: 250px;
 }
 
-#studentProfile button {
-    font-size: 18px;
-}
-
 
 /* chỉnh Schedual lịch giảng dạy */
 
 #Schedual {
-    width: 69%;
+    width: 70%;
     height: 100%;
-    padding: 30px;
+    padding: 10px;
     float: right;
-    border: solid;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
     font-size: 17px;
+    text-align: left;
+}
+
+#SchedualContent {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    margin: 0;
+    border: solid 1px gray;
     overflow: auto;
 }
 
 #chonTuan {
-    margin-bottom: 10px;
     font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
     width: auto;
 }
 
 #Schedual h2 {
-    font-size: 30px;
+    font-size: 35px;
     margin: 20px 0;
     margin-bottom: 10px;
 }
@@ -114,7 +128,7 @@ body {
     /* Fallback color */
     background-color: rgba(209, 189, 189, 0.4);
     /* Black w/ opacity */
-    overflow: auto;
+    overflow: hidden;
 }
 
 .updateProfile {
@@ -124,17 +138,9 @@ body {
     background-color: whitesmoke;
     height: 600px;
     margin-left: 30%;
-    overflow: auto;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
     font-size: 20px;
     text-align: left;
     padding: 20px;
-}
-
-.updateProfile::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
 }
 
 .updateProfile input {
@@ -154,7 +160,12 @@ body {
     height: 250px;
 }
 
-.updateProfile button {
+.updateProfile button,
+#studentProfileContent button {
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
     font-size: 20px;
 }
 
@@ -163,15 +174,17 @@ body {
     margin-bottom: 10px;
 }
 
-#studentProfile,
-#Schedual {
+#studentProfileContent,
+#SchedualContent,
+.updateProfile {
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
 }
 
-#Schedual::-webkit-scrollbar,
-#studentProfile::-webkit-scrollbar {
+.updateProfile::-webkit-scrollbar,
+#studentProfileContent::-webkit-scrollbar,
+#SchedualContent::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }

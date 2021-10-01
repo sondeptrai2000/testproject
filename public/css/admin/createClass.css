@@ -4,42 +4,17 @@
     /* Thuộc tính layOut chung của admin */
     
     .body {
+        padding: 10px;
+    }
+    
+    .bodyContent {
+        height: 100%;
+        width: 100%;
+        background-color: white;
         padding: 20px;
-    }
-    /* bảng route trong create class */
-    
-    #routeTuyBien {
-        width: auto;
-        padding: 0;
-        font-size: 20px;
-        overflow-x: auto;
-    }
-    
-    #routeTuyBien .tr,
-    #routeTuyBien .td {
-        text-align: left;
-    }
-    
-    #option input,
-    #option select,
-    #option button {
-        font-size: 18px;
-    }
-    
-    #option .tr {
-        height: 40px;
-        border: none;
-        padding: 0;
         margin: 0;
-    }
-    
-    #option .td {
-        width: fit-content;
-        padding: 0;
-        margin: 0;
-        border: none;
-        font-size: 20px;
-        padding-right: 20px;
+        border: solid 1px gray;
+        overflow: hidden;
     }
     
     .tableClass {
@@ -60,6 +35,13 @@
         width: 100%;
         font-size: 18px;
     }
+    
+    .tableClass i:nth-child(1),
+    #attendedList i:nth-child(1) {
+        font-size: 35px;
+        margin: 3px;
+        color: rgb(5, 74, 148);
+    }
     /* modeal cấp 1 */
     
     .studentListOut,
@@ -70,7 +52,7 @@
     .updateClassOut {
         width: 100%;
         height: 100%;
-        margin: -2%;
+        margin: 0;
         padding: 0;
         z-index: 10;
         position: fixed;
@@ -95,10 +77,8 @@
         width: 50%;
         margin: 0;
         padding: 20px;
+        margin-top: 5%;
         margin-left: 25%;
-        overflow: auto;
-        overflow: -moz-scrollbars-none;
-        -ms-overflow-style: none;
         font-size: 20px;
         text-align: center;
     }
@@ -110,16 +90,6 @@
     
     #availbleTime input[type=checkbox] {
         width: auto;
-    }
-    
-    .button {
-        font-size: 18px;
-        width: auto !important;
-    }
-    
-    .studentListContent button {
-        font-size: 18px;
-        margin-bottom: 10px;
     }
     
     .studentListContent img {
@@ -139,11 +109,8 @@
     /* bảng học sinh ở trong tạo class */
     
     #studentTable {
-        overflow: auto;
-        overflow: -moz-scrollbars-none;
         padding: 20px;
         margin: 0;
-        -ms-overflow-style: none;
         font-size: 20px;
         height: 400px;
         display: none;
@@ -208,12 +175,8 @@
         border: none;
     }
     
-    .action i {
+    .action button i {
         font-size: 100px;
-    }
-    
-    .action button {
-        font-size: 20px;
     }
     
     #updateClass {
@@ -226,12 +189,6 @@
         font-size: 18px;
         margin-bottom: 10px;
     }
-    
-    #updateClass button {
-        width: auto;
-        font-size: 18px;
-        margin-top: 10px;
-    }
     /* form cấp 2 */
     
     .studentTableAddOut,
@@ -240,7 +197,7 @@
         height: 100%;
         padding: 10%;
         z-index: 20;
-        margin: -2%;
+        margin: 0;
         position: fixed;
         text-align: center;
         /* Stay in place */
@@ -248,7 +205,6 @@
         /* Fallback color */
         background-color: rgba(209, 189, 189, 0.4);
         /* Black w/ opacity */
-        overflow: scroll;
     }
     
     .updateScheduleFormOut {
@@ -260,7 +216,6 @@
         background-color: whitesmoke;
         height: 100%;
         width: 100%;
-        overflow: scroll;
         font-size: 18px;
         padding: 2%;
     }
@@ -273,16 +228,46 @@
         width: 60%;
         margin-left: 20%;
         background-color: whitesmoke;
-        overflow: scroll;
+    }
+    /* chỉnh nút button  */
+    
+    .action button {
+        font-size: 20px;
+    }
+    
+    .button,
+    #studentTableAdd button,
+    .studentListContent button,
+    #updateClass button {
+        background-color: cornflowerblue;
+        color: white;
+        font-size: 18px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    
+    .studentListContent button {
+        margin-bottom: 10px;
+        margin-left: 10px;
     }
     
     #studentTableAdd button {
-        font-size: 18px;
         margin-top: 10px;
     }
     
-    i {
-        font-size: 30px;
+    #updateClass button {
+        margin-top: 10px;
+    }
+    /* chỉnh thuộc tính input */
+    
+    .studentListContent input,
+    .updateSchedualContent select,
+    .updateSchedualContent input,
+    #studentTableAdd input {
+        font-size: 16px;
+        border-radius: 5px;
+        padding: 5px;
+        width: auto;
     }
     
     .tr {
@@ -298,8 +283,23 @@
         border: #000000 solid 1px;
         vertical-align: middle;
     }
+    /* bảng route trong create class */
+    
+    #routeTuyBien {
+        width: auto;
+        padding: 0;
+        font-size: 20px;
+        overflow-x: auto;
+    }
+    
+    #routeTuyBien .tr,
+    #routeTuyBien .td {
+        text-align: left;
+    }
+    /* chỉnh header của bảng */
     
     .tableClass .tr:nth-child(1),
+    #routeTuyBien .tr:nth-child(1),
     #firstTrlistStudent,
     #studentTableAdd .tr:nth-child(1),
     #attendedList .tr:nth-child(1),
@@ -310,10 +310,27 @@
     }
     /* chỉnh  ẩn thanh cuộn  */
     
+    .studentListContent,
+    #createClass,
+    #attendedList,
+    #updateClass,
+    .action,
+    #studentTable,
+    .tableClass,
+    #studentTableAdd,
+    .updateSchedualContent {
+        overflow: auto;
+        overflow: -moz-scrollbars-none;
+        -ms-overflow-style: none;
+    }
+    
     .studentListContent::-webkit-scrollbar,
     #createClass::-webkit-scrollbar,
     #attendedList::-webkit-scrollbar,
     #updateClass::-webkit-scrollbar,
+    .action::-webkit-scrollbar,
+    #studentTableAdd::-webkit-scrollbar,
+    .updateSchedualContent::-webkit-scrollbar,
     #studentTable::-webkit-scrollbar {
         width: 0 !important;
         display: none;

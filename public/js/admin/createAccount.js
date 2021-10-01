@@ -87,7 +87,7 @@ function countAccount() {
         data: { role: $("#accountFilter").val() },
         success: function(response) {
             if (response.msg == 'success') {
-                $("#soTrang").html("Page:<select onchange=getAccount()></select>");
+                $("#soTrang").html("Page: <select onchange=getAccount()></select>");
                 //hiển thị số trang vào thẻ select cho dễ chọn trang
                 for (let i = 1; i < response.soTrang; i++) { $("#soTrang select").append("<option value='" + (i - 1) + "'>" + i + "</option>") }
                 $("#number").html("Total: " + response.numberOfAccount)
@@ -599,9 +599,9 @@ function search(email) {
                 $(".tableAccount .tr:not(:nth-child(1))").css("font-size", '18px')
                 $("#" + response.data._id).css("text-decoration-line", 'underline')
                 $("#" + response.data._id).css("font-size", '20px')
-                $(".rightSide").html("")
+                $(".rightSideContent").html("")
                 if (response.data.role == "teacher") {
-                    $(".rightSide").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + response.data.username + "</p>Gender: " + response.data.sex + "</p>Email: " + response.data.email + "</p><p>Phone: " + response.data.phone + "</p><p>Role: " + response.data.role + "</p><p>BirthDay: " + response.data.birthday + "</p><p>Address: " + response.data.address + "</p>")
+                    $(".rightSideContent").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + response.data.username + "</p>Gender: " + response.data.sex + "</p>Email: " + response.data.email + "</p><p>Phone: " + response.data.phone + "</p><p>Role: " + response.data.role + "</p><p>BirthDay: " + response.data.birthday + "</p><p>Address: " + response.data.address + "</p>")
                 } else {
                     if (response.data.role == "student") {
                         var data = response.data
@@ -610,22 +610,22 @@ function search(email) {
                         var relationship = response.data
                         var data = relationship.relationship
                     }
-                    $(".rightSide").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + data.username + "</p><p>Gender: " + data.sex + "</p><p>Email: " + data.email + "</p><p>Phone: " + data.phone + "</p><p>Available Time to study: " + data.availableTime + "</p><p>Role: " + data.role + "</p><p>BirthDay: " + data.birthday + "</p><p>Address: " + data.address + "</p>")
-                    $(".rightSide").append("<h1>Tình trạng học tập</h1>")
-                    $(".rightSide").append("<p>Route: " + data.routeName + " </p><p>Start level: " + data.startStage + " </p><p>Current level: " + data.stage + " </p><p>Aim : " + data.aim + "</p>")
-                    $(".rightSide").append("<h2>Study progress</h2>")
-                    $(".rightSide").append("<a href='/admin/studentClass/" + data._id + "' target='_blank'>Click here to see more about progress</a>");
+                    $(".rightSideContent").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + data.username + "</p><p>Gender: " + data.sex + "</p><p>Email: " + data.email + "</p><p>Phone: " + data.phone + "</p><p>Available Time to study: " + data.availableTime + "</p><p>Role: " + data.role + "</p><p>BirthDay: " + data.birthday + "</p><p>Address: " + data.address + "</p>")
+                    $(".rightSideContent").append("<h2>Current academic status</h2>")
+                    $(".rightSideContent").append("<p>Route: " + data.routeName + " </p><p>Start level: " + data.startStage + " </p><p>Current level: " + data.stage + " </p><p>Aim : " + data.aim + "</p>")
+                    $(".rightSideContent").append("<h2>Study progress</h2>")
+                    $(".rightSideContent").append("<a href='/admin/studentClass/" + data._id + "' target='_blank'>Click here to see more about progress</a>");
                     //hiển thị lộ trình học của học sinh
                     var progress = data.progess
                     progress.forEach((e) => {
-                        $(".rightSide").append("<h3>Stage: " + e.stage + "</h3>")
-                        $(".rightSide").append("<div class='tr'><div class='td'>Subject</div><div class='td'>Status</div></div>")
+                        $(".rightSideContent").append("<h3>Stage: " + e.stage + "</h3>")
+                        $(".rightSideContent").append("<div class='tr' id='headerProgress'><div class='td'>Subject</div><div class='td'>Status</div></div>")
                         e.stageClass.forEach((e) => {
-                            if (e.classID != "") $(".rightSide").append("<div class='tr'><div class='td'>" + e.name + " </div><div class='td'> " + e.status + " </div></div>")
+                            if (e.classID != "") $(".rightSideContent").append("<div class='tr'><div class='td'>" + e.name + " </div><div class='td'> " + e.status + " </div></div>")
                         })
                     })
-                    $(".rightSide").append("<h1>Guardian information</h1>")
-                    $(".rightSide").append("<p>Name: " + relationship.username + " </p><p>Phone: " + relationship.phone + " </p><p>Email : " + relationship.email + "</p>")
+                    $(".rightSideContent").append("<h2>Guardian information</h2>")
+                    $(".rightSideContent").append("<p>Name: " + relationship.username + " </p><p>Phone: " + relationship.phone + " </p><p>Email : " + relationship.email + "</p>")
                 }
                 $(".seacherInforOut").fadeIn(500)
             }

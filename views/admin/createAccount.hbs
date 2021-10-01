@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
       <meta charset="UTF-8" />
       <link rel="stylesheet" href="/css/admin/menu.css">
@@ -9,7 +10,7 @@
 </head>
 
 <body>
-      <div class="createAccountOut" >
+      <div class="createAccountOut">
             <div id="createAccount">
                   <form id='myform'>
                         <div style="text-align: center;">
@@ -47,7 +48,7 @@
             </div>
       </div>
 
-      <div class="updateFormOut" >
+      <div class="updateFormOut">
             <div id="updateForm">
                   <form id='myformUpdate'>
                         <div style="text-align: center;">
@@ -95,10 +96,10 @@
                   </form>
             </div>
       </div>
-      <div class="SchedualOut" >
+      <div class="SchedualOut">
             <div id="Schedual">
                   <h2>Weekly Schedual</h2>
-                   <input type="hidden" id='viewID'>
+                  <input type="hidden" id='viewID'>
                   <input type="hidden" id='viewRole'>
                   <label>Chose week: </label><select id='chonTuan'
                         onchange='viewSchedual($("#viewID").val(),$("#viewRole").val())'></select>
@@ -125,29 +126,33 @@
 
       <div class="body">
             <div class='leftSide'>
-                  <div class='tr' id="option">
-                        <div class='td'>
-                              <button onclick='$(".createAccountOut").slideToggle();'>Create account</button>
+                  <div class='leftSideContent'>
+                        <div class='tr' id="option">
+                              <div class='td'>
+                                    <button onclick='$(".createAccountOut").slideToggle();'>Create account</button>
+                              </div>
+                              <div class='td'>
+                                    Filter:
+                                    <select id="accountFilter" onchange="countAccount()">
+                                          <option value="teacher">teacher</option>
+                                          <option value="student">student</option>
+                                    </select>
+                              </div>
+                              <div class='td'>
+                                    <input id='search' type='text' placeholder='Email or phone number'>
+                                    <button onclick="search('')">Search</button>
+                              </div>
+                              <div class='td' id="number"></div>
+                              <div class='td' id="soTrang"> </div>
                         </div>
-                        <div class='td'>
-                              Filter:
-                              <select id="accountFilter" onchange="countAccount()">
-                                    <option value="teacher">teacher</option>
-                                    <option value="student">student</option>
-                              </select>
-                        </div>
-                        <div class='td'>
-                              <input id='search' type='text' placeholder='Email or phone number'>
-                              <button onclick="search('')">Search</button>
-                        </div>
-                        <div class='td' id="number"></div>
-                        <div class='td' id="soTrang"> </div>
+
+                        <div class="tableAccount"></div>
                   </div>
-                  <div class="tableAccount"></div>
             </div>
             <div class='rightSide'>
-
+                  <div class='rightSideContent'></div>
             </div>
+
 
       </div>
 

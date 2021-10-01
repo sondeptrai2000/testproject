@@ -4,7 +4,7 @@
 <head>
     <script src="/jquery/jquery.js"></script>
     <link rel="stylesheet" href="/css/teacher/allClass.css">
-    <link rel="stylesheet" href="/css/teacher/menu.css">
+    <link rel="stylesheet" href="/css/admin/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 </head>
@@ -77,24 +77,26 @@
     <header> {{> teacherHeader}}</header>
 
     <div class="content">
-        <div id='option'>
-            <div class="tr">
-                <div class='td'>
-                    Filter by Status:
-                    <select id="typeClass" onchange="countClass()">
-                        <option value="Processing">Processing</option>
-                        <option value="Finished">Finished</option>
-                    </select>
+        <div class="bodyContent">
+            <div id='option'>
+                <div class="tr">
+                    <div class='td'>
+                        Filter by Status:
+                        <select id="typeClass" onchange="countClass()">
+                            <option value="Processing">Processing</option>
+                            <option value="Finished">Finished</option>
+                        </select>
+                    </div>
+                    <div class='td'>
+                        <input id='search' type='text' placeholder='Enter class name'>
+                        <button onclick="searchClass()">Search</button>
+                    </div>
+                    <div class='td' id="number"></div>
+                    <div class='td' id="soTrang"></div>
                 </div>
-                <div class='td'>
-                    <input id='search' type='text' placeholder='Enter class name'>
-                    <button onclick="searchClass()">Search</button>
-                </div>
-                <div class='td' id="number"></div>
-                <div class='td' id="soTrang"></div>
             </div>
+            <div id="tableClass"></div>
         </div>
-        <div id="tableClass"></div>
     </div>
 
 </body>
