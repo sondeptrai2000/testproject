@@ -724,7 +724,7 @@ function getStudent() {
                 } else {
                     $('#studentTable').slideDown(1000);
                     $('#createClassOut,#createClass').animate({ scrollTop: ($('#studentTable').offset().top) }, 500)
-                    $('#studentTable').html("<div class='tr'></div><div class='tr'><div class='td'>Avatar</div><div class='td'>Username</div><div class='td' style='display:none;'>Email</div><div class='td'>stage</div><div class='td'>Chose</div><div class='td'>More information</div></div>")
+                    $('#studentTable').html("<div class='tr'></div><div class='tr'><div class='td'>Student</div><div class='td' style='display:none;'>Email</div><div class='td'>Chose</div></div>")
                     $.each(response.student, function(index, student) {
                         var check = false
                         $.each(student.progess, function(index, progess) {
@@ -737,7 +737,7 @@ function getStudent() {
                             }
                         });
                         //nếu trong lộ trình học cá nhân của học sinh đã học bộ môn này và  bị restudy hoặc chưa học thì sẽ hiển thị ra danh sách để thêm vào lớp
-                        if (check == false) $('#studentTable').append("<div class='tr'><div class='td'><img style ='max-width:200;max-height:200px' src='" + student.avatar + "'></div><div class='td'>" + student.username + "</div><div class='td' style='display:none;'>" + student.email + "</div><div class='td' style='display:none;'>" + student.phone + "</div><div class='td'>" + student.stage + "</div><div class='td'><input type='checkbox' name='hobby' value='" + student._id + "' /></div><div class='td'>" + "<button class='del' value='" + student._id + "'>View</button>" + "</div></div>");
+                        if (check == false) $('#studentTable').append("<div class='tr'><div class='td'><img src='" + student.avatar + "'><figcaption>" + student.username + "</figcaption></div><div class='td' style='display:none;'>" + student.email + "</div><div class='td' style='display:none;'>" + student.phone + "</div><div class='td'><input type='checkbox' name='hobby' value='" + student._id + "' /></div></div>");
                     });
                     $('#studentTable').show();
                 }

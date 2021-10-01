@@ -113,8 +113,9 @@ class teacherController {
             //nếu đó là buổi học cuối cùng (so sánh time) thì sẽ chuyển trạng thái các phòng của lớp đó thành none 
             var theLastCourse = new Date(req.body.lastDate.split("T00:00:00.000Z")[0]);
             if (now >= theLastCourse) {
-                //chuyển phòng thành none 
-                for (var i = 0; i < req.body.time.length; i++) { assignRoomAndTimeModel.updateOne({ dayOfWeek: req.body.day[i], room: { $elemMatch: { room: req.body.room[i], time: req.body.time[i] } } }, { $set: { "room.$.status": "None" } }) }
+                console.log("vào")
+                    //chuyển phòng thành none 
+                for (var i = 0; i < req.body.time.length; i++) { await assignRoomAndTimeModel.update({ dayOfWeek: req.body.day[i], room: { $elemMatch: { room: req.body.room[i], time: req.body.time[i] } } }, { $set: { "room.$.status": "None" } }) }
                 //cập nhật trạng thái của lớp là đã kết thúc
                 await ClassModel.updateOne({ _id: req.body.idClass }, { classStatus: 'Finished' });
             }
