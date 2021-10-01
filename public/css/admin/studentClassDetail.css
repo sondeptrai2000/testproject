@@ -3,24 +3,26 @@
 }
 
 body {
-    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    background-image: url("/images/background.jpg");
+    background-color: rgb(243, 238, 238);
     margin: 0;
-    padding: 2%;
     z-index: 1;
+    overflow: hidden;
 }
 
-#routeTuyBien {
-    box-sizing: border-box;
+#routeTuyBienOut {
     width: 100%;
     height: auto;
     text-align: left;
     margin: 0;
-    padding: 0;
-    margin-bottom: 10px;
+    padding: 10px;
     overflow: auto;
+}
+
+#routeTuyBien {
+    height: 100%;
+    width: 100%;
 }
 
 #routeTuyBien i {
@@ -34,29 +36,49 @@ body {
 }
 
 .content {
-    box-sizing: border-box;
     width: 100%;
     height: 530px;
-    border: solid black;
     margin: 0;
     padding: 0;
     text-align: center;
 }
 
 .leftSide {
-    box-sizing: border-box;
-    width: 20%;
-    height: 530px;
-    float: left;
+    height: 100%;
     margin: 0;
-    padding: 20px;
-    border-right: solid black;
+    width: 20%;
+    float: left;
+    border-right: solid 2px gray;
+    padding: 10px;
     font-size: 18px;
     word-break: break-all;
-    overflow: auto;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
     text-align: left;
+}
+
+.leftSideContent {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border: solid 1px gray;
+}
+
+.rightSide {
+    padding: 10px;
+    margin: 0;
+    width: 80%;
+    height: 100%;
+    float: right;
+}
+
+.rightSideContent {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    margin: 0;
+    border: solid 1px gray;
 }
 
 .leftSide img {
@@ -66,18 +88,6 @@ body {
     max-width: 250px;
 }
 
-.rightSide {
-    box-sizing: border-box;
-    width: 80%;
-    height: 580px;
-    float: right;
-    padding: 20px;
-    margin: 0;
-    overflow: auto;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-}
-
 .tr:nth-child(1) {
     background-color: gray;
     color: white;
@@ -85,14 +95,12 @@ body {
 }
 
 .tr {
-    box-sizing: border-box;
     display: table-row;
     padding: 5px;
     overflow: hidden;
 }
 
 .td {
-    box-sizing: border-box;
     display: table-cell;
     padding: 5px;
     width: 300px;
@@ -136,18 +144,25 @@ body {
     background-color: whitesmoke;
     padding: 2%;
     margin: 0;
-    margin-left: 25%;
+    margin-left: 15%;
     height: 100%;
-    width: 50%;
-    overflow: auto;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
+    width: 70%;
 }
 
 .teacherIn4 {
     height: 65%;
     width: 30%;
     margin-left: 35%;
+}
+
+.teacherIn4 button,
+.studentList button {
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    width: auto;
 }
 
 
@@ -161,12 +176,21 @@ body {
 
 /* chỉnh ẩn thanh cuộn */
 
-.leftSide::-webkit-scrollbar,
-.rightSide::-webkit-scrollbar,
-.studentListOut::-webkit-scrollbar,
-.myAttendOut::-webkit-scrollbar,
-.teacherIn4Out::-webkit-scrollbar,
-.content::-webkit-scrollbar {
+.leftSideContent,
+.rightSideContent,
+.studentList,
+.myAttendContent,
+.teacherIn4 {
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
+.studentList::-webkit-scrollbar,
+.myAttendContent::-webkit-scrollbar,
+.teacherIn4::-webkit-scrollbar,
+.leftSideContent::-webkit-scrollbar,
+.rightSideContent::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }

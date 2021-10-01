@@ -23,9 +23,9 @@ function getClass() {
             if (response.msg == 'success') {
                 var data = response.data
                 console.log(data)
-                $(".rightSide").html(" <div class='tr'><div class='td'>Class name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Teacher</div><div class='td'>Grade</div><div class='td'>Comment</div><div class='td'>Start date</div><div class='td'>End date</div class='td'><div class='td'>Student List</div></div>")
+                $(".rightSideContent").html(" <div class='tr'><div class='td'>Class name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Teacher</div><div class='td'>Grade</div><div class='td'>Comment</div><div class='td'>Start date</div><div class='td'>End date</div class='td'><div class='td'>Student List</div></div>")
                 data.classID.forEach((e) => {
-                    $(".rightSide").append("<div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td' onclick=viewTeacherProfile('" + e.teacherID._id + "')>" + e.teacherID.username + "</div></div>")
+                    $(".rightSideContent").append("<div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td' onclick=viewTeacherProfile('" + e.teacherID._id + "')>" + e.teacherID.username + "</div></div>")
                     var classID = e._id
                     e.studentID.forEach((e) => {
                         if (e.ID == $("#studentID").val()) $("#" + classID).append("<div class='td'>" + e.grade + "</div><div class='td'>" + e.feedBackContent + "</div>")
@@ -123,7 +123,7 @@ function routeType() {
 //đánh dấu
 function highLight(add) {
     var filter = $(add).text().toUpperCase()
-    $(".rightSide .tr:not(:first-child)").each(function() {
+    $(".rightSideContent .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
             $(this).css("text-decoration-line", 'underline')
             $(this).css("font-size", '20px')
