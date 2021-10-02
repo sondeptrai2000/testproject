@@ -175,6 +175,7 @@ function createClassForm() {
 //thực hiện cập nhật thông tin lớp và lưu vào đb
 $("#submitUpdateClass").submit(async function(event) {
     event.preventDefault();
+    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't update information of this class!")
     var condition = {}
     var updateTeacher = $("#updateTeacher").val()
     if (updateTeacher != '') {
@@ -371,6 +372,7 @@ function filterStudentAdd() {
 
 //hiển thị danh sách lịch giảng dạy để admin chọn vào thay đổi lịch làm việc 1 ngày nào đó trong list
 function upDateSchedule(id) {
+    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't update schedual of this class!")
     $(".actionOut").fadeOut(500)
     var idClass = id
     $.ajax({
@@ -427,15 +429,19 @@ $("#cahocUpdate").change(async function() {
     })
 });
 
-//thực hiện cập nhật, chuyển đổ lịch giảng dạy cho giáo viên
+//thực hiện cập nhật, chuyển đổi lịch giảng dạy cho giáo viên
 $("#SubmitupdateScheduleForm").submit(async function(event) {
     event.preventDefault();
+    var now = new Date()
+    var now1 = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay()
     var date = new Date($("input[name='dateScheduleUpdate']").val())
     var dayOfWeek = '0' + (date.getDay() + 1)
     if (dayOfWeek == '01') dayOfWeek = "08"
     var old = []
     var scheduleID = $("input[name='updateScheduleID']").val()
     $("#infor" + scheduleID + " .td:not(:last-child)").each(function() { old.push($(this).text().trim()) })
+        //TH: không thể update lịch đã qua
+    if (now1 < old[0]) return alert("Can't update schedual of this day!")
     var update = {
         "schedule.$.time": $('#cahocUpdate').val(),
         "schedule.$.room": $('#roomUpdate').val(),
@@ -443,7 +449,7 @@ $("#SubmitupdateScheduleForm").submit(async function(event) {
         "schedule.$.status": "update"
     }
     $.ajax({
-        url: '/admin/doupdateSchedule',
+        // url: '/admin/doupdateSchedule',
         method: 'post',
         dataType: 'json',
         data: {
@@ -463,13 +469,14 @@ $("#SubmitupdateScheduleForm").submit(async function(event) {
 
 //hiển thị các học sinh có mức độ tương ứng với lớp đã chọn để xem xét thêm vào lớp
 function addStudent(classID) {
+    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't add student to this class!")
     var infor4 = []
     $("#" + classID + " .td").each(function() { infor4.push($(this).text()) })
     var condition = {
         role: 'student',
-        routeName: infor4[2].trim(),
-        stage: infor4[3].trim(),
-        availableTime: { $in: [infor4[5].trim(), 'All'] }
+        routeName: $("#typeRoute").val(),
+        stage: infor4[2].trim(),
+        availableTime: { $in: [infor4[4].trim(), 'All'] }
     }
     $.ajax({
         url: '/admin/addStudentToClass',
@@ -478,6 +485,7 @@ function addStudent(classID) {
         data: { condition },
         success: function(response) {
             if (response.msg == 'success') {
+                console.log(response.data)
                 $("#studentTableAdd").html("<br>Search: <input id='searchStudentAdd' onkeyup='filterStudentAdd()' type='text'placeholder='Enter student name'>")
                 $('#studentTableAdd').append("<div class='tr' style='background-color: gray;color: white;font-size: 20px;'><div class='td'>Avatar</div><div class='td'>Email</div><div class='td'>Chose</div></div>");
                 $.each(response.data, function(index, student) {
@@ -539,13 +547,15 @@ function doAddToClass(classID) {
 function removeStudent(classID, subject) {
     var classID = classID
     var studentlistcl = [];
-    studentlistAttend = [];
+    var studentlistAttend = [];
     $('.removeFormClass').each(function() {
         if ($(this).is(":checked")) {
             studentlistcl.push($(this).attr('value'));
             studentlistAttend.push({ 'studentID': $(this).attr('value') });
         }
     });
+    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't remove student to this class!")
+    if (studentlistAttend.length == 0 || studentlistcl.length == 0) return alert("You need to chose some student to remove to this class!")
     $.ajax({
         url: '/admin/doremoveStudentToClass',
         method: 'post',

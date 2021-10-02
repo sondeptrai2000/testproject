@@ -34,6 +34,7 @@ button {
     width: 70%;
     float: left;
     border-right: solid 2px gray;
+    overflow: hidden;
 }
 
 .leftSideContent {
@@ -52,6 +53,7 @@ button {
     width: 30%;
     height: 527px;
     float: right;
+    overflow: hidden;
 }
 
 .rightSideContent {
@@ -64,7 +66,6 @@ button {
     overflow: hidden;
 }
 
-.leftSideContent,
 .rightSideContent {
     overflow: auto;
     overflow: -moz-scrollbars-none;
@@ -73,7 +74,6 @@ button {
     text-align: center;
 }
 
-.leftSideContent::-webkit-scrollbar,
 .rightSideContent::-webkit-scrollbar {
     width: 0 !important;
     display: none;

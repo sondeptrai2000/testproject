@@ -82,11 +82,9 @@ function getAllClass() {
                 })
                 var getClassID = $("#getClassID").val()
                 if (getClassID) {
-                    $("#" + getClassID).css("text-decoration-line", 'underline');
-                    $("#" + getClassID).css("font-size", '20px');
+                    $("#" + getClassID).css("background-color", 'Wheat');
                     setTimeout(function() {
-                        $("#" + getClassID).css("text-decoration-line", 'none');
-                        $("#" + getClassID).css("font-size", '18px');
+                        $("#" + getClassID).css("background-color", 'white');
                     }, 5000)
                 }
             }
@@ -96,7 +94,11 @@ function getAllClass() {
         }
     });
 }
+// tìm kiếm class
+function searchClass() {
+    if ($("#search").val().trim() == '') return alert("Enter name of class!")
 
+}
 
 //lấy danh sách học sinh trong lớp
 function sendData(id) {

@@ -122,10 +122,10 @@ function getAccount() {
         success: function(response) {
             if (response.msg == 'success') {
                 $.each(response.data, function(index, data) {
-                    $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "')><div class='td'><img  src='" + data.avatar + "'><figcaption>" + data.username + "</figcaption></div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><i  class='far fa-edit' onclick=updateForm('" + data._id + "')></i><i class='fas fa-calendar-alt' onclick=viewSchedual('" + data._id + "','" + data.role + "')></i><i class='far fa-trash-alt' onclick=deleteAccount('" + data._id + "','" + data.role + "')></i></div></div >");
+                    $(".tableAccount").append("<div class='tr' id ='" + data._id + "' onclick=search('" + data.email + "','load1')><div class='td'><img  src='" + data.avatar + "'><figcaption>" + data.username + "</figcaption></div><div class='td'>" + data.phone + "</div><div class='td'>" + data.address + "</div><div class='td'>" + data.birthday + "</div><div class='td'><i  class='far fa-edit' onclick=updateForm('" + data._id + "')></i><i class='fas fa-calendar-alt' onclick=viewSchedual('" + data._id + "','" + data.role + "')></i><i class='far fa-trash-alt' onclick=deleteAccount('" + data._id + "','" + data.role + "')></i></div></div >");
                 });
                 //hiển thị thông tin chi tiết trang form bên phải
-                search(response.data[0].email)
+                search(response.data[0].email, "load1")
             }
         },
         error: function(response) {
@@ -579,7 +579,8 @@ $("#myformUpdate").submit(function(event) {
 
 
 //tìm kiếm thông tin qua email hoặc số điện thoại cho học sinh và hiển thị thông tin sang form bên phải
-function search(email) {
+function search(email, type) {
+    if ($("#search").val().trim() == '' && type != 'load1') return alert("Enter phone or email!")
     var condition = {}
     if (email != "") {
         condition["email"] = email
@@ -595,10 +596,8 @@ function search(email) {
         data: { condition: condition },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".tableAccount .tr:not(:nth-child(1))").css("text-decoration-line", 'none')
-                $(".tableAccount .tr:not(:nth-child(1))").css("font-size", '18px')
-                $("#" + response.data._id).css("text-decoration-line", 'underline')
-                $("#" + response.data._id).css("font-size", '20px')
+                $(".tableAccount .tr:not(:nth-child(1))").css("background-color", 'white');
+                $("#" + response.data._id).css("background-color", 'Wheat');
                 $(".rightSideContent").html("")
                 if (response.data.role == "teacher") {
                     $(".rightSideContent").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + response.data.username + "</p>Gender: " + response.data.sex + "</p>Email: " + response.data.email + "</p><p>Phone: " + response.data.phone + "</p><p>Role: " + response.data.role + "</p><p>BirthDay: " + response.data.birthday + "</p><p>Address: " + response.data.address + "</p>")
