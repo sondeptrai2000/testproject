@@ -87,11 +87,11 @@ li {
     box-sizing: border-box;
     background-color: whitesmoke;
     height: 80%;
-    width: 50%;
+    width: 60%;
     margin: 0;
     padding: 10px;
     margin-top: 5%;
-    margin-left: 25%;
+    margin-left: 20%;
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
