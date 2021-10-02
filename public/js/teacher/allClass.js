@@ -34,7 +34,7 @@ function countClass() {
         data: { status: $("#typeClass").val() },
         success: function(response) {
             if (response.msg == 'success') {
-                $("#soTrang").html("Page:<select onchange=getAllClass()></select>");
+                $("#soTrang").html("Page: <select onchange=getAllClass()></select>");
                 $("#number").html("Total: " + response.numberOfClass)
                     //hiển thị số trang vào thẻ select cho dễ chọn trang
                 for (let i = 1; i < response.soTrang; i++) { $("#soTrang select").append("<option value='" + (i - 1) + "'>" + i + "</option>") }

@@ -64,20 +64,20 @@ function getAllRoute() {
 
 function addStage(type) {
     if (type == "create") {
-        var add = "<div>Stage: <input type='text' name='stageTest'required/><button type='button' onclick =$(this).parent().remove()><i class='fas fa-trash-alt'></i></button><button  type='button' onclick =$(this).parent().appendTo('#addStage') > <i class='fas fa-angle-double-down'></i> </button><button  type='button' onclick=addClass($(this).parent(),'create')><i class='fas fa-plus-square'></i></button></div>"
+        var add = "<div>Stage: <input type='text' name='stageTest'required/><button style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().remove()><i class='fas fa-trash-alt' style='color:crimson;'></i></button><button  style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().appendTo('#addStage') > <i class='fas fa-angle-double-down' style='color:blue;'></i> </button><button  style='margin:4px;font-size:22px' type='button' onclick=addClass($(this).parent(),'create')><i class='fas fa-plus-square' style='color:black;'></i></button></div>"
         $('#addStage').append(add)
     } else {
-        var add = "<div>Stage: <input type='text' name='stageTestUpdate'required/><button  type='button' onclick =$(this).parent().remove()><i class='fas fa-trash-alt'></i></button><button  type='button' onclick =$(this).parent().appendTo('#addStageUpdate') ><i class='fas fa-angle-double-down'></i> </button><button  type='button' onclick=addClass($(this).parent(),'update')><i class='fas fa-plus-square'></i></button></div>"
+        var add = "<div>Stage: <input type='text' name='stageTestUpdate'required/><button style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().remove()><i class='fas fa-trash-alt' style='color:crimson;'></i></button><button  style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().appendTo('#addStageUpdate') ><i class='fas fa-angle-double-down' style='color:blue;'></i> </button><button style='margin:4px;font-size:22px'  type='button' onclick=addClass($(this).parent(),'update')><i class='fas fa-plus-square' style='color:black;'></i></button></div>"
         $('#addStageUpdate').append(add)
     }
 }
 
 function addClass(test, type) {
     if (type == "create") {
-        var add = "<div class='route'>Route: <input type='text' name='classIn' required/><button  type='button' onclick=$(this).parent().remove();><i class='fas fa-trash-alt'></i></button></div>"
+        var add = "<div class='route'>Subject: <input type='text' name='classIn' required/><button style='margin:4px;font-size:22px' type='button' onclick=$(this).parent().remove();><i class='fas fa-trash-alt' style='color:crimson;'></i></button></div>"
         test.append(add)
     } else {
-        var add = "<div class='route'>Route: <input type='text' name='classInUpdate'required/><button   type='button' onclick=$(this).parent().remove();><i class='fas fa-trash-alt'></i></button></div>"
+        var add = "<div class='route'>Subject: <input type='text' name='classInUpdate'required/><button  style='margin:4px;font-size:22px' type='button' onclick=$(this).parent().remove();><i class='fas fa-trash-alt' style='color:crimson;'></i></button></div>"
         test.append(add)
     }
 }
@@ -136,7 +136,6 @@ $("#doCreateRoute").submit(function(event) {
                 getAllRoute();
                 $(".createRouteOut").fadeOut(500);
             }
-            if (response.msg == 'Account already exists') alert('Account already exists');
         },
         error: function(response) { alert('server error'); }
     })
@@ -162,7 +161,10 @@ $("#doUpdateRoute").submit(async function(event) {
         dataType: 'json',
         data: formData,
         success: function(response) {
-            if (response.msg == 'success') alert('Sign Up success');
+            if (response.msg == 'success') {
+                viewSchedule($("#routeIDUpdate").val());
+                alert('Update success');
+            }
         },
         error: function(response) { alert('server error'); }
     })
@@ -183,9 +185,9 @@ async function updateRoute(id) {
                 $("#routeNameUpdate").val(data[0].routeName)
                 $("#descriptionUpdate").val(data[0].description)
                 data[0].routeSchedual.forEach(function(e, indexBIG) {
-                    $("#addStageUpdate").append("<div id='updateStage" + indexBIG + "'>Stage: <input type='text' name='stageTestUpdate' value='" + e.stage + "'><button onclick =$(this).parent().remove() > <i class='fas fa-trash-alt'></i> </button><button onclick =$(this).parent().appendTo('#addStageUpdate') > <i class='fas fa-angle-double-down'></i> </button><button onclick=addClass($(this).parent(),'update')><i class='fas fa-plus-square'></i></button></div>")
+                    $("#addStageUpdate").append("<div id='updateStage" + indexBIG + "'>Stage: <input type='text' name='stageTestUpdate' value='" + e.stage + "'><button style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().remove() > <i class='fas fa-trash-alt' style='color:crimson;' ></i> </button><button style='margin:4px;font-size:22px' type='button' onclick =$(this).parent().appendTo('#addStageUpdate') > <i class='fas fa-angle-double-down' style='color:blue;'></i> </button><button style='margin:4px;font-size:22px' type='button' onclick=addClass($(this).parent(),'update')><i class='fas fa-plus-square'></i></button></div>")
                     e.routeabcd.forEach(function(e) {
-                        $("#updateStage" + indexBIG).append("<div class='route'>Route: <input type='text' name='classInUpdate' value='" + e + "'><button onclick=$(this).parent().remove();><i class='fas fa-trash-alt'></i></button></div>")
+                        $("#updateStage" + indexBIG).append("<div class='route'>Subject: <input type='text' name='classInUpdate' value='" + e + "'><button style='margin:4px;font-size:22px' type='button' onclick=$(this).parent().remove();><i class='fas fa-trash-alt' style='color:crimson;'></i></button></div>")
                     })
                 })
                 $(".updateRouteOut").fadeIn(500)

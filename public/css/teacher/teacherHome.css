@@ -135,6 +135,14 @@ body {
     border: solid 1px gray;
 }
 
+.updateProfile input,
+.updateProfile select {
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+}
+
 .updateProfile input {
     width: 100%;
     font-size: 20px;

@@ -98,6 +98,16 @@ li {
     font-size: 20px;
 }
 
+.createRoute input,
+.createRoute select,
+.updateRoute input,
+.updateRoute select {
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+}
+
 .createRoute::-webkit-scrollbar,
 .updateRoute::-webkit-scrollbar {
     width: 0 !important;
@@ -118,7 +128,6 @@ li {
     color: white;
     border-radius: 5px;
     padding: 5px;
-    font-size: 18px;
     font-size: 18px;
 }
 

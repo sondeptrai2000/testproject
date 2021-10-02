@@ -109,6 +109,18 @@
     width: 50%;
     margin: 50px 25%;
     padding: 10px;
+    border: solid 1px gray;
+}
+
+#createAccount input,
+#createAccount select,
+#updateForm input,
+#updateForm select,
+#Schedual select {
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
 }
 
 

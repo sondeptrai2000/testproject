@@ -37,6 +37,7 @@ body {
     background-color: white;
     padding: 20px;
     border: solid 1px gray;
+    overflow: hidden;
 }
 
 .rightSide {
@@ -55,12 +56,12 @@ body {
     padding: 20px;
     margin: 0;
     border: solid 1px gray;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .leftSideContent,
 .rightSideContent {
-    /* overflow: auto; */
+    overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
     vertical-align: middle;
