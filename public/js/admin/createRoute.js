@@ -92,10 +92,8 @@ function viewSchedule(id) {
         data: { _id: _id },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".tableRoute .tr:not(:nth-child(1))").css("text-decoration-line", 'none')
-                $(".tableRoute .tr:not(:nth-child(1))").css("font-size", '18px')
-                $("#" + _id).css("text-decoration-line", 'underline')
-                $("#" + _id).css("font-size", '20px')
+                $(".tableRoute .tr:not(:nth-child(1))").css("background-color", 'white');
+                $("#" + _id).css("background-color", 'Wheat');
                 var data = response.data
                 $(".rightSideContent").html("<h1>Route Name: " + data[0].routeName + "</h1>")
                 $(".rightSideContent").append("<h2>Description: " + data[0].description + "</h2>")

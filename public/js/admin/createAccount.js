@@ -595,10 +595,8 @@ function search(email) {
         data: { condition: condition },
         success: function(response) {
             if (response.msg == 'success') {
-                $(".tableAccount .tr:not(:nth-child(1))").css("text-decoration-line", 'none')
-                $(".tableAccount .tr:not(:nth-child(1))").css("font-size", '18px')
-                $("#" + response.data._id).css("text-decoration-line", 'underline')
-                $("#" + response.data._id).css("font-size", '20px')
+                $(".tableAccount .tr:not(:nth-child(1))").css("background-color", 'white');
+                $("#" + response.data._id).css("background-color", 'Wheat');
                 $(".rightSideContent").html("")
                 if (response.data.role == "teacher") {
                     $(".rightSideContent").append("<div style='width:100%;text-align:center;'><img src='" + response.data.avatar + "'></div><p>Name: " + response.data.username + "</p>Gender: " + response.data.sex + "</p>Email: " + response.data.email + "</p><p>Phone: " + response.data.phone + "</p><p>Role: " + response.data.role + "</p><p>BirthDay: " + response.data.birthday + "</p><p>Address: " + response.data.address + "</p>")

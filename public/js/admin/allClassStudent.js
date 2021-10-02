@@ -125,12 +125,10 @@ function highLight(add) {
     var filter = $(add).text().toUpperCase()
     $(".rightSideContent .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
-            $(this).css("text-decoration-line", 'underline')
-            $(this).css("font-size", '20px')
+            $(this).css("background-color", 'Wheat');
             console.log(filter)
         } else {
-            $(this).css("text-decoration-line", 'none')
-            $(this).css("font-size", '18px')
+            $(this).css("background-color", 'white');
         }
     })
 }

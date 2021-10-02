@@ -66,11 +66,9 @@ function getClass() {
                 })
                 var getClassID = $("#getClassID").val()
                 if (getClassID) {
-                    $("#" + getClassID).css("text-decoration-line", 'underline');
-                    $("#" + getClassID).css("font-size", '20px');
+                    $("#" + getClassID).css("background-color", 'Wheat');
                     setTimeout(function() {
-                        $("#" + getClassID).css("text-decoration-line", 'none');
-                        $("#" + getClassID).css("font-size", '18px');
+                        $("#" + getClassID).css("background-color", 'white');
                     }, 5000)
                 }
             }
