@@ -11,6 +11,11 @@ body {
     overflow: hidden;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 .content {
     height: 530px;
     width: 100%;

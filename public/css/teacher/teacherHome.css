@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 body {
     box-sizing: border-box;
     width: 100%;

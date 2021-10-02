@@ -11,6 +11,11 @@ body {
     overflow: hidden;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 #routeTuyBienOut {
     width: 100%;
     height: auto;

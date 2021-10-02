@@ -10,6 +10,11 @@ body {
     overflow: hidden;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 .body {
     box-sizing: border-box;
     height: 530px;

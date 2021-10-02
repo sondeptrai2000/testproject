@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 .rightSideContent {
     font-size: 20px;
     padding: 10px;

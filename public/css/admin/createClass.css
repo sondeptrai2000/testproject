@@ -7,6 +7,11 @@
         padding: 10px;
     }
     
+    i,
+    button {
+        cursor: pointer;
+    }
+    
     .bodyContent {
         height: 100%;
         width: 100%;

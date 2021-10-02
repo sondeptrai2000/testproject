@@ -23,6 +23,11 @@ body {
     overflow: hidden;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 
 /* chỉnh studentProfile trang cá nhân */
 

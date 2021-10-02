@@ -12,6 +12,11 @@
     font-size: 18px;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 
 /* chỉnh icon bảng lộ trình */
 

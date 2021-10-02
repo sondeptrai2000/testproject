@@ -8,6 +8,11 @@ button {
     padding: 5px;
 }
 
+button,
+i {
+    cursor: pointer;
+}
+
 html,
 body {
     box-sizing: border-box;

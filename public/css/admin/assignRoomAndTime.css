@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+i,
+button {
+    cursor: pointer;
+}
+
 #thu {
     background-color: gray;
     color: white;
