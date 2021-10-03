@@ -2,7 +2,9 @@ var express = require('express');
 var studentRouter = express.Router();
 var studentController = require('../controller/student.controller')
 
+const { checkAuth, checkStudent } = require('../middleware/index');
 
+studentRouter.use(checkAuth, checkStudent);
 //Student Home page
 studentRouter.get('/', studentController.studentHome)
 

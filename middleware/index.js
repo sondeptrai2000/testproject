@@ -4,59 +4,49 @@ var jwt = require('jsonwebtoken');
 let checkLogin = async(req, res, next) => {
     try {
         var user = await AccountModel.findOne({ username: req.body.username }).lean();
-        if (!user) res.json({ msg: 'invalid_Info' });
-        if (user) {
-            req.user = user
-            next();
-        }
+        if (!user) return res.json({ msg: 'invalid_Info' });
+        req.user = user
+        next();
     } catch (error) {
         console.log(error)
         res.json({ message: "error" })
     }
-}
-
-
+};
+//check đăng nhập
 let checkAuth = async(req, res, next) => {
-    try {
-        var token = req.cookies.token
-        let decodeAccount = jwt.verify(token, 'minhson')
-        let user = await AccountModel.findOne({ _id: decodeAccount._id }).lean();
-        if (user) {
-            next();
-        } else {
-            res.redirect('/')
-        }
-    } catch (error) {
-        res.redirect('/')
-    }
-}
+    var token = req.cookies.token
+    if (!token) return res.redirect('/warning');
+    let decodeAccount = jwt.verify(token, 'minhson');
+    let user = await AccountModel.findOne({ _id: decodeAccount._id }, { role: 1 }).lean();
+    if (!user) return res.redirect('/warning');
+    req.userLocal = user;
+    next();
+};
 
 let checkAdmin = (req, res, next) => {
-    if (req.userLocal.role === "admin") {
-        next()
-    } else {
-        res.redirect('/')
-    }
-}
-let checkCoordinator = (req, res, next) => {
-    if (req.userLocal.role === "coordinator") {
-        next()
-    } else {
-        res.redirect('/')
-    }
-}
+    if (req.userLocal.role != "admin") return res.redirect('/warning');
+    next();
+};
+let checkTeacher = (req, res, next) => {
+    if (req.userLocal.role != "teacher") return res.redirect('/warning');
+    next();
+};
+
 let checkStudent = (req, res, next) => {
-    if (req.userLocal.role === "student") {
-        next()
-    } else {
-        res.redirect('/')
-    }
-}
+    if (req.userLocal.role != "student") return res.redirect('/warning');
+    next();
+};
+
+let checkGuardian = (req, res, next) => {
+    if (req.userLocal.role != "guardian") return res.redirect('/warning');
+    next();
+};
+
 module.exports = {
     checkLogin,
     checkAdmin,
-    checkAuth,
-    checkCoordinator,
+    checkTeacher,
     checkStudent,
+    checkGuardian,
     checkAuth
 }

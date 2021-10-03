@@ -1,7 +1,14 @@
 var express = require('express');
 var adminRouter = express.Router();
 var adminController = require('../controller/admin.controller')
+
+const { checkAuth, checkAdmin } = require('../middleware/index');
+
+adminRouter.use(checkAuth, checkAdmin);
+
 adminRouter.get('/', adminController.createAccount)
+
+
 
 //Manage account page
 adminRouter.get('/createAccount', adminController.createAccount);

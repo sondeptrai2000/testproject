@@ -44,6 +44,7 @@ button {
     padding: 20px;
     border: solid 1px gray;
     overflow: hidden;
+    text-align: center;
 }
 
 .rightSide {

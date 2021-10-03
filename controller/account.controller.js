@@ -91,12 +91,7 @@ let confirmPass = async(req, res) => {
 //ok
 let homeAdmin = async(req, res) => {
     try {
-        let token = req.cookies.token
-        if (token) {
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await AccountModel.findOne({ _id: decodeAccount }).lean()
-            if (data.role === 'admin') return res.render('admin/createAccount')
-        } else { return res.redirect('/') }
+        return res.render('admin/createAccount')
     } catch (e) {
         console.log(e)
         return res.redirect('/')
@@ -106,12 +101,7 @@ let homeAdmin = async(req, res) => {
 //ok
 let homeTeacher = async(req, res) => {
     try {
-        let token = req.cookies.token
-        if (token) {
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await AccountModel.findOne({ _id: decodeAccount }).lean()
-            if (data.role === 'teacher') return res.render('teacher/teacherHome')
-        } else { res.redirect('/') }
+        return res.render('teacher/teacherHome')
     } catch (e) {
         console.log(e)
         return res.redirect('/')
@@ -121,12 +111,7 @@ let homeTeacher = async(req, res) => {
 //ok
 let homeGuardian = async(req, res) => {
     try {
-        let token = req.cookies.token
-        if (token) {
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await AccountModel.findOne({ _id: decodeAccount }).lean()
-            if (data.role === 'guardian') return res.render('guardian/guardianHome')
-        } else { res.redirect('/') }
+        return res.render('guardian/guardianHome')
     } catch (e) {
         console.log(e)
         return res.redirect('/')
@@ -136,12 +121,7 @@ let homeGuardian = async(req, res) => {
 
 let homeStudent = async(req, res) => {
     try {
-        let token = req.cookies.token
-        if (token) {
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await AccountModel.findOne({ _id: decodeAccount }).lean()
-            if (data.role === 'student') return res.render('student/studentHome')
-        } else { res.redirect('/') }
+        return res.render('student/studentHome')
     } catch (e) {
         console.log(e)
         return res.redirect('/')

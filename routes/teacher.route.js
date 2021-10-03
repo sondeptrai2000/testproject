@@ -2,7 +2,9 @@ var express = require('express');
 var teacherRouter = express.Router();
 var teacherController = require('../controller/teacher.controller')
 
+const { checkAuth, checkTeacher } = require('../middleware/index');
 
+teacherRouter.use(checkAuth, checkTeacher);
 
 teacherRouter.get('/', teacherController.teacherHome)
 

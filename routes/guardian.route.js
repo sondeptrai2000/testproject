@@ -2,7 +2,9 @@ var express = require('express');
 var guardianRouter = express.Router();
 var guardianController = require('../controller/guardian.controller')
 
+const { checkAuth, checkGuardian } = require('../middleware/index');
 
+guardianRouter.use(checkAuth, checkGuardian);
 
 guardianRouter.get('/', guardianController.guardianHome)
 

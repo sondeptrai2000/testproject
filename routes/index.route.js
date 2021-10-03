@@ -6,6 +6,7 @@ indexRouter.use(bodyParser.urlencoded({ extended: false }));
 
 
 indexRouter.get('/', indexController.home)
+indexRouter.get('/warning', indexController.warning)
 
 
 
