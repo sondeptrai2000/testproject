@@ -1,5 +1,6 @@
 $(document).ready(function() {
     getListRoom();
+    unReadMess();
 });
 //hiệu ứng menu
 $('header li').hover(function() {
@@ -61,6 +62,24 @@ function getListRoom() {
                 tuanoi(response.data[0].listRoom[0]);
             }
             if (response.msg == 'error') alert("error")
+        },
+        error: function(response) {
+            alert('server error');
+        }
+    })
+}
+
+//lấy số tin nhắn chưa đọc
+function unReadMess() {
+    $.ajax({
+        url: '/messenger/unreadMess',
+        method: 'get',
+        dataType: 'json',
+        data: {},
+        success: function(response) {
+            if (response.msg == 'success') {
+                $("#UnreadMessages").html(response.unReadMess)
+            }
         },
         error: function(response) {
             alert('server error');
