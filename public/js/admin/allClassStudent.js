@@ -42,7 +42,7 @@ function getClass() {
 //xem danh sách điểm danh của học sinh
 function myAttended(classID) {
     $.ajax({
-        url: '/student/myAttended',
+        url: '/admin/myAttended',
         method: 'get',
         dataType: 'json',
         data: { classID: classID },
@@ -74,7 +74,7 @@ function viewTeacherProfile(id) {
     var _id = id
     $(".teacherIn4Body").html("");
     $.ajax({
-        url: '/student/getTeacherProfile',
+        url: '/admin/getTeacherProfile',
         method: 'get',
         dataType: 'json',
         data: { abc: _id },
@@ -138,12 +138,13 @@ function highLight(add) {
 function sendData(id) {
     var _id = id
     $.ajax({
-        url: '/student/allClassStudent',
+        url: '/admin/getStudentProgress',
         method: 'get',
         dataType: 'json',
         data: { abc: _id },
         success: function(response) {
             if (response.msg == 'success') {
+                console.log(response.data)
                 $(".studentList").html('<div class="tr"><div class="td">avatar</div><div class="td">username</div><div class="td">email</div><div class="td">Chat</div></div>')
                 $.each(response.data, function(index, data) {
                     $.each(data.studentID, function(index, studentID) {

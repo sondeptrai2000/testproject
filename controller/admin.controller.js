@@ -296,7 +296,37 @@ class adminController {
             return res.json({ msg: 'error' });
         }
     };
+    //lấy danh sách học sinh ở trang lộ trình
+    async getStudentProgress(req, res) {
+        try {
+            var data = await ClassModel.find({ _id: req.query.abc }).populate('studentID.ID', { username: 1, email: 1, avatar: 1 }).lean();
+            return res.json({ msg: 'success', data });
+        } catch (e) {
+            console.log(e)
+            return res.json({ msg: 'error' });
+        }
+    };
+    // lấy 1 số thôgn tin giáo viên email name avatar
+    getTeacherProfile(req, res) {
+            AccountModel.find({ _id: req.query.abc }, { username: 1, email: 1, avatar: 1 }).lean().exec(function(err, data) {
+                if (err) {
+                    return res.json({ msg: 'error' });
+                } else {
+                    return res.json({ msg: 'success', data: data });
+                }
+            })
+        }
+        // xem tỉ lệ vắng của học sinh
+    async myAttended(req, res) {
+        try {
+            var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
+            res.json({ msg: 'success', data: data });
+        } catch (e) {
+            console.log(e)
+            res.json({ msg: 'error' });
 
+        }
+    }
 
     //tìm kiếm thông tin account và hiển thị ra form bên phải
     async search(req, res) {

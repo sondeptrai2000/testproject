@@ -62,6 +62,9 @@ adminRouter.post('/deleteRoom', adminController.deleteRoom);
 //xem các lớp mà học sinh đã học (studentClassDetail) quá trình học
 adminRouter.get('/studentClass/:id', adminController.studentClass);
 adminRouter.get('/getClass', adminController.getClass);
+adminRouter.get('/getStudentProgress', adminController.getStudentProgress);
+adminRouter.get('/getTeacherProfile', adminController.getTeacherProfile);
+adminRouter.get('/myAttended', adminController.myAttended);
 
 
 

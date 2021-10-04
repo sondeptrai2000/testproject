@@ -163,14 +163,15 @@ function test() {
     }
     //đưa các tuần vào thẻ select và đặt select cho tuần hiện tại.
     const date1 = new Date();
+    var year = date1.getFullYear()
     var month = date1.getMonth() + 1
         //lấy thời gian hiện tại để so sánh và lấy tuần
-    var now = date1.getFullYear() + "-" + month.toString().padStart(2, "0") + "-" + date1.getDate();
+    var now = date1.getFullYear() + "-" + month.toString().padStart(2, "0") + "-" + date1.getDate().toString().padStart(2, "0");
     for (var u = 0; u < tuan.length; u++) {
         $("#chonTuan").append('<option value="' + tuan[u] + '">' + tuan[u] + '</option>');
         dauTuan = tuan[u].split(" to ")[0]
         cuoiTuan = tuan[u].split(" to ")[1]
-        if ((dauTuan <= now) && (now <= cuoiTuan)) {
+        if ((dauTuan <= now) && (now => cuoiTuan)) {
             $('#chonTuan option:selected').removeAttr('selected');
             $("#chonTuan option[value='" + tuan[u] + "']").attr('selected', 'selected');
         }
