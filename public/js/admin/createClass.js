@@ -64,7 +64,7 @@ function getAllClass() {
             if (response.msg == 'success') {
                 $(".tableClass").html("<div class='tr'><div class='td'>Class name</div><div class='td'>Teacher</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Action</div></div>")
                 $.each(response.classInfor, function(index, data) {
-                    $(".tableClass").append("<div class='tr' id='" + data._id + "'><div class='td'>" + data.className + "</div><div class='td'>Name: " + data.teacherID.username + "<br>Email:" + data.teacherID.email + "</div><div class='td'>" + data.stage + "</div><div class='td'>" + data.subject + "</div><div class='td' style='display:none;'>" + data.timeToStudy + "</div><div class='td'>" + data.description + "</div><div class='td'>" + data.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + data.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><i class='far fa-edit' onclick=actionClass('" + data._id + "')></i><div style='display:none;' class='action" + data._id + "'><div class='td'><button onclick=changeInfor('" + data._id + "')><i class='fas fa-chalkboard-teacher'></i><br>Update class</button></div><div class='td'><button onclick=sendData('" + data._id + "')><i class='fas fa-users'></i><br>Student list</button></div><div class='td'><button onclick=upDateSchedule('" + data._id + "')><i class='far fa-calendar-alt'></i><br>Schedule </button></div><div class='td'><button onclick=deleteClass('" + data._id + "')><i class='far fa-trash-alt'></i><br>Delete</button></div></div></div></div>")
+                    $(".tableClass").append("<div class='tr' id='" + data._id + "'><div class='td'>" + data.className + "</div><div class='td'>Name: " + data.teacherID.username + "<br>Email:" + data.teacherID.email + "</div><div class='td'>" + data.stage + "</div><div class='td'>" + data.subject + "</div><div class='td' style='display:none;'>" + data.timeToStudy + "</div><div class='td'>" + data.description + "</div><div class='td'>" + data.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + data.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td' style='display:none;'>" + data.description + "</div><div class='td'><i class='far fa-edit' onclick=actionClass('" + data._id + "')></i><div style='display:none;' class='action" + data._id + "'><div class='td'><button onclick=changeInfor('" + data._id + "')><i class='fas fa-chalkboard-teacher'></i><br>Update class</button></div><div class='td'><button onclick=sendData('" + data._id + "')><i class='fas fa-users'></i><br>Student list</button></div><div class='td'><button onclick=upDateSchedule('" + data._id + "')><i class='far fa-calendar-alt'></i><br>Schedule </button></div><div class='td'><button onclick=deleteClass('" + data._id + "')><i class='far fa-trash-alt'></i><br>Delete</button></div></div></div></div>")
                 });
             }
         },
@@ -82,8 +82,9 @@ function actionClass(id) {
     var allIn4 = []
     console.log("#" + id + " .td")
     $("#" + id + " .td").each(function() { allIn4.push($(this).text()) })
+    console.log(allIn4)
     $("#classNameUpdate").val(allIn4[0])
-    $("#descriptionUpdate").val(allIn4[6])
+    $("#descriptionUpdate").val(allIn4[8])
     $("#currentTeacherName").val(allIn4[1].split("Email")[0].replace("Name: ", ""))
     $("#currentTeacherEmail").val(allIn4[1].split("Email:")[1])
 }
@@ -372,7 +373,6 @@ function filterStudentAdd() {
 
 //hiển thị danh sách lịch giảng dạy để admin chọn vào thay đổi lịch làm việc 1 ngày nào đó trong list
 function upDateSchedule(id) {
-    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't update schedual of this class!")
     $(".actionOut").fadeOut(500)
     var idClass = id
     $.ajax({
@@ -394,6 +394,7 @@ function upDateSchedule(id) {
 }
 //hiển thị form update lịch cho giáo viên
 function updateScheduleForm(scheduleID, classID) {
+    if ($("#typeClass").val() == "Finished") return alert("This class was end. Can't update schedual of this class!")
     $("input[name='updateScheduleID']").val(scheduleID)
     $("input[name='updateScheduleClassID']").val(classID)
     $("#oldSchudule").html('<div class="td">Old</div>')

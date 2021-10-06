@@ -6,6 +6,12 @@ const { homeAdmin, homeGuardian, homeStudent, homeTeacher, loginController, getC
 // check đăng nhập
 accounRouter.post('/dologin', checkLogin, loginController)
 
+
+// đổi mật khẩu
+accounRouter.get('/getCode', getCode)
+accounRouter.post('/confirmPass', confirmPass)
+
+
 accounRouter.use(checkAuth);
 
 //cập nhật thông tin tài khoản
@@ -16,7 +22,4 @@ accounRouter.get('/homeAdmin', checkAdmin, homeAdmin)
 accounRouter.get('/homeStudent', checkStudent, homeStudent)
 accounRouter.get('/homeTeacher', checkTeacher, homeTeacher)
 accounRouter.get('/homeGuardian', checkGuardian, homeGuardian)
-    // đổi mật khẩu
-accounRouter.get('/getCode', getCode)
-accounRouter.post('/confirmPass', confirmPass)
 module.exports = accounRouter
