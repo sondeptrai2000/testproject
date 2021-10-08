@@ -479,6 +479,7 @@ function addStudent(classID) {
         stage: infor4[2].trim(),
         availableTime: { $in: [infor4[4].trim(), 'All'] }
     }
+    console.log(infor4)
     $.ajax({
         url: '/admin/addStudentToClass',
         method: 'get',
@@ -494,7 +495,7 @@ function addStudent(classID) {
                     $.each(student.progess, function(index, progess) {
                         if (progess.stage == student.stage) {
                             $.each(progess.stageClass, function(index, stageClass) {
-                                if (stageClass.classID == classID || stageClass.subject == infor4[3]) check = true
+                                if (stageClass.classID == classID || stageClass.name == infor4[3]) check = true
                             });
                         }
                     });
