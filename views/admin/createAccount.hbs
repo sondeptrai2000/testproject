@@ -102,8 +102,10 @@
                   <h2 style="margin:5px;">Weekly Schedual</h2>
                   <input type="hidden" id='viewID'>
                   <input type="hidden" id='viewRole'>
-                  <label>Chose week: </label><select id='chonTuan'
-                        onchange='viewSchedual($("#viewID").val(),$("#viewRole").val())'></select>
+                  <label>Chose year: </label>
+                  <select id='chonNam' onchange='setCalender()'></select>
+                  <label>Chose week: </label>
+                  <select id='chonTuan' onchange='viewSchedual($("#viewID").val(),$("#viewRole").val())'></select>
                   <div class="tr" id='ngay'></div>
                   <div class="tr" id='thu'>
                         <div class="td">Day of week</div>

@@ -5,9 +5,21 @@ $(document).ready(function() {
     //thông tin cá nhân
     teacherProfile();
     //lịch học or làm việc
-    test();
     unReadMess();
+    //thêm năm vào xem lịch
+    year();
 });
+
+function year() {
+    for (var a = 2012; a < 2030; a++) {
+        $("#chonNam").append("<option value='" + a + "' >" + a + "</option>")
+    }
+    var date = new Date()
+    console.log(date.getFullYear())
+    $("#chonNam option[value='" + date.getFullYear() + "']").attr('selected', 'selected');
+
+    test();
+}
 
 //hiệu ứng menu
 $('header li').hover(function() {
@@ -136,8 +148,10 @@ function doUpdateProfile() {
 
 //tạo lịch
 function test() {
+    firstDayOfYear = $("#chonNam").val() + "-01-01";
+    lastDayofYear = $("#chonNam").val() + "-12-31";
     //lấy các ngày trong năm
-    for (var arr = [], dt = new Date("2021-01-01"); dt <= new Date("2021-12-31"); dt.setDate(dt.getDate() + 1)) {
+    for (var arr = [], dt = new Date(firstDayOfYear); dt <= new Date(lastDayofYear); dt.setDate(dt.getDate() + 1)) {
         var date = new Date(dt)
         var month = (date.getMonth() + 1).toString().padStart(2, "0");
         var lol = date.getFullYear() + "-" + month + "-" + date.getDate().toString().padStart(2, "0");
@@ -145,23 +159,25 @@ function test() {
     }
     //chia thành các tuần từ thứ 2 to CN
     var tuan = []
-    var check = false
-    var check2 = false
+    var checkTuanDau = false
     for (var i = 0; i < arr.length; i++) {
         var d = new Date(arr[i].ngay);
         var n = d.getDay();
-        if (arr[i].thu != 2 && i < 7 && check2 == false) {
-            tuan.push(arr[i].ngay + ' to ' + arr[7 - n].ngay)
-            check2 = true
+        // console.log(tuan)
+        //xét tuần đầu tiên
+        if (arr[i].thu != 2 && i < 7 && checkTuanDau == false) {
+            if (arr[i].thu == 1) tuan.push(arr[i].ngay + ' to ' + arr[i].ngay);
+            if (arr[i].thu != 1) tuan.push(arr[i].ngay + ' to ' + arr[7 - n].ngay);
+            checkTuanDau = true;
         }
-        if (arr[i].thu == 2 && (i + 7) < arr.length) tuan.push(arr[i].ngay + ' to ' + arr[i + 6].ngay)
 
-        if (arr[i].thu != 2 && (i + 7) > arr.length && check == false) {
-            tuan.push(arr[i + 1].ngay + ' to ' + arr[arr.length - 1].ngay)
-            check = true
+        if (arr[i].thu == 2) {
+            if (i + 6 < arr.length) tuan.push(arr[i].ngay + ' to ' + arr[i + 6].ngay)
+            if (i + 6 >= arr.length) tuan.push(arr[i].ngay + ' to ' + arr[arr.length - 1].ngay)
         }
     }
     //đưa các tuần vào thẻ select và đặt select cho tuần hiện tại.
+    $("#chonTuan").html("")
     const date1 = new Date();
     var year = date1.getFullYear()
     var month = date1.getMonth() + 1
