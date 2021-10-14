@@ -11,11 +11,12 @@ class guardianController {
 
     async myAttended(req, res) {
         try {
-            let token = req.cookies.token
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var guardian = await AccountModel.findOne({ _id: decodeAccount }, { relationship: 1 }).lean()
-            var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
-            return res.json({ msg: 'success', data: data, studentID: guardian.relationship });
+            //lấy _Id của học sinh
+            let studentID = req.cookies.student;
+            let decodeAccount = jwt.verify(studentID, 'minhson');
+            //lấy lịch học
+            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).lean();
+            return res.json({ msg: 'success', data: data, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });
@@ -33,15 +34,12 @@ class guardianController {
 
     async getClass(req, res) {
         try {
-            let token = req.cookies.token
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var guardian = await AccountModel.findOne({ _id: decodeAccount }, { relationship: 1 }).lean()
-            var classInfor = await AccountModel.find({ _id: guardian.relationship }, { classID: 1 }).populate({
-                path: 'classID',
-                select: '-schedule',
-                populate: { path: 'teacherID', select: 'username' }
-            }).lean()
-            return res.json({ msg: 'success', classInfor, studentID: guardian.relationship });
+            //lấy _Id của học sinh
+            let studentID = req.cookies.student;
+            let decodeAccount = jwt.verify(studentID, 'minhson');
+            //lấy lớp học sinh đã và đang học
+            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id }).populate("teacherID", { username: 1 }).lean();
+            return res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });
@@ -75,15 +73,13 @@ class guardianController {
 
     async getSchedule(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson')
-            var studentID = decodeAccount._id
-            var guardian = await AccountModel.findOne({ _id: decodeAccount }, { relationship: 1 }).lean()
-            var student = await AccountModel.findOne({ _id: guardian.relationship }, { classID: 1 }).lean()
-            var studentID = guardian.relationship
-            var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ _id: { $in: student.classID }, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
-            return res.json({ msg: 'success', classInfor, studentID });
+            //lấy _Id của học sinh
+            let studentID = req.cookies.student;
+            let decodeAccount = jwt.verify(studentID, 'minhson');
+            var sosanh = new Date(req.query.dauTuan);
+            //lấy lịch trình học tập của tuần hiện tại
+            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            return res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
             return res.json({ msg: 'error' });

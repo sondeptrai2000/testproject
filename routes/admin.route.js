@@ -6,7 +6,7 @@ const { checkAuth, checkAdmin } = require('../middleware/index');
 
 adminRouter.use(checkAuth, checkAdmin);
 
-adminRouter.get('/', adminController.createAccount)
+adminRouter.get('/', adminController.adminHome)
 
 
 

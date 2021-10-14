@@ -278,51 +278,46 @@ function submitTakeAttend() {
     var dateAttend = $("#loladate5").val().replace("T00:00:00.000Z", "")
     var date1 = new Date();
     var date2 = new Date(dateAttend);
-    var diff = new Date(date1.getTime() - date2.getTime());
-    //lấy các khoảng thời gian lệch giữa ngày giờ để check xem có đủ condition điểm danh không
-    var spaceDay = diff.getUTCDate() - 1;
-    var spaceMonth = diff.getUTCMonth();
-    var spaceYear = diff.getUTCFullYear() - 1970;
     //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
-    if (spaceDay > 4 || spaceDay < 0) return alert("Out of date to take attend of this date! Only 4 day after this date.");
-    //nếu trong vòng 4 ngày sẽ được điểm danh
-    if ((spaceDay <= 4 && spaceDay >= 0) && spaceMonth == 0 && spaceYear == 0) {
-        var studentID = [];
-        var comment = [];
-        var attended = [];
-        $(".attendStudentID").each(function() { studentID.push($(this).val()) })
-        $(".attendCommentStudent").each(function() { comment.push($(this).val()) })
-        $(".attendStudentStatus").each(function() { attended.push($(this).val()) })
-        var attend = [];
-        for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i], "comment": comment[i] }) }
-        //Note: room,day,time là số buổi học và giờ học được gán từ lúc lấy danh sách lịch học
-        var formData = {
-            attend: attend,
-            idClass: $("#loladate3").val(),
-            schedule: $("#loladate1").val(),
-            lastDate: $("#loladate4").val(),
-            room: room,
-            day: day,
-            time: time,
-            scheduleStatus: $("#scheduleStatus").val(),
-            scheduleTime: $("#scheduleTime").val(),
-            scheduleRoom: $("#scheduleRoom").val(),
-            scheduleDay: $("#scheduleDay").val(),
-        }
-        $.ajax({
-            url: '/teacher/doTakeAttended',
-            method: 'post',
-            dataType: 'json',
-            data: formData,
-            success: function(response) {
-                if (response.msg == 'success') {
-                    attendedList($("#loladate3").val())
-                    alert('success');
-                }
-            },
-            error: function(response) { alert('server error'); }
-        });
+    if ((date1.getDate() - date2.getDate()) > 4 || (date1.getDate() - date2.getDate()) < 0 && (date1.getMonth() == date2.getMonth()) && (date1.getFullYear() == date2.getFullYear())) {
+        return alert("Out of date to take attend of this date! Only 4 day after this date.");
     }
+    //nếu trong vòng 4 ngày sẽ được điểm danh
+    var studentID = [];
+    var comment = [];
+    var attended = [];
+    $(".attendStudentID").each(function() { studentID.push($(this).val()) })
+    $(".attendCommentStudent").each(function() { comment.push($(this).val()) })
+    $(".attendStudentStatus").each(function() { attended.push($(this).val()) })
+    var attend = [];
+    for (var i = 0; i < attended.length; i++) { attend.push({ "studentID": studentID[i], "attended": attended[i], "comment": comment[i] }) }
+    //Note: room,day,time là số buổi học và giờ học được gán từ lúc lấy danh sách lịch học
+    var formData = {
+        attend: attend,
+        idClass: $("#loladate3").val(),
+        schedule: $("#loladate1").val(),
+        lastDate: $("#loladate4").val(),
+        room: room,
+        day: day,
+        time: time,
+        scheduleStatus: $("#scheduleStatus").val(),
+        scheduleTime: $("#scheduleTime").val(),
+        scheduleRoom: $("#scheduleRoom").val(),
+        scheduleDay: $("#scheduleDay").val(),
+    }
+    $.ajax({
+        url: '/teacher/doTakeAttended',
+        method: 'post',
+        dataType: 'json',
+        data: formData,
+        success: function(response) {
+            if (response.msg == 'success') {
+                attendedList($("#loladate3").val())
+                alert('success');
+            }
+        },
+        error: function(response) { alert('server error'); }
+    });
 }
 
 //lọc phân loại tìm kiếm (lớp đang dạy hay đã dạy và khoảng thời gian)

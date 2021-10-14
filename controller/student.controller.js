@@ -12,7 +12,7 @@ class studentController {
         try {
             let token = req.cookies.token
             let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
+            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).lean();
             res.json({ msg: 'success', data: data, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
@@ -33,11 +33,7 @@ class studentController {
         try {
             let token = req.cookies.token
             let decodeAccount = jwt.verify(token, 'minhson')
-            var classInfor = await AccountModel.find({ _id: decodeAccount._id }, { classID: 1 }).populate({
-                path: 'classID',
-                select: { 'schedule': 0 },
-                populate: { path: 'teacherID', select: 'username' }
-            }).lean()
+            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id }).populate("teacherID", { username: 1 }).lean();
             res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
@@ -70,11 +66,9 @@ class studentController {
         try {
             var token = req.cookies.token
             var decodeAccount = jwt.verify(token, 'minhson')
-            var studentID = decodeAccount._id
-            var data = await AccountModel.findOne({ _id: decodeAccount }, { classID: 1 }).lean()
             var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ _id: { $in: data.classID }, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
-            return res.json({ msg: 'success', classInfor, studentID });
+            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            return res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });

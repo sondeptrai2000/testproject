@@ -24,7 +24,7 @@ function getClass() {
                 var data = response.data
                 console.log(data)
                 $(".rightSideContent").html(" <div class='tr'><div class='td'>Class name</div><div class='td'>Stage</div><div class='td'>Subject</div><div class='td'>Teacher</div><div class='td'>Grade</div><div class='td'>Comment</div><div class='td'>Start date</div><div class='td'>End date</div class='td'><div class='td'>Student List</div></div>")
-                data.classID.forEach((e) => {
+                data.forEach((e) => {
                     $(".rightSideContent").append("<div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td' onclick=viewTeacherProfile('" + e.teacherID._id + "')>" + e.teacherID.username + "</div></div>")
                     var classID = e._id
                     e.studentID.forEach((e) => {

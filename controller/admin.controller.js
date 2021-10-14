@@ -39,7 +39,7 @@ async function uploadFile(name, rootID, path) {
 
 class adminController {
     async adminHome(req, res) {
-        // AccountModel.updateMany({}, { $set: { classID: [] } }, function(err, data) {
+        // AccountModel.updateMany({}, { $unset: { chat: [] } }, function(err, data) {
         //         if (err) {
         //             console.log("k ok")
         //         } else {
@@ -60,7 +60,8 @@ class adminController {
         //     read: []
         // })
         // console.log("ok")
-    }
+    };
+
     async deleteAccount(req, res) {
         try {
             var Account = await AccountModel.findOne({ _id: req.body.id }, { relationship: 1 }).lean();
@@ -120,13 +121,7 @@ class adminController {
         try {
             //lấy thông tin lớp học
             var classInfor = await ClassModel.findOne({ _id: req.query.id });
-            //lấy danh sách và tiến hành xóa lớp trong thông tin cá nhân của học sinh
             //Note: cần xóa cả ở trong lộ trình học cá nhân của học sinh
-            var listStudentID = [];
-            if (classInfor.studentID.length != 0) {;
-                classInfor.studentID.forEach((e) => { listStudentID.push(e.ID) })
-                await AccountModel.updateMany({ _id: { $in: listStudentID } }, { $pull: { classID: req.query.id } });
-            }
             await ClassModel.deleteOne({ _id: req.query.id })
             return res.json({ msg: 'success' });
         } catch (e) {
@@ -139,8 +134,8 @@ class adminController {
         try {
             if (req.body.updateTeacher != "") {
                 var teacher = await AccountModel.findOne(req.body.updateTeacher, { _id: 1 }).lean();
-                if (teacher) await ClassModel.updateOne({ _id: req.body.classID }, { className: req.body.className, description: req.body.Description, teacherID: teacher._id })
                 if (!teacher) return res.json({ msg: 'Teacher not found' });
+                if (teacher) await ClassModel.updateOne({ _id: req.body.classID }, { className: req.body.className, description: req.body.Description, teacherID: teacher._id })
             }
             if (req.body.updateTeacher == "") await ClassModel.updateOne({ _id: req.body.classID }, { className: req.body.className, description: req.body.Description })
             return res.json({ msg: 'success' });
@@ -165,9 +160,7 @@ class adminController {
     //lấy các lich học của các lớp mà giao viên đang giảng dạy để tìm thời gian trống. Có thể dạy các lớp khác
     async getTime(req, res) {
         try {
-            console.log(req.query.teacherID)
-            console.log(req.query.dayOfWeek)
-            var data = await ClassModel.find({ teacherID: req.query.teacherID, classStatus: "Processing" }, { schedule: { $elemMatch: { day: '0' + req.query.dayOfWeek } } }, { schedule: 1 })
+            var data = await ClassModel.find({ teacherID: req.query.teacherID, classStatus: "Processing" }, { schedule: { $elemMatch: { day: '0' + req.query.dayOfWeek } } }, { schedule: 1 }).lean();
             return res.json({ msg: 'success', data });
         } catch (e) {
             console.log(e)
@@ -192,7 +185,7 @@ class adminController {
             //lấy danh sách các mail của học sinh để thông báo về sự thay đổi
             getListEmail[0].studentID.forEach(element => { listEmail = listEmail + element.ID.email + ', ' });
             listEmail.slice(0, -2);
-            var content = 'Do 1 số vấn đề giáo viên, buổi học của lớp ' + getListEmail[0].className + ' vào ngày ' + oldSchuedule[0] + ' từ ' + oldSchuedule[3] + " chuyển sang ngày " + update['schedule.$.date'] + ' từ ' + update['schedule.$.time'] + '.';
+            var content = 'Due to some problems, the lesson of' + getListEmail[0].className + ' class on ' + oldSchuedule[0] + ' at ' + oldSchuedule[3] + " shift to " + update['schedule.$.date'] + ' at ' + update['schedule.$.time'] + '.';
             var mainOptions = { from: 'sownenglishedu@gmail.com', to: listEmail, subject: 'Notification', text: content };
             await transporter.sendMail(mainOptions);
             return res.json({ msg: 'success' });
@@ -228,7 +221,6 @@ class adminController {
         }
     };
     //lấy tất cả cacs lớp đang hoạt động
-    //Note: Chỉnh thành laij trang
     async getAllClass(req, res) {
         try {
             var classPerPage = 10
@@ -260,14 +252,10 @@ class adminController {
             var id = req.query.id;
             var role = req.query.role;
             //lấy thời điểm đầu tuần để lấy khóa học đang hoạt động trong khoảng thời gian đó. 
-            var sosanh = new Date(req.query.dauTuan)
+            var sosanh = new Date(req.query.dauTuan);
+            //lấy lich làmm việc, học dựa vòa role
             if (role == 'teacher') var classInfor = await ClassModel.find({ teacherID: id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }, { className: 1, schedule: 1 });
-            if (role == 'student') {
-                //lấy danh sách các lớp học của học sinh
-                var data = await AccountModel.findOne({ _id: id }, { classID: 1 }).lean();
-                //lấy lich học các lớp
-                var classInfor = await ClassModel.find({ _id: { $in: data.classID }, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
-            }
+            if (role == 'student') var classInfor = await ClassModel.find({ "studentID.ID": id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
             return res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)
@@ -289,7 +277,8 @@ class adminController {
     //trang xem thông tin cụ thể thông tin quá trình học của học sinh 
     async getClass(req, res) {
         try {
-            var data = await AccountModel.findOne({ _id: req.query.studentId }).populate({ path: 'classID', populate: { path: 'teacherID', select: 'username' } }).lean()
+            var data = await ClassModel.find({ "studentID.ID": req.query.studentId }).populate("teacherID", { username: 1 }).lean();
+            console.log(data)
             return res.json({ msg: 'success', data });
         } catch (e) {
             console.log(e)
@@ -308,15 +297,15 @@ class adminController {
     };
     // lấy 1 số thôgn tin giáo viên email name avatar
     getTeacherProfile(req, res) {
-            AccountModel.find({ _id: req.query.abc }, { username: 1, email: 1, avatar: 1 }).lean().exec(function(err, data) {
-                if (err) {
-                    return res.json({ msg: 'error' });
-                } else {
-                    return res.json({ msg: 'success', data: data });
-                }
-            })
-        }
-        // xem tỉ lệ vắng của học sinh
+        AccountModel.find({ _id: req.query.abc }, { username: 1, email: 1, avatar: 1 }).lean().exec(function(err, data) {
+            if (err) {
+                return res.json({ msg: 'error' });
+            } else {
+                return res.json({ msg: 'success', data: data });
+            }
+        })
+    };
+    // xem tỉ lệ vắng của học sinh
     async myAttended(req, res) {
         try {
             var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
@@ -326,7 +315,7 @@ class adminController {
             res.json({ msg: 'error' });
 
         }
-    }
+    };
 
     //tìm kiếm thông tin account và hiển thị ra form bên phải
     async search(req, res) {
@@ -375,7 +364,6 @@ class adminController {
     //lấy các học sinh đang học tình trạng học tập tại mức độ đã chọn để thêm vào lớp trong form tạo lớp
     async getStudent(req, res) {
         try {
-            console.log(req.query.time)
             var student = await AccountModel.find({ role: 'student', routeName: req.query.abc, stage: req.query.levelS, availableTime: { $in: [req.query.time, 'All'] } }, { username: 1, stage: 1, email: 1, progess: 1, avatar: 1, phone: 1 }).lean()
             return res.json({ msg: 'success', student });
         } catch (e) {
@@ -436,6 +424,7 @@ class adminController {
             return res.json({ msg: 'error' });
         }
     };
+
     //xóa lộ trình học 
     async deleteRoute(req, res) {
         try {
@@ -445,7 +434,7 @@ class adminController {
             console.log(e)
             return res.json({ msg: 'error' });
         }
-    }
+    };
 
     //tạo tk mới
     async doCreateAccount(req, res) {
@@ -508,14 +497,15 @@ class adminController {
         try {
             //lấy dữ liệu của lớp
             var data = await ClassModel.findOne({ _id: req.body.classID }).lean();
-            //thêm classID vào bảng thông tin của các học sinh
-            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl } }, { $push: { classID: req.body.classID } });
             //thêm classID vào bảng thông tin lộ trình của các học sinh ( progess)
             await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stage": data.stage }, { $push: { "progess.$.stageClass": { classID: data._id, name: data.subject, status: "studying" } } });
-            //Thêm học sinh vào danh sách học sinh trong bảng thông tin lớp
-            await ClassModel.findOneAndUpdate({ _id: req.body.classID }, { $push: { studentID: { $each: req.body.studentlist }, } });
-            //thêm trong danh sáhc điểm danh
-            await ClassModel.updateOne({ _id: req.body.classID }, { $push: { "schedule.$[].attend": { $each: req.body.studentlistAttend } } });
+            //Thêm học sinh vào danh sách học sinh trong bảng thông tin lớp và danh sáhc điểm danh
+            await ClassModel.findOneAndUpdate({ _id: req.body.classID }, {
+                $push: {
+                    studentID: { $each: req.body.studentlist },
+                    "schedule.$[].attend": { $each: req.body.studentlistAttend }
+                }
+            });
             return res.json({ msg: 'success' });
         } catch (e) {
             console.log(e)
@@ -526,14 +516,15 @@ class adminController {
     //xóa 1 học sinh ra khoeir lớp
     async doremoveStudentToClass(req, res) {
         try {
-            //xóa classID vào bảng thông tin của các học sinh
-            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl } }, { $pull: { classID: req.body.classID } });
             //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
             await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stageClass.classID": req.body.classID }, { $pull: { "progess.$.stageClass": { classID: req.body.classID } } });
-            //xóa học sinh vào danh sách học sinh trong bảng thông tin lớp
-            await ClassModel.findOneAndUpdate({ _id: req.body.classID }, { $pull: { studentID: { ID: { $in: req.body.studentlistcl } } } });
-            //xóa trong danh sáhc điểm danh
-            await ClassModel.updateOne({ _id: req.body.classID }, { $pull: { "schedule.$[].attend": { studentID: { $in: req.body.studentlistcl } } } });
+            //xóa học sinh vào danh sách học sinh trong bảng thông tin lớp và danh sáhc điểm danh
+            await ClassModel.findOneAndUpdate({ _id: req.body.classID }, {
+                $pull: {
+                    studentID: { ID: { $in: req.body.studentlistcl } },
+                    "schedule.$[].attend": { studentID: { $in: req.body.studentlistcl } }
+                }
+            });
             return res.json({ msg: 'success' });
         } catch (e) {
             console.log(e)
@@ -651,8 +642,6 @@ class adminController {
             });
             //nếu có học sinh
             if (studentID && listStudent) {
-                //thêm classID vào thông tin học sinh
-                await AccountModel.updateMany({ _id: { $in: studentID } }, { $push: { classID: data._id } });
                 //thêm classID vào lộ trình của thông tin học sinh
                 await AccountModel.updateMany({ _id: { $in: studentID }, "progess.stage": req.body.stage }, { $push: { "progess.$.stageClass": { classID: data._id, name: req.body.subject, status: "studying" } } });
                 //cập nhật thông tin về danh sáhc học sinh, lịch học vòa lớp

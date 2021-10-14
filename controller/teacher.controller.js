@@ -35,7 +35,7 @@ class teacherController {
             res.json("lỗi")
         }
     };
-    //đếm số lượng account dựa trên trạng thái của lớp học
+    //đếm số lượng lớp dựa trên trạng thái của lớp học
     async countClass(req, res) {
         try {
             var token = req.cookies.token;
@@ -52,7 +52,6 @@ class teacherController {
     };
 
     //lấy tất cả cacs lớp đang hoạt động
-    //Note: Chỉnh thành số trang
     async getAllClass(req, res) {
         try {
             var token = req.cookies.token
@@ -96,25 +95,13 @@ class teacherController {
             var now = new Date();
             //cập nhật điểm danh cho học sinh
             await ClassModel.updateOne({ _id: req.body.idClass, "schedule._id": req.body.schedule }, { $set: { "schedule.$.attend": req.body.attend, "schedule.$.status": "success" } });
-            //tính số buổi học sinh đã nghỉ
-            var data = await ClassModel.find({ _id: req.body.idClass }, { schedule: 1, studentID: 1 }).lean();
-            var student1 = data[0].studentID;
-            student1.forEach((student, index) => { student1[index].absentRate = 0 });
-            data[0].schedule.forEach((e) => {
-                e.attend.forEach((e) => {
-                    student1.forEach((student, index) => { if (e.attended == "absent" && e.studentID.toString() == student.ID.toString()) student1[index].absentRate++; })
-                })
-            });
-            //cập nhật % số lần học sinh nghỉ học
-            await ClassModel.updateOne({ _id: req.body.idClass }, { studentID: student1 });
-
             //nếu là lịch học đã được update (giáo viên bận và đã được chuyển lịch dạy sang ngày khác thì chuyển trạng thái của phòng đó thành none để thành phòng trống)
             if (req.body.scheduleStatus == 'update') await assignRoomAndTimeModel.updateOne({ dayOfWeek: req.body.scheduleDay, room: { $elemMatch: { room: req.body.scheduleRoom, time: req.body.scheduleTime } } }, { $set: { "room.$.status": "None" } });
             //nếu đó là buổi học cuối cùng (so sánh time) thì sẽ chuyển trạng thái các phòng của lớp đó thành none 
             var theLastCourse = new Date(req.body.lastDate.split("T00:00:00.000Z")[0]);
+            console.log(req.body.time)
             if (now >= theLastCourse) {
-                console.log("vào")
-                    //chuyển phòng thành none 
+                //chuyển phòng thành none 
                 for (var i = 0; i < req.body.time.length; i++) { await assignRoomAndTimeModel.update({ dayOfWeek: req.body.day[i], room: { $elemMatch: { room: req.body.room[i], time: req.body.time[i] } } }, { $set: { "room.$.status": "None" } }) }
                 //cập nhật trạng thái của lớp là đã kết thúc
                 await ClassModel.updateOne({ _id: req.body.idClass }, { classStatus: 'Finished' });

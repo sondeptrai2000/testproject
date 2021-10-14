@@ -132,12 +132,20 @@ let loginController = async function(req, res) {
     try {
         var result = await bcrypt.compare(req.body.password, req.user.password)
         if (result) {
+            let user = req.user;
+            //lưu id account
             let token = jwt.sign({ _id: req.user._id }, 'minhson', { expiresIn: '1d' })
             res.cookie("token", token, { maxAge: 24 * 60 * 60 * 10000 });
-            let user = req.user
+            //lưu role and name
+            let PMS = jwt.sign({ _id: req.user.role, name: req.user.username }, 'minhson', { expiresIn: '1d' })
+            res.cookie("PMS", PMS, { maxAge: 24 * 60 * 60 * 10000 });
             if (user.role === "admin") return res.json({ msg: 'success', data: "./homeAdmin" });
             if (user.role === "student") return res.json({ msg: 'success', data: "./homeStudent" });
-            if (user.role === "guardian") return res.json({ msg: 'success', data: "./homeGuardian" });
+            if (user.role === "guardian") {
+                let relationship = jwt.sign({ _id: req.user.relationship }, 'minhson', { expiresIn: '1d' })
+                res.cookie("student", relationship, { maxAge: 24 * 60 * 60 * 10000 });
+                return res.json({ msg: 'success', data: "./homeGuardian" });
+            }
             if (user.role === "teacher") return res.json({ msg: 'success', data: "./homeTeacher" });
         } else { return res.json({ msg: 'invalid_Info' }); }
     } catch (e) {
