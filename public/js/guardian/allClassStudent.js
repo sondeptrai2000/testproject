@@ -87,19 +87,20 @@ function myAttended(classID) {
         success: function(response) {
             if (response.msg == 'success') {
                 var data = response.data
-                var studentIndex
+                var absentSlot = 0
                 $(".myAttendContent").html("<div class='tr'><div class='td'>Date</div><div class='td'>Note</div><div class='td'>Status</div></div>")
                 data.schedule.forEach((e, indexBIG) => {
                     $(".myAttendContent").append("<div class='tr'><div class='td' style='text-align:left;'>" + e.date.replace("T00:00:00.000Z", "") + "<br>At:" + e.time + "</div></div>")
                     e.attend.forEach((e, index) => {
                         if (e.studentID == response.studentID) {
+                            if (e.attended == 'absent') absentSlot++;
                             studentIndex = index
                             $(".myAttendContent .tr:nth-child(" + (indexBIG + 2) + ")").append("<div class='td'>" + e.comment + "</div><div class='td'>" + e.attended + "</div>")
                         }
                     })
                 })
                 var totalSchedual = data.schedule.length
-                $(".myAttendContent").append("<h1>Absent rate: " + (data.studentID[studentIndex].absentRate / totalSchedual * 100) + "% </h1>")
+                $(".myAttendContent").append("<h1>Absent rate: " + (absentSlot / totalSchedual * 100) + "% </h1>")
                 $(".myAttendOut").fadeIn(500)
             }
         },

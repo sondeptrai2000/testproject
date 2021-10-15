@@ -50,18 +50,20 @@ function myAttended(classID) {
             if (response.msg == 'success') {
                 var data = response.data
                 var studentIndex
+                var absentSlot = 0
                 $(".myAttendContent").html("<div class='tr'><div class='td'>Date</div><div class='td'>Note</div><div class='td'>Status</div></div>")
                 data[0].schedule.forEach((e, indexBIG) => {
                     $(".myAttendContent").append("<div class='tr'><div class='td' style='text-align:left;'>" + e.date.replace("T00:00:00.000Z", "") + "<br>At:" + e.time + "</div></div>")
                     e.attend.forEach((e, index) => {
                         if (e.studentID._id == $("#studentID").val()) {
+                            if (e.attended == 'absent') absentSlot++;
                             studentIndex = index
                             $(".myAttendContent .tr:nth-child(" + (indexBIG + 2) + ")").append("<div class='td'>" + e.comment + "</div><div class='td'>" + e.attended + "</div>")
                         }
                     })
                 })
                 var totalSchedual = data[0].schedule.length
-                $(".myAttendContent").append("<h1>Absent rate:  " + (data[0].studentID[studentIndex].absentRate / totalSchedual * 100) + "% </h1>")
+                $(".myAttendContent").append("<h1>Absent rate:  " + (absentSlot / totalSchedual * 100) + "% </h1>")
                 $(".myAttendOut").fadeIn(500)
             }
         },
@@ -126,7 +128,6 @@ function highLight(add) {
     $(".rightSideContent .tr:not(:first-child)").each(function() {
         if ($(this).find('.td').text().toUpperCase().indexOf(filter) > -1) {
             $(this).css("background-color", 'Wheat');
-            console.log(filter)
         } else {
             $(this).css("background-color", 'white');
         }

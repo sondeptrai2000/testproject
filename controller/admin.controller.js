@@ -278,7 +278,6 @@ class adminController {
     async getClass(req, res) {
         try {
             var data = await ClassModel.find({ "studentID.ID": req.query.studentId }).populate("teacherID", { username: 1 }).lean();
-            console.log(data)
             return res.json({ msg: 'success', data });
         } catch (e) {
             console.log(e)
@@ -308,7 +307,7 @@ class adminController {
     // xem tỉ lệ vắng của học sinh
     async myAttended(req, res) {
         try {
-            var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
+            var data = await ClassModel.find({ _id: req.query.classID }, { schedule: 1 }).populate({ path: "schedule.attend.studentID", select: { username: 1, avatar: 1 } }).lean();
             res.json({ msg: 'success', data: data });
         } catch (e) {
             console.log(e)

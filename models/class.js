@@ -13,7 +13,6 @@ const classSchema = new Schema({
         ID: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
         grade: { type: String, default: "Has not been commented yet" },
         feedBackContent: { type: String, default: "Has not been commented yet" },
-        absentRate: Number,
     }],
     teacherID: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
     schedule: [{

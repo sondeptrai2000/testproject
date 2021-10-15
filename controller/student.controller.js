@@ -12,7 +12,7 @@ class studentController {
         try {
             let token = req.cookies.token
             let decodeAccount = jwt.verify(token, 'minhson')
-            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).lean();
+            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1 }).lean();
             res.json({ msg: 'success', data: data, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)

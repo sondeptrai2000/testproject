@@ -15,7 +15,7 @@ class guardianController {
             let studentID = req.cookies.student;
             let decodeAccount = jwt.verify(studentID, 'minhson');
             //lấy lịch học
-            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1, "studentID.absentRate": 1 }).lean();
+            var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1 }).lean();
             return res.json({ msg: 'success', data: data, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)
