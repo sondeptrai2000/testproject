@@ -3,7 +3,7 @@ var jwt = require('jsonwebtoken');
 
 let checkLogin = async(req, res, next) => {
     try {
-        var user = await AccountModel.findOne({ username: req.body.username }, { username: 1, role: 1, password: 1 }).lean();
+        var user = await AccountModel.findOne({ username: req.body.username }, { username: 1, role: 1, password: 1, relationship: 1 }).lean();
         if (!user) return res.json({ msg: 'invalid_Info' });
         req.user = user
         next();

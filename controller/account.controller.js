@@ -142,6 +142,7 @@ let loginController = async function(req, res) {
             if (user.role === "admin") return res.json({ msg: 'success', data: "./homeAdmin" });
             if (user.role === "student") return res.json({ msg: 'success', data: "./homeStudent" });
             if (user.role === "guardian") {
+                console.log(req.user.relationship)
                 let relationship = jwt.sign({ _id: req.user.relationship }, 'minhson', { expiresIn: '1d' })
                 res.cookie("student", relationship, { maxAge: 24 * 60 * 60 * 10000 });
                 return res.json({ msg: 'success', data: "./homeGuardian" });
