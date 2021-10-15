@@ -56,9 +56,7 @@ function unReadMess() {
         dataType: 'json',
         data: {},
         success: function(response) {
-            if (response.msg == 'success') {
-                $("#UnreadMessages").html(response.unReadMess)
-            }
+            if (response.msg == 'success') $("#UnreadMessages").html(response.unReadMess)
         },
         error: function(response) {
             alert('server error');
@@ -76,9 +74,9 @@ function getAllClass() {
         success: function(response) {
             if (response.msg == 'success') {
                 $("#tableClass").html('')
-                $("#tableClass").append("<div class='tr'><div class='td'>Class name</div><div class='td'>stage</div><div class='td'>subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Student List</div><div class='td'>Take attended</div></div>")
+                $("#tableClass").append("<div class='tr'><div class='td'>Class name</div><div class='td'>Route</div><div class='td'>stage</div><div class='td'>subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Student List</div><div class='td'>Take attended</div></div>")
                 response.classInfor.forEach((e) => {
-                    $("#tableClass").append(" <div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td'>" + e.description + "</div><div class='td'>" + e.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + e.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><button onclick=sendData('" + e._id + "')>View</button></div><div class='td'><button onclick=attendedList('" + e._id + "')>attended </button></div></div>")
+                    $("#tableClass").append(" <div class='tr' id=" + e._id + "><div class='td'>" + e.className + "</div><div class='td'>" + e.routeName + "</div><div class='td'>" + e.stage + "</div><div class='td'>" + e.subject + "</div><div class='td'>" + e.description + "</div><div class='td'>" + e.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + e.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><button onclick=sendData('" + e._id + "')>View</button></div><div class='td'><button onclick=attendedList('" + e._id + "')>attended </button></div></div>")
                 })
                 var getClassID = $("#getClassID").val()
                 if (getClassID) {
@@ -150,15 +148,19 @@ function updateStudentAssessmentForm(classID, studentID, name, grade) {
     $("#updategrade option[value='" + grade + "']").attr('selected', 'selected');
     var content = '#' + studentID
     $("#updatecomment").val($(content).text())
-    $(".studentAssessmentUpdateOut").fadeIn(2000);
+    $(".studentAssessmentUpdateOut").fadeIn(500);
 }
 //tiến hành Grade
 function takeFeedBack() {
+    var classID = $("#updateclassID").val();
+    var classInfor = []
+    $("#" + classID + " .td").each(function() { classInfor.push($(this).text()) })
     var formData = {
         classID: $("#classID").val(),
         studentId: $("#studentID").val(),
         grade: $("#grade").val(),
         comment: $("#comment").val(),
+        classInfor: classInfor,
     };
     $.ajax({
         url: '/teacher/studentAssessment',
@@ -168,7 +170,7 @@ function takeFeedBack() {
         success: function(response) {
             if (response.msg == 'success') {
                 $(".studentListContentOut").hide();
-                sendData($("#classID").text());
+                sendData($("#classID").val());
                 alert("take feedback success")
             }
         },
@@ -177,11 +179,15 @@ function takeFeedBack() {
 }
 //tiến hành cập nhật thôn tin Grade
 function updateFeekBack() {
+    var classID = $("#updateclassID").val();
+    var classInfor = []
+    $("#" + classID + " .td").each(function() { classInfor.push($(this).text()) })
     var formData = {
         classID: $("#updateclassID").val(),
         studentId: $("#updatestudentID").val(),
         grade: $("#updategrade").val(),
         comment: $("#updatecomment").val(),
+        classInfor: classInfor,
     };
     $.ajax({
         url: '/teacher/studentAssessment',
@@ -191,7 +197,7 @@ function updateFeekBack() {
         success: function(response) {
             if (response.msg == 'success') {
                 $(".studentListContentOut").hide();
-                sendData($("#updateclassID").text());
+                sendData($("#updateclassID").val());
                 alert("update feedback success")
             }
         },
