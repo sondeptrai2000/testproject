@@ -21,7 +21,7 @@ var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    auth: { user: 'sownenglishedu@gmail.com', pass: 'son123@123' },
+    auth: { user: 'sownenglishedu@gmail.com', pass: 'son123a123a' },
     tls: { rejectUnauthorized: false }
 });
 
@@ -185,7 +185,7 @@ class adminController {
             //lấy danh sách các mail của học sinh để thông báo về sự thay đổi
             getListEmail[0].studentID.forEach(element => { listEmail = listEmail + element.ID.email + ', ' });
             listEmail.slice(0, -2);
-            var content = 'Due to some problems, the lesson of' + getListEmail[0].className + ' class on ' + oldSchuedule[0] + ' at ' + oldSchuedule[3] + " shift to " + update['schedule.$.date'] + ' at ' + update['schedule.$.time'] + '.';
+            var content = 'Due to some problems, the lesson of ' + getListEmail[0].className + ' class on ' + oldSchuedule[0] + ' at ' + oldSchuedule[3] + " shift to " + update['schedule.$.date'].replace("07:00:00 GMT+0700 (GMT+07:00)", "") + ' at ' + update['schedule.$.time'] + '.';
             var mainOptions = { from: 'sownenglishedu@gmail.com', to: listEmail, subject: 'Notification', text: content };
             await transporter.sendMail(mainOptions);
             return res.json({ msg: 'success' });

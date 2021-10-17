@@ -16,7 +16,6 @@ const classSchema = new Schema({
     }],
     teacherID: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
     schedule: [{
-        commonPoint: { type: String, default: "schedule" },
         date: Date,
         day: String,
         time: String,
@@ -28,7 +27,6 @@ const classSchema = new Schema({
             attended: { type: String }
         }]
     }],
-    uploadDate: String,
     endDate: Date,
     startDate: Date,
     classStatus: { type: String, default: "Processing" },

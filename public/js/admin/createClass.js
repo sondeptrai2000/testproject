@@ -434,15 +434,15 @@ $("#cahocUpdate").change(async function() {
 $("#SubmitupdateScheduleForm").submit(async function(event) {
     event.preventDefault();
     var now = new Date()
-    var now1 = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay()
+    var now1 = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate()
     var date = new Date($("input[name='dateScheduleUpdate']").val())
     var dayOfWeek = '0' + (date.getDay() + 1)
     if (dayOfWeek == '01') dayOfWeek = "08"
     var old = []
     var scheduleID = $("input[name='updateScheduleID']").val()
-    $("#infor" + scheduleID + " .td:not(:last-child)").each(function() { old.push($(this).text().trim()) })
-        //TH: không thể update lịch đã qua
-    if (now1 < old[0]) return alert("Can't update schedual of this day!")
+    $("#infor" + scheduleID + " .td:not(:last-child)").each(function() { old.push($(this).text().trim()) });
+    //TH: không thể update lịch đã qua
+    if (now1 > old[0]) return alert("Can't update schedual of this day!")
     var update = {
         "schedule.$.time": $('#cahocUpdate').val(),
         "schedule.$.room": $('#roomUpdate').val(),
@@ -450,7 +450,7 @@ $("#SubmitupdateScheduleForm").submit(async function(event) {
         "schedule.$.status": "update"
     }
     $.ajax({
-        // url: '/admin/doupdateSchedule',
+        url: '/admin/doupdateSchedule',
         method: 'post',
         dataType: 'json',
         data: {
