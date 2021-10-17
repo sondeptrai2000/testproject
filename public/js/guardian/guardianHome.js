@@ -77,33 +77,41 @@ function test() {
     //chia thành các tuần từ thứ 2 to CN
     var tuan = []
     var checkTuanDau = false
+    var RemoveYear = $("#chonNam").val() + "-";
     for (var i = 0; i < arr.length; i++) {
         var d = new Date(arr[i].ngay);
         var n = d.getDay();
-        // console.log(tuan)
         //xét tuần đầu tiên
         if (arr[i].thu != 2 && i < 7 && checkTuanDau == false) {
-            if (arr[i].thu == 1) tuan.push(arr[i].ngay + ' to ' + arr[i].ngay);
-            if (arr[i].thu != 1) tuan.push(arr[i].ngay + ' to ' + arr[7 - n].ngay);
+            var case1 = arr[i].ngay.replace(RemoveYear, "") + ' to ' + arr[i].ngay.replace(RemoveYear, "");
+            var case2 = arr[i].ngay.replace(RemoveYear, "") + ' to ' + arr[7 - n].ngay.replace(RemoveYear, "");
+            if (arr[i].thu == 1) tuan.push(case1);
+            if (arr[i].thu != 1) tuan.push(case2);
             checkTuanDau = true;
         }
 
         if (arr[i].thu == 2) {
-            if (i + 6 < arr.length) tuan.push(arr[i].ngay + ' to ' + arr[i + 6].ngay)
-            if (i + 6 >= arr.length) tuan.push(arr[i].ngay + ' to ' + arr[arr.length - 1].ngay)
+            if (i + 6 < arr.length) {
+                var case1 = arr[i].ngay.replace(RemoveYear, "") + ' to ' + arr[i + 6].ngay.replace(RemoveYear, "");
+                tuan.push(case1);
+            }
+
+            if (i + 6 >= arr.length) {
+                var case2 = arr[i].ngay.replace(RemoveYear, "") + ' to ' + arr[arr.length - 1].ngay.replace(RemoveYear, "");
+                tuan.push(case2);
+            }
         }
     }
     //đưa các tuần vào thẻ select và đặt select cho tuần hiện tại.
     $("#chonTuan").html("")
     const date1 = new Date();
-    var year = date1.getFullYear()
     var month = date1.getMonth() + 1
         //lấy thời gian hiện tại để so sánh và lấy tuần
     var now = date1.getFullYear() + "-" + month.toString().padStart(2, "0") + "-" + date1.getDate().toString().padStart(2, "0");
     for (var u = 0; u < tuan.length; u++) {
         $("#chonTuan").append('<option value="' + tuan[u] + '">' + tuan[u] + '</option>');
-        dauTuan = tuan[u].split(" to ")[0]
-        cuoiTuan = tuan[u].split(" to ")[1]
+        dauTuan = RemoveYear + tuan[u].split(" to ")[0]
+        cuoiTuan = RemoveYear + tuan[u].split(" to ")[1]
         if ((dauTuan <= now) && (now => cuoiTuan)) {
             $('#chonTuan option:selected').removeAttr('selected');
             $("#chonTuan option[value='" + tuan[u] + "']").attr('selected', 'selected');
@@ -122,9 +130,11 @@ var getDaysArray = function(start, end) {
 
 //lấy thông tin lịch trình học, làm việc
 function tuanoi() {
+    var AddYear = $("#chonNam").val() + "-";
     var tuan = $("#chonTuan").val();
-    var dauTuan = tuan.split(" to ")[0];
-    var cuoiTuan = tuan.split(" to ")[1];
+    var dauTuan = AddYear + tuan.split(" to ")[0];
+    var cuoiTuan = AddYear + tuan.split(" to ")[1];
+
     //chỉnh fomat date giống Type Date trong mongoDB để so sánh 
     // link src hàm moment ở head
     var start = moment(new Date(dauTuan)).format('YYYY-MM-DD[T00:00:00.000Z]');
@@ -133,7 +143,8 @@ function tuanoi() {
     $("#ngay").html("<div class='td'>Ngày</div>")
         //tùy biến ngày vào html
     a.forEach(element => {
-        $("#ngay").append("<div class='td'>" + (element.getFullYear() + "-" + (element.getMonth() + 1).toString().padStart(2, "0") + "-" + element.getDate()) + "</div>")
+        var dayOfChosenWeek = (element.getFullYear() + "-" + (element.getMonth() + 1).toString().padStart(2, "0") + "-" + element.getDate())
+        $("#ngay").append("<div class='td'>" + dayOfChosenWeek.replace(AddYear, "") + "</div>");
     });
     //lấy thông tin lịch học
     $.ajax({
