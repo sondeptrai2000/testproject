@@ -39,27 +39,27 @@ async function uploadFile(name, rootID, path) {
 
 class adminController {
     async adminHome(req, res) {
-        // AccountModel.updateMany({}, { $unset: { chat: [] } }, function(err, data) {
-        //         if (err) {
-        //             console.log("k ok")
-        //         } else {
-        //             console.log(" ok")
-        //         }
-        //     })
-        // assignRoomAndTimeModel.updateMany({}, {
-        //         $set: { room: [] }
-        //     }, function(err, data) {
-        //         if (err) {
-        //             console.log("k ok 2")
-        //         } else {
-        //             console.log(" ok 2 ")
-        //         }
-        //     })
-        // res.render('admin/adminHome')
-        // await chatModel.updateMany({
-        //     read: []
-        // })
-        // console.log("ok")
+        AccountModel.updateMany({ role: "student" }, { studentStatus: "studying" }, function(err, data) {
+                if (err) {
+                    console.log("k ok")
+                } else {
+                    console.log(" ok")
+                }
+            })
+            // assignRoomAndTimeModel.updateMany({}, {
+            //         $set: { room: [] }
+            //     }, function(err, data) {
+            //         if (err) {
+            //             console.log("k ok 2")
+            //         } else {
+            //             console.log(" ok 2 ")
+            //         }
+            //     })
+            // res.render('admin/adminHome')
+            // await chatModel.updateMany({
+            //     read: []
+            // })
+            // console.log("ok")
     };
 
     async deleteAccount(req, res) {
@@ -199,7 +199,7 @@ class adminController {
     async countAccount(req, res) {
         try {
             var accountPerPage = 10
-            var numberOfAccount = await AccountModel.find({ role: req.query.role }, { role: 1 }).lean().countDocuments()
+            var numberOfAccount = await AccountModel.find(req.query.condition, { role: 1 }).lean().countDocuments()
             var soTrang = numberOfAccount / accountPerPage + 1
             return res.json({ msg: 'success', soTrang, numberOfAccount });
         } catch (e) {    
@@ -238,7 +238,7 @@ class adminController {
         try {
             var accountPerPage = 10
             var skip = accountPerPage * parseInt(req.query.sotrang)
-            var data = await AccountModel.find({ role: req.query.role }, { classID: 0, progess: 0, codeRefresh: 0, chat: 0, password: 0 }).skip(skip).limit(accountPerPage).lean()
+            var data = await AccountModel.find(req.query.condition, { classID: 0, progess: 0, codeRefresh: 0, chat: 0, password: 0 }).skip(skip).limit(accountPerPage).lean()
             return res.json({ msg: 'success', data });
         } catch (e) {    
             console.log(e)

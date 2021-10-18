@@ -141,6 +141,13 @@
                                           <option value="student">student</option>
                                     </select>
                               </div>
+                                <div class='td'>
+                                    Status:
+                                    <select id="studentFilter" onchange="countAccount()">
+                                          <option value="studying">Studying</option>
+                                          <option value="end">Finished</option>
+                                    </select>
+                              </div>
                               <div class='td'>
                                     <input id='search' type='text' placeholder='Email or phone number'>
                                     <button onclick="search('')">Search</button>

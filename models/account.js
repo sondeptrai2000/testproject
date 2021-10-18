@@ -33,6 +33,7 @@ const AccountSchema = new Schema({
     address: String,
     birthday: String,
     codeRefresh: String,
+    studentStatus: String
 }, { collection: 'account' });
 
 var AccountModel = mongoose.model('account', AccountSchema);

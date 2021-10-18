@@ -89,11 +89,19 @@ function unReadMess() {
 
 //đếm số tk để hiển thị theo danh sachs trang
 function countAccount() {
+    var role = $("#accountFilter").val();
+    var studentStatus = $("#studentFilter").val();
+    if (role != 'student') $('#option .td:nth-child(3)').hide();
+    if (role == 'student') $('#option .td:nth-child(3)').show();
+    var condition
+    if (role == 'teacher') condition = { "role": role }
+    if (role == 'student') condition = { "role": role, "studentStatus": studentStatus }
+    console.log(condition)
     $.ajax({
         url: '/admin/countAccount',
         method: 'get',
         dataType: 'json',
-        data: { role: $("#accountFilter").val() },
+        data: { condition: condition },
         success: function(response) {
             if (response.msg == 'success') {
                 $("#soTrang").html("Page: <select onchange=getAccount()></select>");
@@ -114,6 +122,7 @@ function countAccount() {
 function getAccount() {
     var role = $("#accountFilter").val()
     var page = $("#soTrang select").val()
+    var studentStatus = $("#studentFilter").val()
     $(".tableInforType").html("");
     var tableInfor = "<div class='tr'>\
         <div class='td'>Avatar</div>\
@@ -121,13 +130,16 @@ function getAccount() {
         <div class='td'>Address</div>\
         <div class='td'>Birthday</div>\
         <div class='td'>Action</div></div>"
-
     $(".tableAccount").html(tableInfor);
+    var condition
+    if (role == 'teacher') condition = { "role": role }
+    if (role == 'student') condition = { "role": role, "studentStatus": studentStatus }
+    console.log(condition)
     $.ajax({
         url: '/admin/getAccount',
         method: 'get',
         dataType: 'json',
-        data: { role: role, sotrang: page },
+        data: { sotrang: page, condition: condition },
         success: function(response) {
             if (response.msg == 'success') {
                 $.each(response.data, function(index, data) {
