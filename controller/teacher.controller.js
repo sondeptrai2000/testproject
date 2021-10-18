@@ -148,6 +148,7 @@ class teacherController {
                     var preStage = route.routeSchedual[indexOfNextClass - 1].stage;
                     //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
                     await AccountModel.updateOne({ _id: req.body.studentId }, { stage: preStage, $pull: { progess: { stage: progess.stage } } });
+                    await AccountModel.findOneAndUpdate({ _id: req.body.studentId }, { studentStatus: "studying" })
                 }
             } else {
                 //xem xét chuyển giai đoạn hoặc tiếp tục các môn tiếp theo
@@ -158,6 +159,7 @@ class teacherController {
                         var content = progess.username + " đã hoàn thành khóa học đăng ký: Lộ trình: " + classInfor[1] + ".  Giai đoạn: " + classInfor[2] + ". Vui lòng đến trung tâm để xác thực và trao chứng chỉ."
                         var mainOptions = { from: 'fptedunotification@gmail.com', to: progess.email, subject: 'Notification', text: content }
                         await transporter.sendMail(mainOptions)
+                        await AccountModel.findOneAndUpdate({ _id: req.body.studentId }, { studentStatus: "end" })
                     } else {
                         // chuyển giai đoạn tiếp theo
                         var nextStage = route.routeSchedual[indexOfNextClass].stage
