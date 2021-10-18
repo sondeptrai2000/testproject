@@ -152,7 +152,7 @@ function updateStudentAssessmentForm(classID, studentID, name, grade) {
 }
 //tiến hành Grade
 function takeFeedBack() {
-    var classID = $("#updateclassID").val();
+    var classID = $("#classID").val();
     var classInfor = []
     $("#" + classID + " .td").each(function() { classInfor.push($(this).text()) })
     var formData = {

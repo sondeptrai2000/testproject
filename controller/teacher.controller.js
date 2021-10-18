@@ -10,7 +10,7 @@ var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    auth: { user: 'sownenglishedu@gmail.com', pass: 'son123@123' },
+    auth: { user: 'sownenglishedu@gmail.com', pass: 'sownenglish123a' },
     tls: { rejectUnauthorized: false }
 });
 
@@ -129,7 +129,7 @@ class teacherController {
             //lấy số lượng pass các khóa học để so sánh với số lượng class trong giai đoạn. == thì đã hoàn thành hết các lớp trong giai đoạn đó và sẽ tiến hành chuyển tiépe giai đoạn 
             var Passed = 0
                 //đếm số môn đã Pass để xét chuyển giai đoạn
-            progess.progess.forEach((e, index) => { if (e.stage == classInfor[2]) e.stageClass.forEach((check, index) => { if (check.status != "Restudy") Passed++ }) });
+            progess.progess.forEach((e, index) => { if (e.stage == classInfor[2]) e.stageClass.forEach((check, index) => { if (check.status != "Restudy" && check.status != "studying") Passed++ }) });
             // lấy lộ trình mà học sinh đang theo học để xem xét chuyển giai đoạn
             var route = await studyRouteModel.findOne({ routeName: classInfor[1] }, { routeSchedual: 1 })
             var indexOfNextClass;
@@ -144,26 +144,27 @@ class teacherController {
             //Nếu học sinh trượt môn mà trước đó giáo viên đã chấm qua môn ( chức năng update grade ) và chuyển giai đoạn
             if (req.body.grade == "Restudy") {
                 if (progess.stage != classInfor[2]) {
-                    // cập nhật lại thông tin về các giao đoạn trước đó
+                    console.log("Restudy")
+                        // cập nhật lại thông tin về các giao đoạn trước đó
                     var preStage = route.routeSchedual[indexOfNextClass - 1].stage;
                     //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
-                    await AccountModel.updateOne({ _id: req.body.studentId }, { stage: preStage, $pull: { progess: { stage: progess.stage } } });
-                    await AccountModel.findOneAndUpdate({ _id: req.body.studentId }, { studentStatus: "studying" })
+                    await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "studying", stage: preStage, $pull: { progess: { stage: progess.stage } } });
                 }
             } else {
                 //xem xét chuyển giai đoạn hoặc tiếp tục các môn tiếp theo
                 //check xem học sinh đã hoàn thành các lớp của giai đoạn hiện tại chưa
+                console.log(Passed)
                 if (Passed == numberOfSubject.length + 1) {
                     //kiểm tra xem lộ trình học của học sinh đã kết thúc chưa. Check theo aim mà học sinh đã đăng ký.
                     if (classInfor[2] == progess.aim) {
-                        var content = progess.username + " đã hoàn thành khóa học đăng ký: Lộ trình: " + classInfor[1] + ".  Giai đoạn: " + classInfor[2] + ". Vui lòng đến trung tâm để xác thực và trao chứng chỉ."
-                        var mainOptions = { from: 'fptedunotification@gmail.com', to: progess.email, subject: 'Notification', text: content }
+                        var content = progess.username + " đã hoàn thành khóa học đăng ký: Lộ trình: " + classInfor[1] + ".  Giai đoạn: " + classInfor[2] + ". Vui lòng đến trung tâm để xác thực và trao chứng chỉ.";
+                        var mainOptions = { from: 'sownenglishedu@gmail.com', to: progess.email, subject: 'Notification', text: content }
                         await transporter.sendMail(mainOptions)
-                        await AccountModel.findOneAndUpdate({ _id: req.body.studentId }, { studentStatus: "end" })
+                        await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "end" })
                     } else {
                         // chuyển giai đoạn tiếp theo
                         var nextStage = route.routeSchedual[indexOfNextClass].stage
-                        await AccountModel.findOneAndUpdate({ _id: req.body.studentId }, { stage: nextStage, $push: { progess: { stage: nextStage, stageClass: [{ classID: "", name: "", status: "Pass" }] } } })
+                        await AccountModel.updateOne({ _id: req.body.studentId }, { stage: nextStage, $push: { progess: { stage: nextStage, stageClass: [{ classID: "", name: "", status: "Pass" }] } } })
                     }
                 }
             }
