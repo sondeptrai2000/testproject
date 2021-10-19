@@ -157,10 +157,10 @@ class teacherController {
                 if (Passed == numberOfSubject.length + 1) {
                     //kiểm tra xem lộ trình học của học sinh đã kết thúc chưa. Check theo aim mà học sinh đã đăng ký.
                     if (classInfor[2] == progess.aim) {
+                        await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "end" })
                         var content = progess.username + " đã hoàn thành khóa học đăng ký: Lộ trình: " + classInfor[1] + ".  Giai đoạn: " + classInfor[2] + ". Vui lòng đến trung tâm để xác thực và trao chứng chỉ.";
                         var mainOptions = { from: 'sownenglishedu@gmail.com', to: progess.email, subject: 'Notification', text: content }
                         await transporter.sendMail(mainOptions)
-                        await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "end" })
                     } else {
                         // chuyển giai đoạn tiếp theo
                         var nextStage = route.routeSchedual[indexOfNextClass].stage
