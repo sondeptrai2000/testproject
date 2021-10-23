@@ -121,20 +121,20 @@ class teacherController {
                 $set: { "studentID.$.grade": req.body.grade, "studentID.$.feedBackContent": req.body.comment }
             });
             // cập nhật thông tin về tiến độ của học sinh trong bảng thông tin cá nhân
-            await AccountModel.updateOne({ _id: req.body.studentId }, { "$set": { "progess.$[progess].stageClass.$[stageClass].status": req.body.grade } }, {
+            await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "studying", "$set": { "progess.$[progess].stageClass.$[stageClass].status": req.body.grade } }, {
                 "arrayFilters": [{ "progess.stage": classInfor[2] }, { "stageClass.classID": req.body.classID }]
             });
             // lấy tiến độ học tập của học sinh từ bảng thông tin cá nhân
             var progess = await AccountModel.findOne({ _id: req.body.studentId }, { progess: 1, aim: 1, email: 1, username: 1, stage: 1 });
             //lấy số lượng pass các khóa học để so sánh với số lượng class trong giai đoạn. == thì đã hoàn thành hết các lớp trong giai đoạn đó và sẽ tiến hành chuyển tiépe giai đoạn 
-            var Passed = 0
-                //đếm số môn đã Pass để xét chuyển giai đoạn
+            var Passed = 0;
+            //đếm số môn đã Pass để xét chuyển giai đoạn
             progess.progess.forEach((e, index) => { if (e.stage == classInfor[2]) e.stageClass.forEach((check, index) => { if (check.status != "Restudy" && check.status != "studying") Passed++ }) });
             // lấy lộ trình mà học sinh đang theo học để xem xét chuyển giai đoạn
             var route = await studyRouteModel.findOne({ routeName: classInfor[1] }, { routeSchedual: 1 })
             var indexOfNextClass;
             //số môn học trong 1 giai đoạn
-            var numberOfSubject
+            var numberOfSubject;
             route.routeSchedual.forEach((e, index) => {
                 if (e.stage == classInfor[2]) {
                     numberOfSubject = e.routeabcd;
@@ -148,7 +148,7 @@ class teacherController {
                         // cập nhật lại thông tin về các giao đoạn trước đó
                     var preStage = route.routeSchedual[indexOfNextClass - 1].stage;
                     //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
-                    await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "studying", stage: preStage, $pull: { progess: { stage: progess.stage } } });
+                    await AccountModel.updateOne({ _id: req.body.studentId }, { stage: preStage, $pull: { progess: { stage: progess.stage } } });
                 }
             } else {
                 //xem xét chuyển giai đoạn hoặc tiếp tục các môn tiếp theo
