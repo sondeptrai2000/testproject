@@ -137,12 +137,10 @@ let loginController = async function(req, res) {
             let token = jwt.sign({ _id: req.user._id }, 'minhson', { expiresIn: '1d' })
             res.cookie("token", token, { maxAge: 24 * 60 * 60 * 10000 });
             //lưu role and name
-            let PMS = jwt.sign({ _id: req.user.role, name: req.user.username }, 'minhson', { expiresIn: '1d' })
-            res.cookie("PMS", PMS, { maxAge: 24 * 60 * 60 * 10000 });
+            res.cookie("PMS", { _id: req.user.role, name: req.user.lastName }, { maxAge: 24 * 60 * 60 * 10000 });
             if (user.role === "admin") return res.json({ msg: 'success', data: "./homeAdmin" });
             if (user.role === "student") return res.json({ msg: 'success', data: "./homeStudent" });
             if (user.role === "guardian") {
-                console.log(req.user.relationship)
                 let relationship = jwt.sign({ _id: req.user.relationship }, 'minhson', { expiresIn: '1d' })
                 res.cookie("student", relationship, { maxAge: 24 * 60 * 60 * 10000 });
                 return res.json({ msg: 'success', data: "./homeGuardian" });
@@ -194,7 +192,6 @@ let profile = async function(req, res) {
         var token = req.cookies.token
         var decodeAccount = jwt.verify(token, 'minhson')
         var data = await AccountModel.findById({ _id: decodeAccount._id }).lean();
-        res.cookie("username", data.username, { maxAge: 24 * 60 * 60 * 10000 });
         return res.json({ msg: 'success', data: data });
     } catch (e) {
         console.log(e)

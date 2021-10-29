@@ -2,7 +2,6 @@
   const socket = io();
 
   $(document).ready(function() {
-      $("#welcome").html("Welcome " + senderName.value)
       $(".chatBox").scrollTop($('#messContent').height())
       connectAllConversation();
       chatBox($('#receiverID').val(), $('#_idRoom').val())
@@ -35,6 +34,7 @@
           success: function(response) {
               if (response.msg == 'success') {
                   $("#UnreadMessages").html(response.unReadMess)
+                  $("#welcome").html("Welcome " + response.username);
               }
           },
           error: function(response) {

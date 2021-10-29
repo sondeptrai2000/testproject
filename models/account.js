@@ -14,6 +14,8 @@ const Schema = mongoose.Schema;
 const AccountSchema = new Schema({
     avatar: String,
     username: String,
+    firstName: String,
+    lastName: String,
     password: String,
     email: String,
     aim: String,

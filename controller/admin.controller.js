@@ -8,6 +8,7 @@ var path = require('path');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
 const nodemailer = require('nodemailer');
+var jwt = require('jsonwebtoken');
 
 //set up kết nối tới ggdrive
 const KEYFILEPATH = path.join(__dirname, 'service_account.json')
@@ -39,27 +40,28 @@ async function uploadFile(name, rootID, path) {
 
 class adminController {
     async adminHome(req, res) {
-        AccountModel.updateMany({ role: "student" }, { studentStatus: "studying" }, function(err, data) {
-                if (err) {
-                    console.log("k ok")
-                } else {
-                    console.log(" ok")
-                }
-            })
-            // assignRoomAndTimeModel.updateMany({}, {
-            //         $set: { room: [] }
-            //     }, function(err, data) {
-            //         if (err) {
-            //             console.log("k ok 2")
-            //         } else {
-            //             console.log(" ok 2 ")
-            //         }
-            //     })
-            // res.render('admin/adminHome')
-            // await chatModel.updateMany({
-            //     read: []
-            // })
-            // console.log("ok")
+        // AccountModel.updateMany({ role: "student" }, { studentStatus: "studying" }, function(err, data) {
+        //         if (err) {
+        //             console.log("k ok")
+        //         } else {
+        //             console.log(" ok")
+        //         }
+        //     })
+
+        // assignRoomAndTimeModel.updateMany({}, {
+        //         $set: { room: [] }
+        //     }, function(err, data) {
+        //         if (err) {
+        //             console.log("k ok 2")
+        //         } else {
+        //             console.log(" ok 2 ")
+        //         }
+        //     })
+        // res.render('admin/adminHome')
+        // await chatModel.updateMany({
+        //     read: []
+        // })
+        // console.log("ok")
     };
 
     async deleteAccount(req, res) {

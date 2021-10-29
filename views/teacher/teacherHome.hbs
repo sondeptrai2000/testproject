@@ -23,7 +23,10 @@
                 <input type='hidden' id='idProfileUpdate'>
 
                 <input type='file' id='myFile'>
-                Name:<input id='usernameUpdate'></input>
+                Name:<br>
+                <input type="text" id="firstNameUpdate" placeholder="First name" style="width:60%;float:left"
+                    required />
+                <input type="text" id="lastNameUpdate" placeholder="Last name" style="width:39%;float:right" required />
                 Password:<input id='newPassWord' placeholder="Input New password if you wanna change"></input>
                 Gender: <select id='genderUpdate'>
                     <option value="male">Male</option>
@@ -41,6 +44,8 @@
     <header> {{> teacherHeader }}</header>
     <div class="content">
         <div id="teacherProfile">
+            <input type="hidden" id='firstNameProfile'></input>
+            <input type="hidden" id='lastNameProfile'></input>
             <div id="teacherProfileContent">
                 <img id='avatarProfile' src="">
                 <p id='idProfile' style="display:none"></p>

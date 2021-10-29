@@ -11,8 +11,6 @@ $('header li').hover(function() {
 }, function() {
     $(this).find("div").hide(500)
 });
-let username = Cookies.get('username'); // => 'value'
-$("#welcome").html("Welcome " + username)
 
 //thoát modal box
 $(window).on('click', function(e) {
@@ -56,7 +54,10 @@ function unReadMess() {
         dataType: 'json',
         data: {},
         success: function(response) {
-            if (response.msg == 'success') $("#UnreadMessages").html(response.unReadMess)
+            if (response.msg == 'success') {
+                $("#welcome").html("Welcome " + response.username);
+                $("#UnreadMessages").html(response.unReadMess);
+            }
         },
         error: function(response) {
             alert('server error');

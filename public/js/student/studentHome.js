@@ -60,6 +60,7 @@ function unReadMess() {
         success: function(response) {
             if (response.msg == "success") {
                 $("#UnreadMessages").html(response.unReadMess);
+                $("#welcome").html("Welcome " + response.username);
             }
         },
         error: function(response) {
@@ -226,8 +227,9 @@ function studentProfile() {
                 $("#routeProfile").html("Route: " + response.data.routeName);
                 $("#stageProfile").html("Stage: " + response.data.stage);
                 $("#avatarProfile").attr("src", response.data.avatar);
-                $("#welcome").html("Welcome " + response.data.username);
                 $("#usernameProfile").html("Full Name: " + response.data.username);
+                $("#firstNameProfile").val(response.data.firstName);
+                $("#lastNameProfile").val(response.data.lastName);
                 $("#genderProfile").html("Gender: " + response.data.sex);
                 $("#emailProfile").html("Email: " + response.data.email);
                 $("#phoneProfile").html("Phone: " + response.data.phone);
@@ -245,15 +247,12 @@ function updateProfile() {
     $("#currentAvatar").attr("src", $("#avatarProfile").attr("src"));
     $("#avatarOldProfile").val($("#avatarProfile").attr("src"));
     $("#idProfileUpdate").html($("#idProfile").text());
-    $("#usernameUpdate").val(
-        $("#usernameProfile").text().split("Full Name: ")[1]
-    );
+    $("#usernameUpdate").val($("#usernameProfile").text().split("Full Name: ")[1]);
+    $("#firstNameUpdate").val($("#firstNameProfile").val());
+    $("#lastNameUpdate").val($("#lastNameProfile").val());
     $("#genderUpdate option:selected").removeAttr("selected");
-    $(
-        "#genderUpdate option[value='" +
-        $("#genderProfile").text().split("Gender: ")[1] +
-        "']"
-    ).attr("selected", "selected");
+    var gender = $("#genderProfile").text().split("Gender: ")[1]
+    $("#genderUpdate option[value='" + gender + "']").attr("selected", "selected");
     $("#emailUpdate").val($("#emailProfile").text().split("Email: ")[1]);
     $("#phoneUpdate").val($("#phoneProfile").text().split("Phone: ")[1]);
     $("#birthdayUpdate").val($("#birthdayProfile").text().split("BirthDay: ")[1]);
@@ -269,7 +268,9 @@ function doUpdateProfile() {
     var password = $("#newPassWord").val();
     var formData1 = {
         sex: $("#genderUpdate").val(),
-        username: $("#usernameUpdate").val(),
+        username: $("#firstNameUpdate").val() + " " + $("#lastNameUpdate").val(),
+        firstName: $("#firstNameUpdate").val(),
+        lastName: $("#lastNameUpdate").val(),
         email: $("#emailUpdate").val(),
         phone: $("#phoneUpdate").val(),
         address: $("#addressUpdate").val(),

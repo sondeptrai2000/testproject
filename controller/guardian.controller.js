@@ -6,6 +6,7 @@ var jwt = require('jsonwebtoken');
 
 class guardianController {
     guardianHome(req, res) {
+
         res.json('Trang chủ guardian')
     }
 

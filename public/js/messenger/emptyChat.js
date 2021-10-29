@@ -1,10 +1,6 @@
   // establish socket.io connection
   const socket = io();
 
-  $(document).ready(function() {
-      $("#welcome").html("Welcome " + senderName.value)
-  });
-
   //hiệu ứng menu
   $('header li').hover(function() {
       $(this).find("div").slideDown()
@@ -31,6 +27,7 @@
           success: function(response) {
               if (response.msg == 'success') {
                   $("#UnreadMessages").html(response.unReadMess)
+                  $("#welcome").html("Welcome " + response.username);
               }
           },
           error: function(response) {

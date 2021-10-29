@@ -34,8 +34,7 @@ class messtController {
             let decodeAccount = jwt.verify(token, 'minhson');
             //lấy role để tùy biến cho header
             let PMS = req.cookies.PMS;
-            let decodePMS = jwt.verify(PMS, 'minhson');
-            var role = decodePMS._id;
+            var role = PMS._id;
             // lấy tin nhắn cuối cùng trong mảng message để hiển thị trong lịch sử chat
             var data1 = await chatModel.find({ $or: [{ person1: decodeAccount._id }, { person2: decodeAccount._id }] }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
             if (!data1) return res.render("message/emptyChat.ejs", { role, senderName: sender.username, senderAvatar: sender.avatar, senderID: sender._id });
@@ -78,9 +77,8 @@ class messtController {
             var decodeAccount = jwt.verify(token, 'minhson');
             //lấy trạng thái read của cuọc hồi thoại
             let PMS = req.cookies.PMS;
-            let decodePMS = jwt.verify(PMS, 'minhson');
             var unReadMess = await chatModel.find({ $or: [{ person1: decodeAccount._id }, { person2: decodeAccount._id }], read: { $nin: decodeAccount._id } }).lean().countDocuments()
-            return res.json({ msg: 'success', unReadMess, username: decodePMS.name });
+            return res.json({ msg: 'success', unReadMess, username: PMS.name });
         } catch (e) {
             console.log(e);
             return res.json({ msg: 'error' });

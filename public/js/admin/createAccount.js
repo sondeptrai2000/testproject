@@ -437,7 +437,8 @@ function updateForm(id) {
                 $("#roleUpdate").change();
                 $("#PersonID").val(id)
                 $("#oldAvatar").val(account.avatar);
-                $("#usernameUpdate").val(account.username)
+                $("#firstNameUpdate").val(account.firstName)
+                $("#lastNameUpdate").val(account.lastName)
                 $('#genderUpdate option:selected').removeAttr('selected');
                 $("#genderUpdate option[value='" + account.sex + "']").attr('selected', 'selected');
                 $("#emailUpdate").val(account.email)
@@ -502,7 +503,9 @@ $("#myform").submit(async function(event) {
     //thôn tin bắt buộc của giáo viên or học sinh
     var formData1 = {
         sex: $("#gender").val(),
-        username: $("#username").val(),
+        username: $("#firstName").val() + " " + $("#lastName").val(),
+        firstName: $("#firstName").val(),
+        lastName: $("#lastName").val(),
         email: $("#email").val(),
         role: role,
         phone: $("#phone").val(),
@@ -524,6 +527,7 @@ $("#myform").submit(async function(event) {
             email: $("input[name='guardianEmail']").val(),
         };
     }
+    console.log(formData1)
     $.ajax({
         url: '/admin/doCreateAccount',
         method: 'post',
@@ -572,7 +576,9 @@ $("#myformUpdate").submit(function(event) {
     }
     var formData1 = {
         sex: $("#gender").val(),
-        username: $("#usernameUpdate").val(),
+        username: $("#firstNameUpdate").val() + " " + $("#lastNameUpdate").val(),
+        firstName: $("#firstNameUpdate").val(),
+        lastName: $("#lastNameUpdate").val(),
         email: $("#emailUpdate").val(),
         role: role,
         phone: $("#phoneUpdate").val(),
