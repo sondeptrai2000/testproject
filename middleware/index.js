@@ -17,7 +17,7 @@ let checkAuth = async(req, res, next) => {
     var token = req.cookies.token
     if (!token) return res.redirect('/warning');
     let decodeAccount = jwt.verify(token, 'minhson');
-    let user = await AccountModel.findOne({ _id: decodeAccount._id }, { role: 1 }).lean();
+    let user = await AccountModel.findOne({ _id: decodeAccount._id }, { password: 0 }).lean();
     if (!user) return res.redirect('/warning');
     req.userLocal = user;
     next();

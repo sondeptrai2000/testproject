@@ -6,16 +6,16 @@ class messtController {
     //ấn chat vào người bất kỳ r dẫn đến form chat và lịch sử
     async makeConnection(req, res, next) {
         try {
-            let token = req.cookies.token;
-            let decodeAccount = jwt.verify(token, 'minhson');
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             //kiểm tra xem đã trò chuyện với nhau chưa
-            var condition1 = { person1: decodeAccount._id, person2: req.body.studentID };
-            var condition2 = { person1: req.body.studentID, person2: decodeAccount._id };
+            var condition1 = { person1: account._id, person2: req.body.studentID };
+            var condition2 = { person1: req.body.studentID, person2: account._id };
             var check = await chatModel.findOne({ $or: [condition1, condition2] });
             //chưa thì sẽ tạo mới cuộc trò chuyện
             var now = Date().toString().split("GMT")[0];
             if (!check) {
-                await chatModel.create({ person1: decodeAccount._id, person2: req.body.studentID, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat", time: now } })
+                await chatModel.create({ person1: account._id, person2: req.body.studentID, message: { ownermessenger: "Hệ thống", messContent: "Đã kết nối! Ấn vào để chat", time: now } })
             } else {
                 await chatModel.updateOne({ _id: check._id }, { updateTime: now });
             }
@@ -29,24 +29,20 @@ class messtController {
     //render giao diện chat cùng với lịch sử chat
     async chatForm(req, res) {
         try {
-            //lấy id tài khoản
-            let token = req.cookies.token;
-            let decodeAccount = jwt.verify(token, 'minhson');
-            //lấy role để tùy biến cho header
-            let PMS = req.cookies.PMS;
-            var role = PMS._id;
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             // lấy tin nhắn cuối cùng trong mảng message để hiển thị trong lịch sử chat
-            var data1 = await chatModel.find({ $or: [{ person1: decodeAccount._id }, { person2: decodeAccount._id }] }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
+            var data1 = await chatModel.find({ $or: [{ person1: account._id }, { person2: account._id }] }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
             if (!data1) return res.render("message/emptyChat.ejs", { role, senderName: sender.username, senderAvatar: sender.avatar, senderID: sender._id });
             //xác định người gửi trong đoạn chat đầu tiên để hiển thị
             var listID = []
             data1.forEach(data => { listID.push(data._id) });
-            if (decodeAccount._id.toString() == data1[0].person1._id.toString()) {
+            if (account._id.toString() == data1[0].person1._id.toString()) {
                 var formData = { senderID: data1[0].person1._id, senderName: data1[0].person1.username, receiverID: data1[0].person2._id, receiverName: data1[0].person2.username }
             } else {
                 var formData = { senderID: data1[0].person2._id, senderName: data1[0].person2.username, receiverID: data1[0].person1._id, receiverName: data1[0].person1.username }
             }
-            return res.render("message/chatBoxHistory.ejs", { data1, formData, listID, role })
+            return res.render("message/chatBoxHistory.ejs", { data1, formData, listID, role: account.role })
         } catch (e) {   
             console.log(e) 
             return res.json('error')
@@ -56,12 +52,12 @@ class messtController {
     //lấy cuộc hội thoại
     async getMessenger(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson')
-                //lấy trạng thái read của cuọc hồi thoại
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
+            //lấy trạng thái read của cuọc hồi thoại
             var chatInfor = await chatModel.findOne({ _id: req.query._idRoom }, { read: 1 }).lean();
             //lấy chưa read thì sẽ thêm id vào read để thành read (Note: cuộc trò chuyện có 2 người, nếu mảng read = 2 thì nghĩa là cả 2 đã đọc)
-            if (!chatInfor.read.includes(decodeAccount._id)) await chatModel.findOneAndUpdate({ _id: req.query._idRoom }, { $push: { read: decodeAccount._id } });
+            if (!chatInfor.read.includes(account._id)) await chatModel.findOneAndUpdate({ _id: req.query._idRoom }, { $push: { read: account._id } });
             //trả về cuộc trò chuyện
             var data = await chatModel.findOne({ _id: req.query._idRoom }).populate({ path: 'person1', select: ' username avatar', }).populate({ path: 'person2', select: ' username avatar', }).lean()
             return res.json({ msg: 'success', data });
@@ -73,11 +69,11 @@ class messtController {
     //gửi thông báo số tin nhắn chưa đọc
     async unreadMess(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson');
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             //lấy trạng thái read của cuọc hồi thoại
             let PMS = req.cookies.PMS;
-            var unReadMess = await chatModel.find({ $or: [{ person1: decodeAccount._id }, { person2: decodeAccount._id }], read: { $nin: decodeAccount._id } }).lean().countDocuments()
+            var unReadMess = await chatModel.find({ $or: [{ person1: account._id }, { person2: account._id }], read: { $nin: account._id } }).lean().countDocuments()
             return res.json({ msg: 'success', unReadMess, username: PMS.name });
         } catch (e) {
             console.log(e);
@@ -87,12 +83,11 @@ class messtController {
 
     async addChat(req, res) {
         try {
-            let token = req.cookies.token;
-            let decodeAccount = jwt.verify(token, 'minhson');
             //lấy thông tin người gửi và người nhận
             var condition = req.body.condition;
             var receiver = await AccountModel.findOne(condition, { username: 1, avatar: 1, chat: 1 }).lean();
-            var sender = await AccountModel.findOne({ _id: decodeAccount }, { username: 1, avatar: 1, chat: 1 }).lean();
+            //lấy thông tin người dùng từ middleware
+            var sender = req.userLocal
             if (receiver && receiver._id.toString() != sender._id.toString()) {
                 //kiểm tra xem đã trò chuyện với nhau chưa
                 var condition1 = { person1: sender._id, person2: receiver._id };

@@ -38,11 +38,11 @@ class teacherController {
     //đếm số lượng lớp dựa trên trạng thái của lớp học
     async countClass(req, res) {
         try {
-            var token = req.cookies.token;
-            var decodeAccount = jwt.verify(token, 'minhson');
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             //số lớp hiển thị trên 1 trang
             var classPerPage = 20
-            var numberOfClass = await ClassModel.find({ teacherID: decodeAccount, classStatus: req.query.status }, { _id: 1 }).lean().countDocuments()
+            var numberOfClass = await ClassModel.find({ teacherID: account, classStatus: req.query.status }, { _id: 1 }).lean().countDocuments()
             var soTrang = numberOfClass / classPerPage + 1
             res.json({ msg: 'success', soTrang, numberOfClass });
         } catch (e) {    
@@ -54,11 +54,12 @@ class teacherController {
     //lấy tất cả cacs lớp đang hoạt động
     async getAllClass(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson')
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
+            //số lớp trên 1 trang
             var classPerPage = 20
             var skip = classPerPage * parseInt(req.query.page)
-            var classInfor = await ClassModel.find({ teacherID: decodeAccount, classStatus: req.query.status }, { schedule: 0, studentID: 0, classStatus: 0 }).skip(skip).limit(classPerPage).lean();
+            var classInfor = await ClassModel.find({ teacherID: account, classStatus: req.query.status }, { schedule: 0, studentID: 0, classStatus: 0 }).skip(skip).limit(classPerPage).lean();
             res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)
@@ -68,11 +69,11 @@ class teacherController {
 
     async getSchedule(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson');
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             //lấy thời điểm đầu tuần để lấy khóa học đang hoạt động trong khoảng thời gian đó. 
             var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ teacherID: decodeAccount, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }, { className: 1, schedule: 1 });
+            var classInfor = await ClassModel.find({ teacherID: account, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }, { className: 1, schedule: 1 });
             res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)

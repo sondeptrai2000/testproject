@@ -189,10 +189,8 @@ let doeditAccount = async function(req, res) {
 
 let profile = async function(req, res) {
     try {
-        var token = req.cookies.token
-        var decodeAccount = jwt.verify(token, 'minhson')
-        var data = await AccountModel.findById({ _id: decodeAccount._id }).lean();
-        return res.json({ msg: 'success', data: data });
+        //req.userLocal lấy từ lúc check auth
+        return res.json({ msg: 'success', data: req.userLocal });
     } catch (e) {
         console.log(e)
         return res.json({ msg: 'error' });

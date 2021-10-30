@@ -10,10 +10,10 @@ class studentController {
 
     async myAttended(req, res) {
         try {
-            let token = req.cookies.token
-            let decodeAccount = jwt.verify(token, 'minhson')
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             var data = await ClassModel.findOne({ _id: req.query.classID }, { schedule: 1 }).lean();
-            res.json({ msg: 'success', data: data, studentID: decodeAccount._id });
+            res.json({ msg: 'success', data: data, studentID: account._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });
@@ -31,10 +31,10 @@ class studentController {
 
     async getClass(req, res) {
         try {
-            let token = req.cookies.token
-            let decodeAccount = jwt.verify(token, 'minhson')
-            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id }).populate("teacherID", { username: 1 }).lean();
-            res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
+            var classInfor = await ClassModel.find({ "studentID.ID": account._id }).populate("teacherID", { username: 1 }).lean();
+            res.json({ msg: 'success', classInfor, studentID: account._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });
@@ -64,11 +64,11 @@ class studentController {
 
     async getSchedule(req, res) {
         try {
-            var token = req.cookies.token
-            var decodeAccount = jwt.verify(token, 'minhson')
+            //lấy thông tin tài khoản từ middleware
+            var account = req.userLocal;
             var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
-            return res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
+            var classInfor = await ClassModel.find({ "studentID.ID": account._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            return res.json({ msg: 'success', classInfor, studentID: account._id });
         } catch (e) {
             console.log(e)
             res.json({ msg: 'error' });
