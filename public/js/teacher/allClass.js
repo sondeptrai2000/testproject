@@ -116,9 +116,9 @@ function sendData(id) {
                     } else {
                         $.each(data.studentID, function(index, studentID) {
                             if (studentID.grade === "Has not been commented yet") {
-                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =studentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.ID.email + "')> Grade </button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
+                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption id = 'name" + studentID.ID._id + "'>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =studentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.email + "')> Grade </button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
                             } else {
-                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =updateStudentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.ID.username + "','" + studentID.grade + "')> Edit grade</button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
+                                $(".studentListContent").append("<div class='tr'><div class='td'><img style ='max-width:150px;max-height:200px' src='" + studentID.ID.avatar + "'><figcaption id = 'name" + studentID.ID._id + "'>" + studentID.ID.username + "</figcaption></div><div class='td'>" + studentID.ID.aim + "</div><div class='td'>" + studentID.ID.email + "</div><div class='td'>" + studentID.grade + "</div><div class='td' id = '" + studentID.ID._id + "'>" + studentID.feedBackContent + "</div><div class='td'>" + "<button onclick =updateStudentAssessmentForm('" + _id + "','" + studentID.ID._id + "','" + studentID.grade + "')> Edit grade</button>" + "<form action='/messenger/makeConnection' method='post'><input type='hidden' name='studentID' value='" + studentID.ID._id + "'><button>Chat</button></form></div></div>");
                             }
                         });
                     }
@@ -133,21 +133,23 @@ function sendData(id) {
 }
 
 //đưa thông tin cũ vào form đnash giá
-function studentAssessmentForm(classID, studentid, username, email) {
+function studentAssessmentForm(classID, studentid, email) {
     $("#classID").val(classID);
     $("#studentID").val(studentid);
-    $("#name").html(username);
+    $("#name").html($('#name' + studentid).text());
     $("#email").html(email);
     $(".studentAssessmentOut").fadeIn(2000);
 }
 //đưa thông tin cũ vào form cập nhật đnash giá
-function updateStudentAssessmentForm(classID, studentID, name, grade) {
+function updateStudentAssessmentForm(classID, studentID, grade) {
     $("#updateclassID").val(classID);
     $("#updatestudentID").val(studentID);
-    $("#updatename").html(name);
+    $("#updatename").html($('#name' + studentID).text());
     $('#updategrade option:selected').removeAttr('selected');
     $("#updategrade option[value='" + grade + "']").attr('selected', 'selected');
     var content = '#' + studentID
+    console.log(studentID)
+    console.log("aa:" + $(content).text())
     $("#updatecomment").val($(content).text())
     $(".studentAssessmentUpdateOut").fadeIn(500);
 }
