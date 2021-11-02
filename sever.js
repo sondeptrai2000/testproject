@@ -67,7 +67,7 @@ io.on("connection", function(socket) {
             await chatModel.findOneAndUpdate({ _id: data._idRoom }, {
                 $push: { message: { ownermessengerID: data.senderID, ownermessenger: data.senderName, messContent: data.mess, time: new Date } },
                 read: [data.senderID],
-                updateTime: timeSend
+                updateTime: Date().toString().split("GMT")[0]
             })
             socket.Phong = data._idRoom
             io.sockets.in(socket.Phong).emit("server-chat", data, timeSend)
