@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    auth: { user: 'sownenglishedu@gmail.com', pass: 'sownenglish123a' },
+    auth: { user: 'sownenglishedu@gmail.com', pass: 'englishwithsown' },
     tls: { rejectUnauthorized: false }
 });
 
