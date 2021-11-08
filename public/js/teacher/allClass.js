@@ -96,7 +96,23 @@ function getAllClass() {
 // tìm kiếm class
 function searchClass() {
     if ($("#search").val().trim() == '') return alert("Enter name of class!")
-
+    $.ajax({
+        url: '/teacher/searchClass',
+        method: 'get',
+        dataType: 'json',
+        data: { className: $("#search").val() },
+        success: function(response) {
+            if (response.msg == 'success') {
+                $("#tableClass").html('')
+                $("#tableClass").append("<div class='tr'><div class='td'>Class name</div><div class='td'>Route</div><div class='td'>stage</div><div class='td'>subject</div><div class='td'>Description</div><div class='td'>Start date</div><div class='td'>End date</div><div class='td'>Student List</div><div class='td'>Take attended</div></div>")
+                var data = response.classInfor;
+                $("#tableClass").append(" <div class='tr' id=" + data._id + "><div class='td'>" + data.className + "</div><div class='td'>" + data.routeName + "</div><div class='td'>" + data.stage + "</div><div class='td'>" + data.subject + "</div><div class='td'>" + data.description + "</div><div class='td'>" + data.startDate.replace("T00:00:00.000Z", "") + "</div><div class='td'>" + data.endDate.replace("T00:00:00.000Z", "") + "</div><div class='td'><button onclick=sendData('" + data._id + "')>View</button></div><div class='td'><button onclick=attendedList('" + data._id + "')>attended </button></div></div>")
+            }
+        },
+        error: function(response) {
+            alert('server error');
+        }
+    });
 }
 
 //lấy danh sách học sinh trong lớp

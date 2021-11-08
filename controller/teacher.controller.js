@@ -24,6 +24,19 @@ class teacherController {
         }
     }
 
+    //tìm kiến 1 lơps học
+    async searchClass(req, res) {
+        try {
+            console.log(req.query.className);
+            var classInfor = await ClassModel.findOne({ className: req.query.className }).lean();
+            console.log(classInfor)
+            res.json({ msg: 'success', classInfor });
+        } catch (e) {
+            console.log(e)
+            res.json("lỗi")
+        }
+    };
+
     async allClass(req, res) {
         try {
             var params = req.params.id

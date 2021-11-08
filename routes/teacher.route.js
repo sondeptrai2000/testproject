@@ -10,7 +10,9 @@ teacherRouter.get('/', teacherController.teacherHome)
 teacherRouter.get('/getSchedule', teacherController.getSchedule)
 
 //All class page
-teacherRouter.get('/allClass/:id', teacherController.allClass)
+teacherRouter.get('/allClass/:id', teacherController.allClass);
+
+teacherRouter.get('/searchClass', teacherController.searchClass);
 
 teacherRouter.get('/countClass', teacherController.countClass);
 teacherRouter.get('/getAllClass', teacherController.getAllClass);
