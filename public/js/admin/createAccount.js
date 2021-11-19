@@ -385,19 +385,6 @@ $("#role").change(async function() {
         $('.typeRole').slideDown()
     }
 });
-//ấn hiển đăgn ký khóa học dựa theo role cho việc update tài khoản. Học sinh sẽ hiển ra còn giáo viên sẽ đóng lại vì không cần thiết 
-$("#roleUpdate").change(async function() {
-    var accountRole = $('#roleUpdate').val();
-    if (accountRole == "teacher") {
-        $('.typeRoleUpdate').slideUp();
-        $('.typeRoleUpdate').html('');
-    }
-    if (accountRole != "teacher") {
-        $('.typeRoleUpdate').html(" Chọn lộ trình học<select id='routeTypeSUpdate' onchange=routeType('update')></select>Level<select id='levelSUpdate'></select>Aim<select id='AimUpdate'></select>Guardian name:<input type='text' name='guardianNameUpdate'>Guardian phone: <input type='number' name='guardianPhoneUpdate'>Guardian email:<input type='text' name='guardianEmailUpdate'>Available time to study:<div id='availbleTimeUpdate' style='width:100%;padding:0;margin-top:10px;'><ul>Morning<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Morning'></ul><ul>Afternoon<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Afternoon'></ul><ul>Night<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Night'></ul><ul>All<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='All'></ul></div>")
-        getRoute('update')
-        $('.typeRoleUpdate').slideDown()
-    }
-});
 
 //lấy cái lộ trình học để chọn trong cả 2 form tạo và update tài khoản
 function getRoute(type) {
@@ -432,9 +419,7 @@ function updateForm(id) {
             if (response.msg == 'success') {
                 var account = response.account
                 $("#currentRole").val(account.role)
-                $("#roleUpdate").val(account.role)
                 $("#currentAvatar").attr("src", account.avatar)
-                $("#roleUpdate").change();
                 $("#PersonID").val(id)
                 $("#oldAvatar").val(account.avatar);
                 $("#firstNameUpdate").val(account.firstName)
@@ -442,15 +427,17 @@ function updateForm(id) {
                 $('#genderUpdate option:selected').removeAttr('selected');
                 $("#genderUpdate option[value='" + account.sex + "']").attr('selected', 'selected');
                 $("#emailUpdate").val(account.email)
-                $('#roleUpdate option:selected').removeAttr('selected');
-                $("#roleUpdate option[value='" + account.role + "']").attr('selected', 'selected');
                 $("#phoneUpdate").val(account.phone)
                 $("#addressUpdate").val(account.address)
                 $("#birthdayUpdate").val(account.birthday)
+                console.log(account)
                 if (account.role == "student") {
+                    $('.typeRoleUpdate').html(" Route:<select id='routeTypeSUpdate' onchange=routeType('update')></select>Level<select id='levelSUpdate'></select>Aim<select id='AimUpdate'></select>Guardian name:<input type='text' name='guardianNameUpdate'>Guardian phone: <input type='number' name='guardianPhoneUpdate'>Guardian email:<input type='text' name='guardianEmailUpdate'>Available time to study:<div id='availbleTimeUpdate' style='width:100%;padding:0;margin-top:10px;'><ul>Morning<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Morning'></ul><ul>Afternoon<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Afternoon'></ul><ul>Night<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='Night'></ul><ul>All<input type='checkbox' class='checkTtimeUpdate' onchange=choseTime('update') value='All'></ul></div>")
+                    getRoute('update')
                     $("input[name='guardianNameUpdate']").val(account.relationship.username)
                     $("input[name='guardianPhoneUpdate']").val(account.relationship.phone)
                     $("input[name='guardianEmailUpdate']").val(account.relationship.email)
+                    $('.typeRoleUpdate').slideDown()
                     $("#availbleTimeUpdate input").each(function() { if (account.availableTime.includes($(this).val())) $(this).prop('checked', true); })
                     $.each(response.targetxxx, function(index, targetxxx) {
                         if (targetxxx.routeName == account.routeName) {
@@ -467,7 +454,14 @@ function updateForm(id) {
                         }
                     });
                 }
+
+                if (account.role == "teacher") {
+                    $('.typeRoleUpdate').slideUp();
+                    $('.typeRoleUpdate').html('');
+                }
+
                 $(".updateFormOut").fadeIn(500);
+
             }
         },
         error: function(response) {
@@ -527,7 +521,6 @@ $("#myform").submit(async function(event) {
             email: $("input[name='guardianEmail']").val(),
         };
     }
-    console.log(formData1)
     $.ajax({
         url: '/admin/doCreateAccount',
         method: 'post',
@@ -556,7 +549,7 @@ $("#myform").submit(async function(event) {
 //giống kha khá với tạo tài khoản
 $("#myformUpdate").submit(function(event) {
     event.preventDefault();
-    var role = $("#roleUpdate").val()
+    var role = $("#currentRole").val()
     if (!fileDataUpdate) fileDataUpdate = "none";
     if (role == 'student') {
         //lấy các thời gian học sinh có thể đi học tại trung tâm
