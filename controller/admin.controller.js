@@ -474,7 +474,7 @@ class adminController {
                 phuhuynh["relationship"] = studentAcc._id
                 var guardianAcc = await AccountModel.create(phuhuynh)
                 var relationship = guardianAcc._id
-                var studentAcc = await AccountModel.findOneAndUpdate({ _id: studentAcc._id }, { relationship: relationship, $push: { progess: { stage: student.stage, stageClass: [{ classID: "", name: "", status: "Pass" }] } } })
+                var studentAcc = await AccountModel.findOneAndUpdate({ _id: studentAcc._id }, { relationship: relationship, studentStatus: "studying", $push: { progess: { stage: student.stage, stageClass: [{ classID: "", name: "", status: "Pass" }] } } })
             }
             return res.json({ msg: 'success' });
         } catch (e) {
