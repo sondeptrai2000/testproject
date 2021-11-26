@@ -27,9 +27,7 @@ class teacherController {
     //tìm kiến 1 lơps học
     async searchClass(req, res) {
         try {
-            console.log(req.query.className);
             var classInfor = await ClassModel.findOne({ className: req.query.className }).lean();
-            console.log(classInfor)
             res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)
@@ -110,12 +108,20 @@ class teacherController {
             //cập nhật điểm danh cho học sinh
             await ClassModel.updateOne({ _id: req.body.idClass, "schedule._id": req.body.schedule }, { $set: { "schedule.$.attend": req.body.attend, "schedule.$.status": "success" } });
             //nếu là lịch học đã được update (giáo viên bận và đã được chuyển lịch dạy sang ngày khác thì chuyển trạng thái của phòng đó thành none để thành phòng trống)
-            if (req.body.scheduleStatus == 'update') await assignRoomAndTimeModel.updateOne({ dayOfWeek: req.body.scheduleDay, room: { $elemMatch: { room: req.body.scheduleRoom, time: req.body.scheduleTime } } }, { $set: { "room.$.status": "None" } });
+            if (req.body.scheduleStatus == 'update') await assignRoomAndTimeModel.updateOne({
+                dayOfWeek: req.body.scheduleDay,
+                room: { $elemMatch: { room: req.body.scheduleRoom, time: req.body.scheduleTime } }
+            }, { $set: { "room.$.status": "None" } });
             //nếu đó là buổi học cuối cùng (so sánh time) thì sẽ chuyển trạng thái các phòng của lớp đó thành none 
             var theLastCourse = new Date(req.body.lastDate.split("T00:00:00.000Z")[0]);
             if (now >= theLastCourse) {
                 //chuyển phòng thành none 
-                for (var i = 0; i < req.body.time.length; i++) { await assignRoomAndTimeModel.update({ dayOfWeek: req.body.day[i], room: { $elemMatch: { room: req.body.room[i], time: req.body.time[i] } } }, { $set: { "room.$.status": "None" } }) }
+                for (var i = 0; i < req.body.time.length; i++) {
+                    await assignRoomAndTimeModel.update({
+                        dayOfWeek: req.body.day[i],
+                        room: { $elemMatch: { room: req.body.room[i], time: req.body.time[i] } }
+                    }, { $set: { "room.$.status": "None" } })
+                }
                 //cập nhật trạng thái của lớp là đã kết thúc
                 await ClassModel.updateOne({ _id: req.body.idClass }, { classStatus: 'Finished' });
             }
@@ -167,7 +173,6 @@ class teacherController {
             } else {
                 //xem xét chuyển giai đoạn hoặc tiếp tục các môn tiếp theo
                 //check xem học sinh đã hoàn thành các lớp của giai đoạn hiện tại chưa
-                console.log(Passed)
                 if (Passed == numberOfSubject.length + 1) {
                     //kiểm tra xem lộ trình học của học sinh đã kết thúc chưa. Check theo aim mà học sinh đã đăng ký.
                     if (classInfor[2] == progess.aim) {

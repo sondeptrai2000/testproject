@@ -12,14 +12,12 @@ $('header li').hover(function() {
 //lấy thông tin phòng học
 function tuanoi(room) {
     var roomName = room;
-    $('.leftSide h1').html("Room: " + roomName);
     $.ajax({
         url: '/admin/getRoomAndTime',
         method: 'get',
         dataType: 'json',
         success: function(response) {
             if (response.msg == 'success') {
-                console.log(response.data)
                 $("#time1").html('<div class="td">7:30 to 9:30</div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div>')
                 $("#time2").html('<div class="td">9:45 to 11:45</div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div>')
                 $("#time3").html('<div class="td">13:30 to 15:30</div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div>')
@@ -35,6 +33,7 @@ function tuanoi(room) {
                         }
                     });
                 });
+                $('.leftSide h1').html("Room: " + roomName);
             }
             if (response.msg == 'error') alert("error")
         },

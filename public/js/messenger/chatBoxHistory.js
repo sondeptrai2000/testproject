@@ -2,10 +2,10 @@
   const socket = io();
 
   $(document).ready(function() {
+
       $(".chatBox").scrollTop($('#messContent').height())
       connectAllConversation();
       chatBox($('#receiverID').val(), $('#_idRoom').val())
-      unReadMess();
   });
 
   //hiệu ứng menu
