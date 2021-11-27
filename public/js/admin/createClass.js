@@ -620,6 +620,7 @@ function getTime(i) {
                     });
                 });
             }
+            getThu(i);
             if (response.msg == 'error') alert('  error ');
         },
         error: function(response) { alert('server error'); }
