@@ -33,7 +33,8 @@ class messtController {
             var account = req.userLocal;
             // lấy tin nhắn cuối cùng trong mảng message để hiển thị trong lịch sử chat
             var data1 = await chatModel.find({ $or: [{ person1: account._id }, { person2: account._id }] }, { message: { $slice: -1 }, }).populate({ path: 'person1', select: ' username avatar' }).populate({ path: 'person2', select: ' username avatar' }).sort({ updateTime: -1 }).lean();
-            if (!data1) return res.render("message/emptyChat.ejs", { role, senderName: sender.username, senderAvatar: sender.avatar, senderID: sender._id });
+            console.log(data1);
+            if (data1.length == 0) return res.render("message/emptyChat.ejs", { role: account.role, senderName: account.username, senderAvatar: account.avatar, senderID: account._id });
             //xác định người gửi trong đoạn chat đầu tiên để hiển thị
             var listID = []
             data1.forEach(data => { listID.push(data._id) });

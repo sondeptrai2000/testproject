@@ -8,6 +8,11 @@
       $(this).find("div").hide(500)
   });
 
+
+  $(document).ready(function() {
+      unReadMess()
+  });
+
   //tạo room cho tất cả cuọco trò chuyện "online" để nhận thông báo khi người khác gửi tin nhắn
   function connectAllConversation() {
       var idConversationList = [];
@@ -27,6 +32,7 @@
           success: function(response) {
               if (response.msg == 'success') {
                   $("#UnreadMessages").html(response.unReadMess)
+                  console.log(response.username)
                   $("#welcome").html("Welcome " + response.username);
               }
           },
