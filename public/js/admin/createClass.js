@@ -476,8 +476,8 @@ function addStudent(classID) {
     var condition = {
         role: 'student',
         routeName: $("#typeRoute").val(),
-        stage: infor4[2].trim(),
-        availableTime: { $in: [infor4[4].trim(), 'All'] }
+        stage: infor4[2],
+        availableTime: { $in: [infor4[4], 'All'] }
     }
     console.log(infor4)
     $.ajax({
