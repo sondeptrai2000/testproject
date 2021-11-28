@@ -303,10 +303,11 @@ function submitTakeAttend() {
     var dateAttend = $("#loladate5").val().replace("T00:00:00.000Z", "")
     var date1 = new Date();
     var date2 = new Date(dateAttend);
-    //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
-    if ((date1.getDate() - date2.getDate()) > 4 || (date1.getDate() - date2.getDate()) < 0 && (date1.getMonth() == date2.getMonth()) && (date1.getFullYear() == date2.getFullYear())) {
-        return alert("Out of date to take attend of this date! Only 4 day after this date.");
-    }
+    //khoảng thời gian trên lệch ra mili giây chuyển sang ngày
+    var space = (date1 - date2) / (24 * 3600 * 1000);
+    console.log(space)
+        //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
+    if (space > 4 || space < 0) return alert("Out of date to take attend of this date! Only 4 day after this date.");
     //nếu trong vòng 4 ngày sẽ được điểm danh
     var studentID = [];
     var comment = [];

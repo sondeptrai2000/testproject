@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var url = "mongodb+srv://minhson123:minhson123@cluster0.v0phx.mongodb.net/project?retryWrites=true&w=majority";
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, }, function(err, result) { if (err) console.log('chatSchema lỗi') });
-var chatSchema = new mongoose.Schema({
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, result) { if (err) console.log('chatSchema lỗi') });
+const Schema = mongoose.Schema;
+const chatSchema = new Schema({
     person1: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
     person2: { type: mongoose.Schema.Types.ObjectId, ref: 'account' },
     read: [{ type: String }],

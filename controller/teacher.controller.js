@@ -176,8 +176,6 @@ class teacherController {
                 if (Passed == numberOfSubject.length + 1) {
                     //kiểm tra xem lộ trình học của học sinh đã kết thúc chưa. Check theo aim mà học sinh đã đăng ký.
                     if (classInfor[2] == progess.aim) {
-                        console.log("gửi mail")
-                        console.log(progess.email)
                         await AccountModel.updateOne({ _id: req.body.studentId }, { studentStatus: "end" })
                         var content = progess.username + " have completed the registration course. Route: " + classInfor[1] + ". Stage: " + classInfor[2] + ". Please contact the center to confirm the information.";
                         var mainOptions = { from: 'sownenglishedu@gmail.com', to: progess.email, subject: 'Notification', text: content }
