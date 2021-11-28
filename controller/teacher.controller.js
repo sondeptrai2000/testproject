@@ -82,9 +82,7 @@ class teacherController {
         try {
             //lấy thông tin tài khoản từ middleware
             var account = req.userLocal;
-            //lấy thời điểm đầu tuần để lấy khóa học đang hoạt động trong khoảng thời gian đó. 
-            var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ teacherID: account, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }, { className: 1, schedule: 1 });
+            var classInfor = await ClassModel.find({ teacherID: account }, { className: 1, schedule: 1 }).lean();
             res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)

@@ -77,9 +77,7 @@ class guardianController {
             //lấy _Id của học sinh
             let studentID = req.cookies.student;
             let decodeAccount = jwt.verify(studentID, 'minhson');
-            var sosanh = new Date(req.query.dauTuan);
-            //lấy lịch trình học tập của tuần hiện tại
-            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            var classInfor = await ClassModel.find({ "studentID.ID": decodeAccount._id }).lean()
             return res.json({ msg: 'success', classInfor, studentID: decodeAccount._id });
         } catch (e) {
             console.log(e)

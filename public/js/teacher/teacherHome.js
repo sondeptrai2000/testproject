@@ -235,7 +235,7 @@ function tuanoi() {
     $("#ngay").html("<div class='td'>Ngày</div>")
         //tùy biến ngày vào html
     a.forEach(element => {
-        var dayOfChosenWeek = (element.getFullYear() + "-" + (element.getMonth() + 1).toString().padStart(2, "0") + "-" + element.getDate())
+        var dayOfChosenWeek = (element.getFullYear() + "-" + (element.getMonth() + 1).toString().padStart(2, "0") + "-" + element.getDate().toString().padStart(2, "0"))
         $("#ngay").append("<div class='td'>" + dayOfChosenWeek.replace(AddYear, "") + "</div>");
     });
     //lấy thông tin lịch học
@@ -253,6 +253,7 @@ function tuanoi() {
                 $("#time5").html('<div class="td">18:15 to 20:15</div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div><div class="td"></div>')
                 $.each(response.classInfor, function(index, classInfor) {
                     $.each(classInfor.schedule, function(index, schedule) {
+                        console.log(schedule.date)
                         if (start <= schedule.date && schedule.date <= end) {
                             //ghi thông tin lịch học, làm việc vào bảng
                             var caLam = typeTime(schedule.time)

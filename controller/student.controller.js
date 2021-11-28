@@ -66,8 +66,7 @@ class studentController {
         try {
             //lấy thông tin tài khoản từ middleware
             var account = req.userLocal;
-            var sosanh = new Date(req.query.dauTuan)
-            var classInfor = await ClassModel.find({ "studentID.ID": account._id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            var classInfor = await ClassModel.find({ "studentID.ID": account._id }).lean()
             return res.json({ msg: 'success', classInfor, studentID: account._id });
         } catch (e) {
             console.log(e)
