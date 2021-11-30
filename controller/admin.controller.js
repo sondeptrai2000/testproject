@@ -256,8 +256,8 @@ class adminController {
             //lấy thời điểm đầu tuần để lấy khóa học đang hoạt động trong khoảng thời gian đó. 
             var sosanh = new Date(req.query.dauTuan);
             //lấy lich làmm việc, học dựa vòa role
-            if (role == 'teacher') var classInfor = await ClassModel.find({ teacherID: id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }, { className: 1, schedule: 1 });
-            if (role == 'student') var classInfor = await ClassModel.find({ "studentID.ID": id, startDate: { $lte: sosanh }, endDate: { $gte: sosanh } }).lean()
+            if (role == 'teacher') var classInfor = await ClassModel.find({ teacherID: id }, { className: 1, schedule: 1 });
+            if (role == 'student') var classInfor = await ClassModel.find({ "studentID.ID": id }, { className: 1, schedule: 1 }).lean()
             return res.json({ msg: 'success', classInfor });
         } catch (e) {
             console.log(e)
