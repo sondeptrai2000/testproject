@@ -264,7 +264,7 @@ function viewSchedual(id, role) {
     var start = moment(new Date(dauTuan)).format('YYYY-MM-DD[T00:00:00.000Z]');
     var end = moment(new Date(cuoiTuan)).format('YYYY-MM-DD[T00:00:00.000Z]');
     var a = getDaysArray(new Date(dauTuan), new Date(cuoiTuan));
-    $("#ngay").html("<div class='td'>Ngày</div>")
+    $("#ngay").html("<div class='td'>Day</div>")
         //tùy biến ngày vào html
     a.forEach(element => {
         var dayOfChosenWeek = (element.getFullYear() + "-" + (element.getMonth() + 1).toString().padStart(2, "0") + "-" + element.getDate())
