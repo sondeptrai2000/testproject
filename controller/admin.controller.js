@@ -200,8 +200,10 @@ class adminController {
     //đếm số lượng account dựa trên role
     async countAccount(req, res) {
         try {
+            console.log("vào0")
             var accountPerPage = 10
-            var numberOfAccount = await AccountModel.find(req.query.condition, { role: 1 }).lean().countDocuments()
+            var numberOfAccount = await AccountModel.find(req.query.condition, { role: 1 }).lean().countDocuments();
+            console.log("vào1")
             var soTrang = numberOfAccount / accountPerPage + 1
             return res.json({ msg: 'success', soTrang, numberOfAccount });
         } catch (e) {    
@@ -322,6 +324,7 @@ class adminController {
     async search(req, res) {
         try {
             var condition = req.query.condition
+            console.log(condition)
             var data = await AccountModel.findOne(condition).populate("relationship").lean()
             if (!data) return res.json({ msg: 'none' });
             if (data) return res.json({ msg: 'success', data });

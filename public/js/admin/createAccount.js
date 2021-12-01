@@ -107,8 +107,8 @@ function countAccount() {
                 $("#soTrang").html("Page: <select onchange=getAccount()></select>");
                 //hiển thị số trang vào thẻ select cho dễ chọn trang
                 for (let i = 1; i < response.soTrang; i++) { $("#soTrang select").append("<option value='" + (i - 1) + "'>" + i + "</option>") }
-                $("#number").html("Total: " + response.numberOfAccount)
-                    //hiển thị thông tin các tài khoản theo role và số trang.
+                $("#number").html("Total: " + response.numberOfAccount);
+                //hiển thị thông tin các tài khoản theo role và số trang.
                 getAccount();
             }
         },
