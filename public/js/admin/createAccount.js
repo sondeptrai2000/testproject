@@ -63,6 +63,7 @@ $('#myFileUpdate').on('change', function() {
 // làm trống thông tin tạo tài khoản
 async function reset() {
     $("#createAccount input").val('');
+    $("#submitAccount").val("Submit");
     $("#output").attr('src', '');
     fileData = undefined
     myFile = undefined
@@ -535,7 +536,6 @@ $("#myform").submit(async function(event) {
             }
             if (response.msg == 'Email or phone already exists') alert('Email or phone already exists');
             if (response.msg == 'Guardian email or phone already exists') alert('Guardian email or phone already exists');
-            if (response.msg == 'success') alert('success');
             if (response.msg == 'error') alert('error');
         },
         error: function(response) {
