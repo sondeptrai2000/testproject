@@ -521,7 +521,10 @@ class adminController {
     async doremoveStudentToClass(req, res) {
         try {
             //xóa classID vào bảng thông tin lộ trình của các học sinh ( progess)
-            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stageClass.classID": req.body.classID }, { $pull: { "progess.$.stageClass": { classID: req.body.classID } } });
+            await AccountModel.updateMany({ _id: { $in: req.body.studentlistcl }, "progess.stageClass.classID": req.body.classID }, {
+                studentStatus: "studying",
+                $pull: { "progess.$.stageClass": { classID: req.body.classID } }
+            });
             //xóa học sinh vào danh sách học sinh trong bảng thông tin lớp và danh sáhc điểm danh
             await ClassModel.findOneAndUpdate({ _id: req.body.classID }, {
                 $pull: {
