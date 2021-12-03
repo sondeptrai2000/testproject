@@ -442,7 +442,7 @@ $("#SubmitupdateScheduleForm").submit(async function(event) {
     var scheduleID = $("input[name='updateScheduleID']").val()
     $("#infor" + scheduleID + " .td:not(:last-child)").each(function() { old.push($(this).text().trim()) });
     //TH: không thể update lịch đã qua
-    if (now1 > old[0]) return alert("Can't update schedual of this day!")
+    if (now1 < old[0]) return alert("Can't update schedual of this day!")
     var update = {
         "schedule.$.time": $('#cahocUpdate').val(),
         "schedule.$.room": $('#roomUpdate').val(),

@@ -247,9 +247,9 @@ function attendedList(id) {
                     //lấy các ngày giờ học để tiện cho việc xét tragnj thái cho phòng nếu đó là ngày cuối cùng của khóa học
                     //không bao gồm những lịch học đã update vì chúng đã được chuyển trạng thái ở 1 câu lệnh riêng
                     if (data.status != 'update') {
-                        if (!room.includes(data.room)) room.push(data.room)
-                        if (!day.includes(data.day)) day.push(data.day)
-                        if (!time.includes(data.time)) time.push(data.time)
+                        room.push(data.room);
+                        day.push(data.day);
+                        time.push(data.time);
                     }
                     if (data.status == 'success') $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"><i style="color:green;" class="far fa-check-circle"></i></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
                     if (data.status != 'success') $("#attendedList").append('<div class="tr"><div class="td">' + data.date.split("T00:00:00.000Z")[0] + '</div><div class="td">' + data.day + '</div><div class="td"></div><div class="td"><button onclick=takeAttend("' + data._id + '","' + idClass + '")>Take attend </button><input id ="' + data._id + '"type="hidden" value="' + data + '"></div></div>')
@@ -307,8 +307,8 @@ function submitTakeAttend() {
     var space = (date1 - date2) / (24 * 3600 * 1000);
     console.log(space)
         //nếu tgian hiện tại với thời gian của 1 ngày cần điểm danh quá 4 ngày sẽ không được điẻme danh
-    if (space > 4 || space < 0) return alert("Out of date to take attend of this date! Only 4 day after this date.");
-    //nếu trong vòng 4 ngày sẽ được điểm danh
+        // if (space > 4 || space < 0) return alert("Out of date to take attend of this date! Only 4 day after this date.");
+        //nếu trong vòng 4 ngày sẽ được điểm danh
     var studentID = [];
     var comment = [];
     var attended = [];
